@@ -37,9 +37,9 @@ If ListBox1.ListIndex <> -1 Then
 End Sub
 
 Private Sub UserForm_Activate()
-Dim lastr1, y1 As Integer
-lastr1 = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
-    For y1 = 9 To lastr1
+Dim lastR1, y1 As Integer
+lastR1 = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
+    For y1 = 9 To lastR1
         If Sheets(1).Cells(y1, "x") = "ÍÓÈ ÇáÊÞÇÊØÚ ÇáÌÏæá ÇáÖÑíÈí Çä íßæä ÇáÚÏÏ ÕÝÑ" Then
   
   ListBox1.AddItem (Sheets(1).Cells(y1, "e"))
@@ -55,7 +55,7 @@ End If
 Next
 
 Dim lastr2, y2 As Integer
-lastr2 = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
+lastr2 = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
     For y2 = 9 To lastr2
 If Sheets(1).Cells(y2, "d") = "ÇäËì" And Sheets(1).Cells(y2, "w") = "ÇáãæÙÝ ÇáãÊÒæÌ æ ÒæÌÊå ÑÈÉ ÈíÊ" Then
  
@@ -65,9 +65,9 @@ If Sheets(1).Cells(y2, "d") = "ÇäËì" And Sheets(1).Cells(y2, "w") = "ÇáãæÙÝ ÇáãÊ
    End If
 Next
 
-Dim lastr3, y3 As Integer
-lastr3 = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
-For y3 = 9 To lastr3
+Dim lastR3, y3 As Integer
+lastR3 = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
+For y3 = 9 To lastR3
 If Sheets(1).Cells(y3, "w") = "ÇáÇÚÒÈ" And Sheets(1).Cells(y3, "t") > 0 Then
  ListBox1.AddItem (Sheets(1).Cells(y3, "e"))
      '  ListBox1.List(k, 0) = Sheets(1).Cells(y1, "e").Value
