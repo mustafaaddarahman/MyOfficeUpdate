@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm52 
    Caption         =   "‘—Ìÿ «· ﬁœ„ ·ÕÌ‰  Õ„Ì· «·»Ì«‰« "
-   ClientHeight    =   810
+   ClientHeight    =   816
    ClientLeft      =   120
    ClientTop       =   468
    ClientWidth     =   10908
@@ -13,6 +13,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim Zoomer As New clsZoomManager
+
 Private Sub UserForm_Activate()
 On Error Resume Next
 Dim i As Integer
@@ -62,7 +64,7 @@ UserForm1.ComboBox13.List = Array("ﬂ«‰Ê‰ «·À«‰Ì", "‘»«ÿ", "¬–«—", "‰Ì”«‰", "√Ì«—
 
 
 Dim last1 As Integer
-last1 = Sheets(1).Cells(rowS.count, "e").End(xlUp).row
+last1 = Sheets(1).Cells(Rows.count, "e").End(xlUp).row
 UserForm1.TextBox75.Text = last1 - 8
 
         Me.Frame2.Width = (i / TotalSteps) * Me.Frame1.Width
@@ -84,3 +86,4 @@ End Sub
 Private Sub UserForm_Click()
 
 End Sub
+   
