@@ -7,7 +7,7 @@ Dim arr001 As Variant, i As Long, j As Long, k As Long
 Dim arr002 As Variant
 Dim lastR As Long
 'Sheets(27).Range("a1:be200").ClearContents
-lastR = Sheets(35).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(35).Cells(rowS.count, 1).End(xlUp).row
 arr001 = Sheets(35).Range("a9:ce" & lastR)
 j = 0
 ReDim arr002(1 To UBound(arr001, 1), 1 To UBound(arr001, 2))
@@ -34,7 +34,7 @@ With UserForm28.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 UserForm28.ListView1.ListItems.Clear
-last1 = Sheets(35).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(35).Range("A" & rowS.count).End(xlUp).row
 
 For frw1 = 9 To last1
  If Sheets(35).Cells(frw1, "ce") = UserForm28.TextBox2.Text Then
