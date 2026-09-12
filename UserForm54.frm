@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm54 
    Caption         =   "UserForm54"
-   ClientHeight    =   11610
+   ClientHeight    =   12156
    ClientLeft      =   120
    ClientTop       =   468
-   ClientWidth     =   13656
+   ClientWidth     =   11832
    OleObjectBlob   =   "UserForm54.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -13,6 +13,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim Zoomer As New clsZoomManager
+
 
 Dim ws As Worksheet              ' «·‘Ì  «·„’œ—
 Dim srcArr As Variant            ' „’›Ê›… «·»Ì«‰« 
@@ -33,21 +35,21 @@ Private Sub ComboBox1_Change()
             Me.ListBox1.AddItem colName
             
             ' «·Õ’Ê· ⁄·Ï Õ—› «·⁄„Êœ
-            Dim ColLetter As String
-            Dim lastCol As Long
-            lastCol = ws.Cells(8, ws.Columns.count).End(xlToLeft).Column
-            For i = 1 To lastCol
+            Dim colLetter As String
+            Dim LastCol As Long
+            LastCol = ws.Cells(8, ws.Columns.count).End(xlToLeft).Column
+            For i = 1 To LastCol
                 If ws.Cells(8, i).value = colName Then
-                    ColLetter = Split(ws.Cells(8, i).Address(True, False), "$")(0)
+                    colLetter = Split(ws.Cells(8, i).Address(True, False), "$")(0)
                     Exit For
                 End If
             Next i
             
             ' ≈÷«›… «·Õ—› ≈·Ï TextBox1 „⁄ ›«’·…
             If Me.TextBox1.Text = "" Then
-                Me.TextBox1.Text = ColLetter
+                Me.TextBox1.Text = colLetter
             Else
-                Me.TextBox1.Text = Me.TextBox1.Text & "," & ColLetter
+                Me.TextBox1.Text = Me.TextBox1.Text & "," & colLetter
             End If
         End If
     End If
@@ -70,7 +72,7 @@ Private Sub CommandButton1_Click()
     Dim wsSrc As Worksheet
     Dim dataArr As Variant, tempArr() As Variant, finalArr() As Variant
     Dim selectedCols As Variant, colNums() As Long
-    Dim lastRow As Long, lastCol As Long
+    Dim lastRow As Long, LastCol As Long
     Dim i As Long, j As Long, k As Long, cz As Long
     Dim filterValue As String, filterCol As Long
     Dim found As Boolean, cellValue As Variant
@@ -91,11 +93,11 @@ Private Sub CommandButton1_Click()
 
     ' 2. ≈⁄œ«œ Ê—ﬁ… «·⁄„· Ê«·»Ì«‰« 
     Set wsSrc = ThisWorkbook.Sheets(35)
-    lastRow = wsSrc.Cells(wsSrc.rowS.count, 1).End(xlUp).row
-    lastCol = wsSrc.Cells(HEADER_ROW, wsSrc.Columns.count).End(xlToLeft).Column
+    lastRow = wsSrc.Cells(wsSrc.Rows.count, 1).End(xlUp).row
+    LastCol = wsSrc.Cells(HEADER_ROW, wsSrc.Columns.count).End(xlToLeft).Column
 
     ' ”Õ» «·»Ì«‰«  „‰ ’› «·⁄‰Ê«‰ 8 ≈·Ï ¬Œ— ’›
-    dataArr = wsSrc.Range(wsSrc.Cells(HEADER_ROW, 1), wsSrc.Cells(lastRow, lastCol)).value
+    dataArr = wsSrc.Range(wsSrc.Cells(HEADER_ROW, 1), wsSrc.Cells(lastRow, LastCol)).value
 
     ' 3.  ÕœÌœ √—ﬁ«„ «·√⁄„œ… «·„ÿ·Ê»… ·· —ÕÌ·
     selectedCols = Split(TextBox1.Text, ",")
@@ -121,7 +123,7 @@ Private Sub CommandButton1_Click()
     Else
         ' ≈ÌÃ«œ —ﬁ„ ⁄„Êœ «·›· —… »‰«¡ ⁄·Ï «Œ Ì«— «·ﬂÊ„»Ê»Êﬂ”
         On Error Resume Next
-        filterCol = Application.match(ComboBox2.value, wsSrc.rowS(HEADER_ROW), 0)
+        filterCol = Application.Match(ComboBox2.value, wsSrc.Rows(HEADER_ROW), 0)
         On Error GoTo 0
 
         If filterCol = 0 Then
@@ -178,21 +180,21 @@ End Sub
 
 '=================== ÕœÀ ≈“«·… «·√⁄„œ… „‰ ListBox1 ===================
 Private Sub ListBox1_DblClick(ByVal Cancel As MSForms.ReturnBoolean)
-    Dim Idx As Long
-    Idx = Me.ListBox1.ListIndex
-    If Idx >= 0 Then
+    Dim idx As Long
+    idx = Me.ListBox1.ListIndex
+    If idx >= 0 Then
         Dim colName As String
-        colName = Me.ListBox1.List(Idx)
-        Me.ListBox1.RemoveItem Idx
+        colName = Me.ListBox1.List(idx)
+        Me.ListBox1.RemoveItem idx
         
         ' ≈“«·… «·Õ—› «·„ﬁ«»· „‰ TextBox1
-        Dim ColLetter As String
-        Dim lastCol As Long
-        lastCol = ws.Cells(8, ws.Columns.count).End(xlToLeft).Column
+        Dim colLetter As String
+        Dim LastCol As Long
+        LastCol = ws.Cells(8, ws.Columns.count).End(xlToLeft).Column
         Dim i As Long
-        For i = 1 To lastCol
+        For i = 1 To LastCol
             If ws.Cells(8, i).value = colName Then
-                ColLetter = Split(ws.Cells(8, i).Address(True, False), "$")(0)
+                colLetter = Split(ws.Cells(8, i).Address(True, False), "$")(0)
                 Exit For
             End If
         Next i
@@ -202,7 +204,7 @@ Private Sub ListBox1_DblClick(ByVal Cancel As MSForms.ReturnBoolean)
         letters = Split(Me.TextBox1.Text, ",")
         newText = ""
         For i = LBound(letters) To UBound(letters)
-            If letters(i) <> ColLetter Then
+            If letters(i) <> colLetter Then
                 If newText = "" Then
                     newText = letters(i)
                 Else
@@ -217,14 +219,16 @@ End Sub
 '===================  Õ„Ì· «·„’›Ê›… «·„’œ— ===================
 Private Sub LoadSrcArray()
     Set ws = ThisWorkbook.Worksheets(35)
-    Dim lastRow As Long, lastCol As Long
-    lastRow = ws.Cells(ws.rowS.count, 1).End(xlUp).row
-    lastCol = ws.Cells(8, ws.Columns.count).End(xlToLeft).Column
-    srcArr = ws.Range(ws.Cells(8, 1), ws.Cells(lastRow, lastCol)).value
+    Dim lastRow As Long, LastCol As Long
+    lastRow = ws.Cells(ws.Rows.count, 1).End(xlUp).row
+    LastCol = ws.Cells(8, ws.Columns.count).End(xlToLeft).Column
+    srcArr = ws.Range(ws.Cells(8, 1), ws.Cells(lastRow, LastCol)).value
 End Sub
 
 '=================== UserForm Initialize ===================
+   
 Private Sub UserForm_Initialize()
+ Zoomer.Bind Me, Me.SpinButton1, Me.az
     LoadSrcArray
     
     ' ÷»ÿ ComboBox2 »√”„«¡ «·√⁄„œ… (›· —…)
@@ -236,9 +240,9 @@ Private Sub UserForm_Initialize()
     
     ' ComboBox1 («Œ Ì«— «·√⁄„œ… ·· —ÕÌ·)
     Me.ComboBox1.Clear
-    Dim lastCol As Long
-    lastCol = ws.Cells(8, ws.Columns.count).End(xlToLeft).Column
-    For c = 1 To lastCol
+    Dim LastCol As Long
+    LastCol = ws.Cells(8, ws.Columns.count).End(xlToLeft).Column
+    For c = 1 To LastCol
         Me.ComboBox1.AddItem ws.Cells(8, c).value
     Next c
     
@@ -249,22 +253,22 @@ Private Sub UserForm_Initialize()
             End With
     
     ' ComboBox4 («·ÃÂ… «·„«‰Õ…)
-    
-    
-   Dim lastRow As Long
-Dim ws1 As Worksheet
-
-'  ⁄ÌÌ‰ «·Ê—ﬁ… «·Œ«„”… ··„ €Ì— ws1
-Set ws1 = Sheets(5)
-
-'  ÕœÌœ —ﬁ„ ¬Œ— ’› ÌÕ ÊÌ ⁄·Ï »Ì«‰«  ›Ì «·⁄„Êœ B
-' «·ﬂÊœ Ì»œ√ „‰ ¬Œ— ’› ›Ì «·≈ﬂ”Ì· ÊÌ’⁄œ ··√⁄·Ï Õ Ï ÌÃœ √Ê· Œ·Ì… »Â« ﬁÌ„…
-lastRow = ws1.Cells(ws1.rowS.count, "B").End(xlUp).row
-
-'  ⁄»∆… ComboBox4 »«·‰ÿ«ﬁ „‰ «·Œ·Ì… B1 ≈·Ï ¬Œ— ’› ÊÃœ‰«Â
-If lastRow >= 1 Then
-    ComboBox4.List = ws1.Range("B1:B" & lastRow).value
-End If
+    With Me.ComboBox4
+        .AddItem "„ﬁ— ÂÌ∆… «·’‰«⁄«  «·Õ—»ÌÂ"
+        .AddItem "„ﬁ— ‘—ﬂ… «·’‰«⁄«  «·Õ—»ÌÂ «·⁄«„…"
+        .AddItem "„’‰⁄ «·ﬂ—«„… Ê«·Õ«—À"
+        .AddItem "„’‰⁄ ⁄ﬁ»Â Ê»œ—"
+        .AddItem "„’‰⁄ «·ﬁ«œ”Ì…"
+        .AddItem "„’‰⁄ ÕÿÌ‰"
+        .AddItem "„’‰⁄ «·Ì—„Êﬂ"
+        .AddItem "„’‰⁄ «·‰Â—Ê«‰"
+        .AddItem "„’‰⁄ «·—‘Ìœ"
+        .AddItem "„’‰⁄ «·—»Ì⁄"
+        .AddItem "„’‰⁄  »Êﬂ"
+        .AddItem "„’‰⁄ Ã«»— »‰ ÕÌ«‰"
+        .AddItem "„’‰⁄ «·ﬁ⁄ﬁ«⁄"
+        .AddItem "„’‰⁄ Õ„Ê—«»Ì"
+    End With
 End Sub
 
 '=================== ›· —… ListBox2 ⁄‰œ  €ÌÌ— TextBox2 ===================
@@ -347,7 +351,7 @@ End Sub
 '===================  Õ„Ì· «·√⁄„œ… «·„Œ «—… ›Ì ListBox2 ===================
 Public Sub LoadSelectedColumnsWithHeaderAbove(ws As Worksheet, lstCols As MSForms.ListBox, lstData As MSForms.ListBox)
     Dim colCount As Long, lastRow As Long, i As Long, j As Long
-    Dim colName As String, ColIndex As Long, rowValues() As Variant, rowNum As Long, maxRows As Long
+    Dim colName As String, colIndex As Long, rowValues() As Variant, rowNum As Long, maxRows As Long
     
     If lstCols.ListCount = 0 Then Exit Sub
     colCount = lstCols.ListCount
@@ -355,15 +359,15 @@ Public Sub LoadSelectedColumnsWithHeaderAbove(ws As Worksheet, lstCols As MSForm
     
     For j = 0 To colCount - 1
         colName = lstCols.List(j)
-        ColIndex = 0
+        colIndex = 0
         For i = 1 To ws.Cells(8, ws.Columns.count).End(xlToLeft).Column
             If Trim(ws.Cells(8, i).value) = Trim(colName) Then
-                ColIndex = i
+                colIndex = i
                 Exit For
             End If
         Next i
-        If ColIndex > 0 Then
-            lastRow = Application.WorksheetFunction.Max(lastRow, ws.Cells(ws.rowS.count, ColIndex).End(xlUp).row)
+        If colIndex > 0 Then
+            lastRow = Application.WorksheetFunction.Max(lastRow, ws.Cells(ws.Rows.count, colIndex).End(xlUp).row)
         End If
     Next j
     
@@ -375,18 +379,18 @@ Public Sub LoadSelectedColumnsWithHeaderAbove(ws As Worksheet, lstCols As MSForm
         ReDim rowValues(0 To colCount - 1)
         For j = 0 To colCount - 1
             colName = lstCols.List(j)
-            ColIndex = 0
+            colIndex = 0
             For i = 1 To ws.Cells(8, ws.Columns.count).End(xlToLeft).Column
                 If Trim(ws.Cells(8, i).value) = Trim(colName) Then
-                    ColIndex = i
+                    colIndex = i
                     Exit For
                 End If
             Next i
-            If ColIndex > 0 Then
+            If colIndex > 0 Then
                 If rowNum = 1 Then
                     rowValues(j) = colName
                 Else
-                    rowValues(j) = ws.Cells(rowNum + 8 - 1, ColIndex).value
+                    rowValues(j) = ws.Cells(rowNum + 8 - 1, colIndex).value
                 End If
             Else
                 rowValues(j) = ""
@@ -424,7 +428,7 @@ Public Sub ExportReportFiltered(arr As Variant, colNums() As Long, reportName As
     Dim wb As Workbook, ws As Worksheet, wsSrc As Worksheet
     Dim totalCols As Long, tableStartRow As Long, lastDataRow As Long, footerRow As Long
     Dim saveFolder As String, savePath As String, fileNum As Long
-    Dim k As Long, i As Long, ColLetter As String, cellVal As Variant
+    Dim k As Long, i As Long, colLetter As String, cellVal As Variant
     Dim isNumericCol As Boolean, excludeCols As Variant
     Dim fileNameWithDate As String
     
@@ -472,7 +476,7 @@ Public Sub ExportReportFiltered(arr As Variant, colNums() As Long, reportName As
     excludeCols = Array(2, 3) ' «·√⁄„œ… «·„” À‰«… „‰ «·Ã„⁄
     
     For k = LBound(colNums) To UBound(colNums)
-        If IsError(Application.match(k + 1, excludeCols, 0)) Then
+        If IsError(Application.Match(k + 1, excludeCols, 0)) Then
             isNumericCol = True
             For i = 1 To UBound(arr, 1)
                 cellVal = arr(i, k + 1)
@@ -483,8 +487,8 @@ Public Sub ExportReportFiltered(arr As Variant, colNums() As Long, reportName As
             Next i
             
             If isNumericCol Then
-                ColLetter = ColumnLetter(k + 1)
-                ws.Cells(lastDataRow + 1, k + 1).Formula = "=SUM(" & ColLetter & (tableStartRow + 1) & ":" & ColLetter & lastDataRow & ")"
+                colLetter = ColumnLetter(k + 1)
+                ws.Cells(lastDataRow + 1, k + 1).Formula = "=SUM(" & colLetter & (tableStartRow + 1) & ":" & colLetter & lastDataRow & ")"
                 ws.Cells(lastDataRow + 1, k + 1).Font.Bold = True
                 ws.Cells(lastDataRow + 1, k + 1).Borders.LineStyle = xlContinuous
             End If
