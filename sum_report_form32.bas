@@ -3,7 +3,7 @@ Sub sum_report_32_1()
 
 
 Dim lastr13 As Integer
-lastr13 = Sheets(39).Cells(Rows.count, "b").End(xlUp).row
+lastr13 = Sheets(39).Cells(rowS.count, "b").End(xlUp).row
 Sheets(39).Cells(lastr13 + 1, "a") = "«·„Ã„Ê⁄ «·ﬂ·Ì"
 Sheets(39).Cells(lastr13 + 1, "j") = Application.WorksheetFunction.Sum(Sheets(39).Range("j9 : j" & lastr13))
 Sheets(39).Cells(lastr13 + 1, "x") = Application.WorksheetFunction.Sum(Sheets(39).Range("x9 : x" & lastr13))
