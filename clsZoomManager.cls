@@ -22,10 +22,10 @@ Private BaseHeight As Double
 Private BaseZoom As Integer
 
 ' ÊŸÌ›… «·—»ÿ:  —»ÿ «·ﬂ«∆‰«  »»⁄÷Â« Ê ”Ã· «·√»⁄«œ «·√’·Ì…
-Public Sub Bind(Frm As Object, SBtn As MSForms.SpinButton, Lbl As MSForms.Label)
+Public Sub Bind(Frm As Object, SBtn As MSForms.SpinButton, lbl As MSForms.Label)
     Set TargetForm = Frm
     Set SpinButton1 = SBtn
-    Set az = Lbl
+    Set az = lbl
     
     '  ”ÃÌ· «·ﬁÌ„ «·√’·Ì… ⁄‰œ ·ÕŸ… «· ‘€Ì·
     If TargetForm.Zoom = 0 Then TargetForm.Zoom = 100 '  √„Ì‰ ÷œ «·ﬁÌ„ «·’›—Ì…
