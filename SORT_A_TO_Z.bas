@@ -7,7 +7,7 @@ Sub SORT_A_TO_Z1()
         xlSortNormal
     With ActiveWorkbook.Worksheets("sheet1").Sort
         .SetRange Range("A8:CB3341")
-        .Header = xlYes
+        .header = xlYes
         .MatchCase = False
         .Orientation = xlTopToBottom
         .SortMethod = xlPinYin
