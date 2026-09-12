@@ -28,7 +28,8 @@ If UserForm1.TextBox101.value = "" Then
 MsgBox "ﬁ„ «Ê·« »«œŒ«· ﬁÌ„… —« » «·⁄ﬁÊœ ·Ì ”‰Ï «Õ ”«»  ›«’Ì· «·—« »", vbDefaultButton1, "—”«·…  ‰»ÌÂ"
 Exit Sub
 Else
-UserForm1.TextBox8.value = 101
+UserForm1.TextBox8.value = 0
+UserForm1.TextBox9.value = 22
 UserForm1.TextBox10.value = 0
 UserForm1.TextBox11.value = 0
 UserForm1.TextBox14.value = 0
@@ -98,7 +99,7 @@ UserForm1.TextBox30.value = 0
 
 UserForm1.TextBox31.value = val(UserForm1.TextBox101) + val(UserForm1.TextBox30)
 
-
+Sheets(1).Cells(8, "dh") = UserForm1.TextBox104.value
 
 
 
@@ -121,16 +122,16 @@ UserForm1.TextBox32.value = val(UserForm1.TextBox101) * UserForm1.TextBox104.val
 'End If
 
 Dim sumastktaa As Double
-sumastktaa = val(UserForm1.TextBox24) + val(UserForm1.TextBox32) + val(UserForm1.TextBox34) + val(UserForm1.TextBox35) + val(UserForm1.TextBox36) _
+sumastktaa = Int(val(UserForm1.TextBox24) + val(UserForm1.TextBox32) + val(UserForm1.TextBox34) + val(UserForm1.TextBox35) + val(UserForm1.TextBox36) _
 + val(UserForm1.TextBox38) + val(UserForm1.TextBox40) + val(UserForm1.TextBox42) + val(UserForm1.TextBox44) + val(UserForm1.TextBox46) _
- + val(UserForm1.TextBox50) + val(UserForm1.TextBox62) + val(UserForm1.TextBox83) + val(UserForm1.TextBox85)
+ + val(UserForm1.TextBox50) + val(UserForm1.TextBox62) + val(UserForm1.TextBox83) + val(UserForm1.TextBox85))
  
  
- UserForm1.TextBox48.value = sumastktaa
-UserForm1.TextBox49.value = val(UserForm1.TextBox31) - val(UserForm1.TextBox48)
-UserForm1.TextBox48.value = val(UserForm1.TextBox47) + sumastktaa
+ UserForm1.TextBox48.value = Int(sumastktaa)
+UserForm1.TextBox49.value = Int(val(UserForm1.TextBox31) - val(UserForm1.TextBox48))
+UserForm1.TextBox48.value = Int(val(UserForm1.TextBox47) + sumastktaa)
 '=======================«·—« » «·’«›Ì
-UserForm1.TextBox49.value = val(UserForm1.TextBox31) - val(UserForm1.TextBox48)
+UserForm1.TextBox49.value = Int(val(UserForm1.TextBox31) - val(UserForm1.TextBox48))
 
 
 
