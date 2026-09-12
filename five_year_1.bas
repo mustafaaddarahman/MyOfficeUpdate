@@ -32,7 +32,7 @@ With UserForm48
  .TextBox29.Text = 0
  .TextBox30.Text = 0
  .TextBox35.value = 0
- .TextBox38.Text = 0
+ 
 '.textbox34.Text = 0
 
  '.textbox42.Text = 0
