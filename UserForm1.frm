@@ -4,7 +4,7 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm1
    ClientHeight    =   13812
    ClientLeft      =   48
    ClientTop       =   396
-   ClientWidth     =   20604
+   ClientWidth     =   19680
    OleObjectBlob   =   "UserForm1.frx":0000
    RightToLeft     =   -1  'True
    StartUpPosition =   2  'CenterScreen
@@ -14,6 +14,19 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+
+
+
+
+
+
+
+
+
+Dim Zoomer As New clsZoomManager
+
+
 
 
 
@@ -86,6 +99,10 @@ CommandButton15.Enabled = False
 End If
 End Sub
 
+Private Sub az_Click()
+
+End Sub
+
 Private Sub CheckBox3_Click()
 If CheckBox3.value = True Then
 Label124.Enabled = True
@@ -101,30 +118,23 @@ End If
 End Sub
 
 Private Sub CheckBox5_Change()
-If CheckBox5.value = True Then
-        ' ≈ŸÂ«— «··Ì»· √Ê·«
-        Label127.Visible = True
-        ' ≈⁄«œ… «··Ê‰ «·√’·Ì («·„Œ“‰ ›Ì «·„ €Ì— ⁄‰œ  ‘€Ì· «·›Ê—„)
-        Label127.BackColor = OrigColor
-        '  ‘€Ì· Õ—ﬂ… «· „œœ ··√»⁄«œ «·√’·Ì…
-        AnimateLabel OrigW, OrigH
-    End If
+
 End Sub
 
 Private Sub CheckBox5_Click()
     ' „‰⁄  ‰›Ì– «·ﬂÊœ ⁄‰œ «· ‰ﬁ· ›Ì «··”  »Êﬂ”
     If IsLoading = True Then Exit Sub
     
-    Dim EmpID As String: EmpID = Me.TextBox2.value
+    Dim empID As String: empID = Me.TextBox2.value
     Dim PasswordEntry As String
 
     ' «·Õ«·… «·√Ê·Ï: ≈–« ﬁ«„ «·„” Œœ„ » ›⁄Ì· «·ÃÌﬂ »Êﬂ” (Ê÷⁄ ’Õ)
     If Me.CheckBox5.value = True Then
         PasswordEntry = InputBox("Ì—ÃÏ ≈œŒ«· «·»«”Ê—œ ·· ›⁄Ì· Ê«·«” À‰«¡ «·÷—Ì»Ì:", " Õﬁﬁ «·√„«‰")
         
-        If PasswordEntry <> "" And PasswordEntry = EmpID Then
+        If PasswordEntry <> "" And PasswordEntry = empID Then
             '  ÕœÌÀ «·‘Ì  ··ﬁÌ„… True
-            Call UpdateCGInSheet(EmpID, True)
+            Call UpdateCGInSheet(empID, True)
             MsgBox " „  ›⁄Ì· «·«” À‰«¡ «·÷—Ì»Ì ›Ì «·‘Ì .", vbInformation
         Else
             ' ≈–« ﬂ«‰ «·»«”Ê—œ Œÿ√° ‰⁄Ìœ «·ÃÌﬂ »Êﬂ” ·Ê÷⁄Â «·”«»ﬁ »’„ 
@@ -137,7 +147,7 @@ Private Sub CheckBox5_Click()
     ' «·Õ«·… «·À«‰Ì…: ≈–« ﬁ«„ «·„” Œœ„ »≈·€«¡ «· ›⁄Ì· (≈“«·… «·’Õ)
     Else
         '  ÕÊÌ· «·ﬁÌ„… ›Ì «·‘Ì  ≈·Ï False ›Ê—« ··„ÊŸ› «·Õ«·Ì
-        Call UpdateCGInSheet(EmpID, False)
+        Call UpdateCGInSheet(empID, False)
         MsgBox " „ ≈·€«¡ «·«” À‰«¡ «·÷—Ì»Ì Ê ÕœÌÀ «·⁄„Êœ CG ≈·Ï False.", vbExclamation
     End If
     
@@ -150,24 +160,857 @@ Private Sub CheckBox5_KeyDown(ByVal KeyCode As MSForms.ReturnInteger, ByVal Shif
 
 End Sub
 
-Private Sub ComboBox1_AfterUpdate()
- ' «·«⁄“»
-'  «·„ÿ·ﬁ Ê·Ì” ·œÌÂ Õ÷«‰… ··√Ê·«œ
-'  «·„ÊŸ›Â «·„›’Ê· œŒ·Â« ⁄‰ œŒ· “ÊÃÂ«
-If TextBox22.value = 0 Then
-Exit Sub
-End If
-If ComboBox1.value = "«·«⁄“»" Or ComboBox1.value = "«·„ÿ·ﬁ Ê·Ì” ·œÌÂ Õ÷«‰… ··√Ê·«œ" Or ComboBox1.value = "«·„ÊŸ›Â «·„›’Ê· œŒ·Â« ⁄‰ œŒ· “ÊÃÂ«" Then
-MsgBox "Õ”» «· ﬁ« ÿ⁄ «·ÃœÊ· «·÷—Ì»Ì «‰ ÌﬂÊ‰ «·⁄œœ ’›—", vbCritical, "—”«·…  ‰»ÌÂ"
-TextBox22.value = 0
-Exit Sub
-End If
+Private Sub CheckBox6_Change()
+
+End Sub
+
+Private Sub CheckBox6_Click()
+CheckBox5.value = False
+Dim ws As Worksheet
+    Dim lastR As Long
+    Dim arrData As Variant, arrCH As Variant
+    Dim Y As Long
+    
+    Set ws = ThisWorkbook.Sheets(1)
+    lastR = ws.Cells(ws.rowS.count, 1).End(xlUp).row
+    If lastR < 9 Then lastR = 9
+
+    If UserForm1.CheckBox6.value = True Then
+        ' ---  ÕÊÌ· «·⁄„·Ì«  ≈·Ï „’›Ê›«  ··”—⁄… «·ﬁ’ÊÏ ---
+        '  Õ„Ì· «·⁄„Êœ CH Ê«·⁄„Êœ CG ›Ì „’›Ê›« 
+        arrCH = ws.Range("CH9:CH" & lastR).value
+        ReDim arrData(1 To UBound(arrCH, 1), 1 To 2) ' „’›Ê›… ··⁄„Êœ X Ê CG
+        
+        For Y = 1 To UBound(arrCH, 1)
+            arrData(Y, 1) = arrCH(Y, 1) ' «·ﬁÌ„… „‰ CH ≈·Ï X
+            arrData(Y, 2) = "true"      ' «·ﬁÌ„… ≈·Ï CG
+        Next Y
+        
+        ' «·ﬂ «»… œ›⁄… Ê«Õœ… (√”—⁄ »‹ 100 „—… „‰ Loops «·Œ·«Ì«)
+        ws.Range("X9:X" & lastR).value = Application.Index(arrData, 0, 1)
+        ws.Range("CG9:CG" & lastR).value = Application.Index(arrData, 0, 2)
+        
+    ElseIf UserForm1.CheckBox6.value = False Then
+        ' --- «·Ã“¡ «·Œ«’ »«·„⁄«œ·«  ---
+        ' «·„⁄«œ·«  ÌÃ» √‰  »ﬁÏ ﬂ„« ÂÌ ·√‰Â«  ⁄ „œ ⁄·Ï Œ’«∆’ Excel «·Õ”«»Ì…
+        ws.Range("X9").Formula2R1C1 = "=IFERROR(IF(OR(RC[-1]=thariaba1!R1C20:R2C20),VLOOKUP(RC[-14],astktat1,RC[-2]+3,1)," & _
+                  "IF(OR(RC[-1]=thariaba2!R1C19),VLOOKUP(RC[-14],astktaat2,RC[-2]+3,1)," & _
+                  "IF(OR(RC[-1]=thariaba3!R1C19:R3C19),VLOOKUP(RC[-14],astktaat3,RC[-2]+3,1)," & _
+                  "IF(VLOOKUP(RC[-1],sheet1!R1C77:R5C78,2,0)=5," & _
+                  "INDEX(Sheet2!R9C4:R8000C4, MATCH(1, (Sheet2!R9C2:R8000C2<=RC[-14])*(Sheet2!R9C3:R8000C3>=RC[-14]), 0))," & _
+                  "IF(AND(VLOOKUP(RC[-1],sheet1!R1C77:R5C78,2,0)<4,RC[-2]>0),""Õ”» «· ﬁ« ÿ⁄ «·ÃœÊ· «·÷—Ì»Ì «‰ ÌﬂÊ‰ «·⁄œœ ’›—"",VLOOKUP(RC[-14],astktaat,VLOOKUP(RC[-1],sheet1!R1C77:R5C78,2,0)+RC[-2],1)))))),0)"
+
+        ws.Range("X9:X" & lastR).FillDown
+        
+        ws.Range("CG9").value = "false"
+        ws.Range("CG9:CG" & lastR).FillDown
+    End If
+    
+    ' ≈“«·… «·‹ MsgBox √Ê Ã⁄·Â« €Ì— „“⁄Ã… ·√‰ «·ﬂÊœ ”Ì’»Õ ”—Ì⁄« Ãœ«
+    DoEvents
+
+End Sub
+
+Private Sub CheckBox7_AfterUpdate()
+On Error GoTo ErrorHandler
+Sheets(1).Cells(5, "da").value = ""
+If CheckBox7.value = True Then
+        CheckBox8.value = False
+        CheckBox9.value = False
+    End If
+
+
+
+
+
+    Application.ScreenUpdating = False
+    
+    Dim ws As Worksheet
+    Set ws = Sheets(1)
+    
+    Label123.Visible = False
+    
+    ' «· Õﬁﬁ „„« ≈–« ﬂ«‰ CheckBox7 „›⁄·«
+    Dim isChecked7 As Boolean
+    isChecked7 = CheckBox7.value
+    
+    ListBox1.Clear
+    ListBox1.ColumnCount = 2
+    ListBox1.ColumnWidths = ";0"
+
+    Dim frow1 As Long, ss As Long
+    ss = ws.Cells(ws.rowS.count, 5).End(xlUp).row
+    
+    ' Õ·ﬁ… «·»ÕÀ
+    For frow1 = 9 To ss
+        Dim match As Boolean
+        match = False
+        
+        ' «·‘—ÿ Ì⁄ „œ ⁄·Ï CheckBox7 Ê«·⁄„Êœ AY («·⁄„Êœ —ﬁ„ 51 √Ê "AY")
+        If isChecked7 Then
+            If Trim(ws.Cells(frow1, "AY").value) = Trim(CheckBox7.Caption) Then
+                match = True
+            End If
+        End If
+        
+        ' ≈÷«›… «·‰ ÌÃ… ≈·Ï ListBox1
+        If match Then
+            ListBox1.AddItem
+            ListBox1.List(ListBox1.ListCount - 1, 0) = ws.Cells(frow1, 5).value
+            ListBox1.List(ListBox1.ListCount - 1, 1) = frow1
+        End If
+    Next frow1
+
+    '  ÕœÌÀ «·‹ ListView »‰›” «·„‰ÿﬁ
+    With Me.ListView1
+        .ListItems.Clear
+        Dim frw_lv As Long, last_lv As Long
+        last_lv = ws.Range("A" & ws.rowS.count).End(xlUp).row
+        
+        For frw_lv = 9 To last_lv
+            Dim lvMatch As Boolean
+            lvMatch = False
+            
+            If isChecked7 Then
+                If Trim(ws.Cells(frw_lv, "AY").value) = Trim(CheckBox7.Caption) Then
+                    lvMatch = True
+                End If
+            End If
+            
+            If lvMatch Then
+                Dim item1 As ListItem
+                Set item1 = .ListItems.Add(, , ws.Cells(frw_lv, "A").value)
+                Dim c As Integer
+                For c = 1 To 62
+                    item1.SubItems(c) = ws.Cells(frw_lv, c + 1).value
+                Next c
+            End If
+        Next frw_lv
+    End With
+
+    '  ›⁄Ì· «·‰‘— «· ·ﬁ«∆Ì
+    If ListBox1.ListCount > 0 Then
+        ListBox1.ListIndex = 0
+        Call ListBox1_Click
+    End If
+
+    Application.ScreenUpdating = True
+    
+    Dim countResult As Long
+    countResult = ListBox1.ListCount
+    
+    '  ÕœÌÀ «·⁄‰Ê«‰ (Label118) »‰«¡ ⁄·Ï Õ«·… CheckBox7
+    If isChecked7 Then
+        Label118.Caption = " ›«’Ì· «·Õ”«»«  Õ”» «·„Êﬁ›: " & CheckBox7.Caption & " Ê⁄œœÂ„ (" & countResult & ")"
+    Else
+        Label118.Caption = "·„ Ì „ «Œ Ì«— √Ì  ’›Ì…"
+    End If
+    
+     Sheets(1).Cells(5, "da").value = CheckBox7.Caption
+TextBox93.value = Sheets(1).Cells(5, "dc")
+TextBox94.value = Sheets(1).Cells(5, "dd")
+TextBox97.value = Sheets(1).Cells(5, "de")
+TextBox98.value = Sheets(1).Cells(5, "df")
+TextBox95.value = Sheets(1).Cells(5, "dg")
+TextBox96.value = Sheets(1).Cells(5, "db")
+TextBox107.value = Sheets(1).Cells(5, "dh")
+    
+    
+    
+UserForm1.TextBox93.value = Format(UserForm1.TextBox93.value, "#,## IQD")
+UserForm1.TextBox94.value = Format(UserForm1.TextBox94.value, "#,## IQD")
+UserForm1.TextBox97.value = Format(UserForm1.TextBox97.value, "#,## IQD")
+UserForm1.TextBox98.value = Format(UserForm1.TextBox98.value, "#,## IQD")
+UserForm1.TextBox95.value = Format(UserForm1.TextBox95.value, "#,## IQD")
+UserForm1.TextBox96.value = Format(UserForm1.TextBox96.value, "#,## IQD")
+    
+    
+    
+    Exit Sub
+
+ErrorHandler:
+    Application.ScreenUpdating = True
+    MsgBox "ÕœÀ Œÿ√: " & Err.Description, vbCritical
+End Sub
+
+Private Sub CheckBox7_Click()
+On Error GoTo ErrorHandler
+Sheets(1).Cells(5, "da").value = ""
+If CheckBox7.value = True Then
+        CheckBox8.value = False
+        CheckBox9.value = False
+    End If
+
+
+
+
+
+    Application.ScreenUpdating = False
+    
+    Dim ws As Worksheet
+    Set ws = Sheets(1)
+    
+    Label123.Visible = False
+    
+    ' «· Õﬁﬁ „„« ≈–« ﬂ«‰ CheckBox7 „›⁄·«
+    Dim isChecked7 As Boolean
+    isChecked7 = CheckBox7.value
+    
+    ListBox1.Clear
+    ListBox1.ColumnCount = 2
+    ListBox1.ColumnWidths = ";0"
+
+    Dim frow1 As Long, ss As Long
+    ss = ws.Cells(ws.rowS.count, 5).End(xlUp).row
+    
+    ' Õ·ﬁ… «·»ÕÀ
+    For frow1 = 9 To ss
+        Dim match As Boolean
+        match = False
+        
+        ' «·‘—ÿ Ì⁄ „œ ⁄·Ï CheckBox7 Ê«·⁄„Êœ AY («·⁄„Êœ —ﬁ„ 51 √Ê "AY")
+        If isChecked7 Then
+            If Trim(ws.Cells(frow1, "AY").value) = Trim(CheckBox7.Caption) Then
+                match = True
+            End If
+        End If
+        
+        ' ≈÷«›… «·‰ ÌÃ… ≈·Ï ListBox1
+        If match Then
+            ListBox1.AddItem
+            ListBox1.List(ListBox1.ListCount - 1, 0) = ws.Cells(frow1, 5).value
+            ListBox1.List(ListBox1.ListCount - 1, 1) = frow1
+        End If
+    Next frow1
+
+    '  ÕœÌÀ «·‹ ListView »‰›” «·„‰ÿﬁ
+    With Me.ListView1
+        .ListItems.Clear
+        Dim frw_lv As Long, last_lv As Long
+        last_lv = ws.Range("A" & ws.rowS.count).End(xlUp).row
+        
+        For frw_lv = 9 To last_lv
+            Dim lvMatch As Boolean
+            lvMatch = False
+            
+            If isChecked7 Then
+                If Trim(ws.Cells(frw_lv, "AY").value) = Trim(CheckBox7.Caption) Then
+                    lvMatch = True
+                End If
+            End If
+            
+            If lvMatch Then
+                Dim item1 As ListItem
+                Set item1 = .ListItems.Add(, , ws.Cells(frw_lv, "A").value)
+                Dim c As Integer
+                For c = 1 To 62
+                    item1.SubItems(c) = ws.Cells(frw_lv, c + 1).value
+                Next c
+            End If
+        Next frw_lv
+    End With
+
+    '  ›⁄Ì· «·‰‘— «· ·ﬁ«∆Ì
+    If ListBox1.ListCount > 0 Then
+        ListBox1.ListIndex = 0
+        Call ListBox1_Click
+    End If
+
+    Application.ScreenUpdating = True
+    
+    Dim countResult As Long
+    countResult = ListBox1.ListCount
+    
+    '  ÕœÌÀ «·⁄‰Ê«‰ (Label118) »‰«¡ ⁄·Ï Õ«·… CheckBox7
+    If isChecked7 Then
+        Label118.Caption = " ›«’Ì· «·Õ”«»«  Õ”» «·„Êﬁ›: " & CheckBox7.Caption & " Ê⁄œœÂ„ (" & countResult & ")"
+    Else
+        Label118.Caption = "·„ Ì „ «Œ Ì«— √Ì  ’›Ì…"
+    End If
+    
+     Sheets(1).Cells(5, "da").value = CheckBox7.Caption
+TextBox93.value = Sheets(1).Cells(5, "dc")
+TextBox94.value = Sheets(1).Cells(5, "dd")
+TextBox97.value = Sheets(1).Cells(5, "de")
+TextBox98.value = Sheets(1).Cells(5, "df")
+TextBox95.value = Sheets(1).Cells(5, "dg")
+TextBox96.value = Sheets(1).Cells(5, "db")
+TextBox107.value = Sheets(1).Cells(5, "dh")
+    
+    
+    
+UserForm1.TextBox93.value = Format(UserForm1.TextBox93.value, "#,## IQD")
+UserForm1.TextBox94.value = Format(UserForm1.TextBox94.value, "#,## IQD")
+UserForm1.TextBox97.value = Format(UserForm1.TextBox97.value, "#,## IQD")
+UserForm1.TextBox98.value = Format(UserForm1.TextBox98.value, "#,## IQD")
+UserForm1.TextBox95.value = Format(UserForm1.TextBox95.value, "#,## IQD")
+UserForm1.TextBox96.value = Format(UserForm1.TextBox96.value, "#,## IQD")
+    
+    
+    
+    Exit Sub
+
+ErrorHandler:
+    Application.ScreenUpdating = True
+    MsgBox "ÕœÀ Œÿ√: " & Err.Description, vbCritical
+End Sub
+
+Private Sub CheckBox8_AfterUpdate()
+On Error GoTo ErrorHandler
+Sheets(1).Cells(5, "da").value = ""
+If CheckBox8.value = True Then
+        CheckBox7.value = False
+        CheckBox9.value = False
+    End If
+
+
+    Application.ScreenUpdating = False
+    
+    Dim ws As Worksheet
+    Set ws = Sheets(1)
+    
+    Label123.Visible = False
+    
+    ' «· Õﬁﬁ „„« ≈–« ﬂ«‰ CheckBox8 „›⁄·«
+    Dim isChecked8 As Boolean
+    isChecked8 = CheckBox8.value
+    
+    ListBox1.Clear
+    ListBox1.ColumnCount = 2
+    ListBox1.ColumnWidths = ";0"
+
+    Dim frow1 As Long, ss As Long
+    ss = ws.Cells(ws.rowS.count, 5).End(xlUp).row
+    
+    ' Õ·ﬁ… «·»ÕÀ
+    For frow1 = 9 To ss
+        Dim match As Boolean
+        match = False
+        
+        ' «·‘—ÿ Ì⁄ „œ ⁄·Ï CheckBox8 Ê«·⁄„Êœ AY
+        If isChecked8 Then
+            If Trim(ws.Cells(frow1, "AY").value) = Trim(CheckBox8.Caption) Then
+                match = True
+            End If
+        End If
+        
+        ' ≈÷«›… «·‰ ÌÃ… ≈·Ï ListBox1
+        If match Then
+            ListBox1.AddItem
+            ListBox1.List(ListBox1.ListCount - 1, 0) = ws.Cells(frow1, 5).value
+            ListBox1.List(ListBox1.ListCount - 1, 1) = frow1
+        End If
+    Next frow1
+
+    '  ÕœÌÀ «·‹ ListView »‰›” «·„‰ÿﬁ
+    With Me.ListView1
+        .ListItems.Clear
+        Dim frw_lv As Long, last_lv As Long
+        last_lv = ws.Range("A" & ws.rowS.count).End(xlUp).row
+        
+        For frw_lv = 9 To last_lv
+            Dim lvMatch As Boolean
+            lvMatch = False
+            
+            If isChecked8 Then
+                If Trim(ws.Cells(frw_lv, "AY").value) = Trim(CheckBox8.Caption) Then
+                    lvMatch = True
+                End If
+            End If
+            
+            If lvMatch Then
+                Dim item1 As ListItem
+                Set item1 = .ListItems.Add(, , ws.Cells(frw_lv, "A").value)
+                Dim c As Integer
+                For c = 1 To 62
+                    item1.SubItems(c) = ws.Cells(frw_lv, c + 1).value
+                Next c
+            End If
+        Next frw_lv
+    End With
+
+    '  ›⁄Ì· «·‰‘— «· ·ﬁ«∆Ì
+    If ListBox1.ListCount > 0 Then
+        ListBox1.ListIndex = 0
+        Call ListBox1_Click
+    End If
+
+    Application.ScreenUpdating = True
+    
+    Dim countResult As Long
+    countResult = ListBox1.ListCount
+    
+    '  ÕœÌÀ «·⁄‰Ê«‰ (Label118) »‰«¡ ⁄·Ï Õ«·… CheckBox8
+    If isChecked8 Then
+        Label118.Caption = " ›«’Ì· «·Õ”«»«  Õ”» «·„Êﬁ›: " & CheckBox8.Caption & " Ê⁄œœÂ„ (" & countResult & ")"
+    Else
+        Label118.Caption = "·„ Ì „ «Œ Ì«— √Ì  ’›Ì…"
+    End If
+    
+    
+      Sheets(1).Cells(5, "da").value = CheckBox8.Caption
+TextBox93.value = Sheets(1).Cells(5, "dc")
+TextBox94.value = Sheets(1).Cells(5, "dd")
+TextBox97.value = Sheets(1).Cells(5, "de")
+TextBox98.value = Sheets(1).Cells(5, "df")
+TextBox95.value = Sheets(1).Cells(5, "dg")
+TextBox96.value = Sheets(1).Cells(5, "db")
+TextBox107.value = Sheets(1).Cells(5, "dh")
+    
+    
+    
+UserForm1.TextBox93.value = Format(UserForm1.TextBox93.value, "#,## IQD")
+UserForm1.TextBox94.value = Format(UserForm1.TextBox94.value, "#,## IQD")
+UserForm1.TextBox97.value = Format(UserForm1.TextBox97.value, "#,## IQD")
+UserForm1.TextBox98.value = Format(UserForm1.TextBox98.value, "#,## IQD")
+UserForm1.TextBox95.value = Format(UserForm1.TextBox95.value, "#,## IQD")
+UserForm1.TextBox96.value = Format(UserForm1.TextBox96.value, "#,## IQD")
+
+    
+    
+    
+    
+    Exit Sub
+
+ErrorHandler:
+    Application.ScreenUpdating = True
+    MsgBox "ÕœÀ Œÿ√: " & Err.Description, vbCritical
+End Sub
+
+Private Sub CheckBox8_Click()
+On Error GoTo ErrorHandler
+Sheets(1).Cells(5, "da").value = ""
+If CheckBox8.value = True Then
+        CheckBox7.value = False
+        CheckBox9.value = False
+    End If
+
+
+    Application.ScreenUpdating = False
+    
+    Dim ws As Worksheet
+    Set ws = Sheets(1)
+    
+    Label123.Visible = False
+    
+    ' «· Õﬁﬁ „„« ≈–« ﬂ«‰ CheckBox8 „›⁄·«
+    Dim isChecked8 As Boolean
+    isChecked8 = CheckBox8.value
+    
+    ListBox1.Clear
+    ListBox1.ColumnCount = 2
+    ListBox1.ColumnWidths = ";0"
+
+    Dim frow1 As Long, ss As Long
+    ss = ws.Cells(ws.rowS.count, 5).End(xlUp).row
+    
+    ' Õ·ﬁ… «·»ÕÀ
+    For frow1 = 9 To ss
+        Dim match As Boolean
+        match = False
+        
+        ' «·‘—ÿ Ì⁄ „œ ⁄·Ï CheckBox8 Ê«·⁄„Êœ AY
+        If isChecked8 Then
+            If Trim(ws.Cells(frow1, "AY").value) = Trim(CheckBox8.Caption) Then
+                match = True
+            End If
+        End If
+        
+        ' ≈÷«›… «·‰ ÌÃ… ≈·Ï ListBox1
+        If match Then
+            ListBox1.AddItem
+            ListBox1.List(ListBox1.ListCount - 1, 0) = ws.Cells(frow1, 5).value
+            ListBox1.List(ListBox1.ListCount - 1, 1) = frow1
+        End If
+    Next frow1
+
+    '  ÕœÌÀ «·‹ ListView »‰›” «·„‰ÿﬁ
+    With Me.ListView1
+        .ListItems.Clear
+        Dim frw_lv As Long, last_lv As Long
+        last_lv = ws.Range("A" & ws.rowS.count).End(xlUp).row
+        
+        For frw_lv = 9 To last_lv
+            Dim lvMatch As Boolean
+            lvMatch = False
+            
+            If isChecked8 Then
+                If Trim(ws.Cells(frw_lv, "AY").value) = Trim(CheckBox8.Caption) Then
+                    lvMatch = True
+                End If
+            End If
+            
+            If lvMatch Then
+                Dim item1 As ListItem
+                Set item1 = .ListItems.Add(, , ws.Cells(frw_lv, "A").value)
+                Dim c As Integer
+                For c = 1 To 62
+                    item1.SubItems(c) = ws.Cells(frw_lv, c + 1).value
+                Next c
+            End If
+        Next frw_lv
+    End With
+
+    '  ›⁄Ì· «·‰‘— «· ·ﬁ«∆Ì
+    If ListBox1.ListCount > 0 Then
+        ListBox1.ListIndex = 0
+        Call ListBox1_Click
+    End If
+
+    Application.ScreenUpdating = True
+    
+    Dim countResult As Long
+    countResult = ListBox1.ListCount
+    
+    '  ÕœÌÀ «·⁄‰Ê«‰ (Label118) »‰«¡ ⁄·Ï Õ«·… CheckBox8
+    If isChecked8 Then
+        Label118.Caption = " ›«’Ì· «·Õ”«»«  Õ”» «·„Êﬁ›: " & CheckBox8.Caption & " Ê⁄œœÂ„ (" & countResult & ")"
+    Else
+        Label118.Caption = "·„ Ì „ «Œ Ì«— √Ì  ’›Ì…"
+    End If
+    
+    
+      Sheets(1).Cells(5, "da").value = CheckBox8.Caption
+TextBox93.value = Sheets(1).Cells(5, "dc")
+TextBox94.value = Sheets(1).Cells(5, "dd")
+TextBox97.value = Sheets(1).Cells(5, "de")
+TextBox98.value = Sheets(1).Cells(5, "df")
+TextBox95.value = Sheets(1).Cells(5, "dg")
+TextBox96.value = Sheets(1).Cells(5, "db")
+TextBox107.value = Sheets(1).Cells(5, "dh")
+    
+    
+    
+UserForm1.TextBox93.value = Format(UserForm1.TextBox93.value, "#,## IQD")
+UserForm1.TextBox94.value = Format(UserForm1.TextBox94.value, "#,## IQD")
+UserForm1.TextBox97.value = Format(UserForm1.TextBox97.value, "#,## IQD")
+UserForm1.TextBox98.value = Format(UserForm1.TextBox98.value, "#,## IQD")
+UserForm1.TextBox95.value = Format(UserForm1.TextBox95.value, "#,## IQD")
+UserForm1.TextBox96.value = Format(UserForm1.TextBox96.value, "#,## IQD")
+
+    
+    
+    
+    
+    Exit Sub
+
+ErrorHandler:
+    Application.ScreenUpdating = True
+    MsgBox "ÕœÀ Œÿ√: " & Err.Description, vbCritical
+End Sub
+
+Private Sub CheckBox9_AfterUpdate()
+On Error GoTo ErrorHandler
+
+        Sheets(1).Cells(5, "da").value = ""
+
+    
+If CheckBox9.value = True Then
+        CheckBox7.value = False
+        CheckBox8.value = False
+    End If
+
+
+
+
+
+    Application.ScreenUpdating = False
+    
+    Dim ws As Worksheet
+    Set ws = Sheets(1)
+    
+    Label123.Visible = False
+    
+    ' «· Õﬁﬁ „„« ≈–« ﬂ«‰ CheckBox9 „›⁄·«
+    Dim isChecked9 As Boolean
+    isChecked9 = CheckBox9.value
+    
+    ListBox1.Clear
+    ListBox1.ColumnCount = 2
+    ListBox1.ColumnWidths = ";0"
+
+    Dim frow1 As Long, ss As Long
+    ss = ws.Cells(ws.rowS.count, 5).End(xlUp).row
+    
+    ' Õ·ﬁ… «·»ÕÀ
+    For frow1 = 9 To ss
+        Dim match As Boolean
+        match = False
+        
+        ' «·‘—ÿ Ì⁄ „œ ⁄·Ï CheckBox9 Ê«·⁄„Êœ AY
+        If isChecked9 Then
+            If Trim(ws.Cells(frow1, "AY").value) = Trim(CheckBox9.Caption) Then
+                match = True
+            End If
+        End If
+        
+        ' ≈÷«›… «·‰ ÌÃ… ≈·Ï ListBox1
+        If match Then
+            ListBox1.AddItem
+            ListBox1.List(ListBox1.ListCount - 1, 0) = ws.Cells(frow1, 5).value
+            ListBox1.List(ListBox1.ListCount - 1, 1) = frow1
+        End If
+    Next frow1
+
+    '  ÕœÌÀ «·‹ ListView »‰›” «·„‰ÿﬁ
+    With Me.ListView1
+        .ListItems.Clear
+        Dim frw_lv As Long, last_lv As Long
+        last_lv = ws.Range("A" & ws.rowS.count).End(xlUp).row
+        
+        For frw_lv = 9 To last_lv
+            Dim lvMatch As Boolean
+            lvMatch = False
+            
+            If isChecked9 Then
+                If Trim(ws.Cells(frw_lv, "AY").value) = Trim(CheckBox9.Caption) Then
+                    lvMatch = True
+                End If
+            End If
+            
+            If lvMatch Then
+                Dim item1 As ListItem
+                Set item1 = .ListItems.Add(, , ws.Cells(frw_lv, "A").value)
+                Dim c As Integer
+                For c = 1 To 62
+                    item1.SubItems(c) = ws.Cells(frw_lv, c + 1).value
+                Next c
+            End If
+        Next frw_lv
+    End With
+
+    '  ›⁄Ì· «·‰‘— «· ·ﬁ«∆Ì
+    If ListBox1.ListCount > 0 Then
+        ListBox1.ListIndex = 0
+        Call ListBox1_Click
+    End If
+
+    Application.ScreenUpdating = True
+    
+    Dim countResult As Long
+    countResult = ListBox1.ListCount
+    
+    '  ÕœÌÀ «·⁄‰Ê«‰ (Label118) »‰«¡ ⁄·Ï Õ«·… CheckBox9
+    If isChecked9 Then
+        Label118.Caption = " ›«’Ì· «·Õ”«»«  Õ”» «·„Êﬁ›: " & CheckBox9.Caption & " Ê⁄œœÂ„ (" & countResult & ")"
+        
+
+
+        
+        
+        
+        
+        
+    Else
+        Label118.Caption = "·„ Ì „ «Œ Ì«— √Ì  ’›Ì…"
+    End If
+    
+      Sheets(1).Cells(5, "da").value = CheckBox9.Caption
+TextBox93.value = Sheets(1).Cells(5, "dc")
+TextBox94.value = Sheets(1).Cells(5, "dd")
+TextBox97.value = Sheets(1).Cells(5, "de")
+TextBox98.value = Sheets(1).Cells(5, "df")
+TextBox95.value = Sheets(1).Cells(5, "dg")
+TextBox96.value = Sheets(1).Cells(5, "db")
+TextBox107.value = Sheets(1).Cells(5, "dh")
+    
+    
+    
+UserForm1.TextBox93.value = Format(UserForm1.TextBox93.value, "#,## IQD")
+UserForm1.TextBox94.value = Format(UserForm1.TextBox94.value, "#,## IQD")
+UserForm1.TextBox97.value = Format(UserForm1.TextBox97.value, "#,## IQD")
+UserForm1.TextBox98.value = Format(UserForm1.TextBox98.value, "#,## IQD")
+UserForm1.TextBox95.value = Format(UserForm1.TextBox95.value, "#,## IQD")
+UserForm1.TextBox96.value = Format(UserForm1.TextBox96.value, "#,## IQD")
+
+    
+
+    
+    
+    
+    
+    
+
+
+    
+    Exit Sub
+    
+   
+
+
+
+
+
+ErrorHandler:
+    Application.ScreenUpdating = True
+    MsgBox "ÕœÀ Œÿ√: " & Err.Description, vbCritical
+End Sub
+
+Private Sub CheckBox9_Click()
+On Error GoTo ErrorHandler
+
+        Sheets(1).Cells(5, "da").value = ""
+
+    
+If CheckBox9.value = True Then
+        CheckBox7.value = False
+        CheckBox8.value = False
+    End If
+
+
+
+
+
+    Application.ScreenUpdating = False
+    
+    Dim ws As Worksheet
+    Set ws = Sheets(1)
+    
+    Label123.Visible = False
+    
+    ' «· Õﬁﬁ „„« ≈–« ﬂ«‰ CheckBox9 „›⁄·«
+    Dim isChecked9 As Boolean
+    isChecked9 = CheckBox9.value
+    
+    ListBox1.Clear
+    ListBox1.ColumnCount = 2
+    ListBox1.ColumnWidths = ";0"
+
+    Dim frow1 As Long, ss As Long
+    ss = ws.Cells(ws.rowS.count, 5).End(xlUp).row
+    
+    ' Õ·ﬁ… «·»ÕÀ
+    For frow1 = 9 To ss
+        Dim match As Boolean
+        match = False
+        
+        ' «·‘—ÿ Ì⁄ „œ ⁄·Ï CheckBox9 Ê«·⁄„Êœ AY
+        If isChecked9 Then
+            If Trim(ws.Cells(frow1, "AY").value) = Trim(CheckBox9.Caption) Then
+                match = True
+            End If
+        End If
+        
+        ' ≈÷«›… «·‰ ÌÃ… ≈·Ï ListBox1
+        If match Then
+            ListBox1.AddItem
+            ListBox1.List(ListBox1.ListCount - 1, 0) = ws.Cells(frow1, 5).value
+            ListBox1.List(ListBox1.ListCount - 1, 1) = frow1
+        End If
+    Next frow1
+
+    '  ÕœÌÀ «·‹ ListView »‰›” «·„‰ÿﬁ
+    With Me.ListView1
+        .ListItems.Clear
+        Dim frw_lv As Long, last_lv As Long
+        last_lv = ws.Range("A" & ws.rowS.count).End(xlUp).row
+        
+        For frw_lv = 9 To last_lv
+            Dim lvMatch As Boolean
+            lvMatch = False
+            
+            If isChecked9 Then
+                If Trim(ws.Cells(frw_lv, "AY").value) = Trim(CheckBox9.Caption) Then
+                    lvMatch = True
+                End If
+            End If
+            
+            If lvMatch Then
+                Dim item1 As ListItem
+                Set item1 = .ListItems.Add(, , ws.Cells(frw_lv, "A").value)
+                Dim c As Integer
+                For c = 1 To 62
+                    item1.SubItems(c) = ws.Cells(frw_lv, c + 1).value
+                Next c
+            End If
+        Next frw_lv
+    End With
+
+    '  ›⁄Ì· «·‰‘— «· ·ﬁ«∆Ì
+    If ListBox1.ListCount > 0 Then
+        ListBox1.ListIndex = 0
+        Call ListBox1_Click
+    End If
+
+    Application.ScreenUpdating = True
+    
+    Dim countResult As Long
+    countResult = ListBox1.ListCount
+    
+    '  ÕœÌÀ «·⁄‰Ê«‰ (Label118) »‰«¡ ⁄·Ï Õ«·… CheckBox9
+    If isChecked9 Then
+        Label118.Caption = " ›«’Ì· «·Õ”«»«  Õ”» «·„Êﬁ›: " & CheckBox9.Caption & " Ê⁄œœÂ„ (" & countResult & ")"
+        
+
+
+        
+        
+        
+        
+        
+    Else
+        Label118.Caption = "·„ Ì „ «Œ Ì«— √Ì  ’›Ì…"
+    End If
+    
+      Sheets(1).Cells(5, "da").value = CheckBox9.Caption
+TextBox93.value = Sheets(1).Cells(5, "dc")
+TextBox94.value = Sheets(1).Cells(5, "dd")
+TextBox97.value = Sheets(1).Cells(5, "de")
+TextBox98.value = Sheets(1).Cells(5, "df")
+TextBox95.value = Sheets(1).Cells(5, "dg")
+TextBox96.value = Sheets(1).Cells(5, "db")
+TextBox107.value = Sheets(1).Cells(5, "dh")
+    
+    
+    
+UserForm1.TextBox93.value = Format(UserForm1.TextBox93.value, "#,## IQD")
+UserForm1.TextBox94.value = Format(UserForm1.TextBox94.value, "#,## IQD")
+UserForm1.TextBox97.value = Format(UserForm1.TextBox97.value, "#,## IQD")
+UserForm1.TextBox98.value = Format(UserForm1.TextBox98.value, "#,## IQD")
+UserForm1.TextBox95.value = Format(UserForm1.TextBox95.value, "#,## IQD")
+UserForm1.TextBox96.value = Format(UserForm1.TextBox96.value, "#,## IQD")
+
+    
+
+    
+    
+    
+    
+    
+
+
+    
+    Exit Sub
+    
+   
+
+
+
+
+
+ErrorHandler:
+    Application.ScreenUpdating = True
+    MsgBox "ÕœÀ Œÿ√: " & Err.Description, vbCritical
+End Sub
+
+Private Sub CheckBox9_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+
+End Sub
+
+Private Sub CheckBox9_MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+
 End Sub
 
 Private Sub ComboBox1_Change()
 TextBox23.value = ComboBox1.value
 ComboBox1.Visible = False
+If TextBox22.value > 0 And ComboBox1.value = "«·«⁄“»" Or ComboBox1.value = "«·„ÿ·ﬁ Ê·Ì” ·œÌÂ Õ÷«‰… ··√Ê·«œ" Then
+TextBox22.value = 0
+Call state_tax
+
+End If
 End Sub
+
 
 Private Sub ComboBox1_DropButtonClick()
 
@@ -268,463 +1111,242 @@ End If
 End Sub
 
 Private Sub ComboBox15_AfterUpdate()
+On Error GoTo ErrorHandler
+    Application.ScreenUpdating = False
+    
+    Dim ws As Worksheet
+    Set ws = Sheets(1)
+    
+    Label123.Visible = False
+    ComboBox3.value = ""
+    ws.Cells(4, "CB").value = ComboBox15.value
+    
+    ListBox1.Clear
+    ListBox1.ColumnCount = 2
+    ListBox1.ColumnWidths = ";0"
 
+    Dim frow1 As Long, ss As Long
+    ss = ws.Cells(ws.rowS.count, 5).End(xlUp).row
+    
+    '  ÃÂÌ“ »Ì«‰«  «· «—ÌŒ ··‘—ÿ «·À«‰Ì
+    Dim targetVal As Long
+    Dim isSearchDate As Boolean
+    If IsDate(TextBox110.Text) Then
+        targetVal = CLng(CDate(TextBox110.Text))
+        isSearchDate = True
+    End If
 
-Call UpdateSummaryFormula
+    ' Õ·ﬁ… «·»ÕÀ
+    For frow1 = 9 To ss
+        Dim match As Boolean
+        match = False
+        
+        ' Â‰« «· ﬁ”Ì„ «·–ﬂÌ »‰«¡ ⁄·Ï  — Ì» «·«Œ Ì«— (ListIndex)
+        ' ≈–« ﬂ«‰ «·«Œ Ì«— „‰ 0 ≈·Ï 13 (√Ê· 14 ⁄‰’—)° ›ÂÊ «·‘—ÿ «·√Ê·
+        ' ≈–« ﬂ«‰ «·«Œ Ì«— ÂÊ 14 («·⁄‰’— «·Œ«„” ⁄‘—)° ›ÂÊ «·‘—ÿ «·À«‰Ì («· «—ÌŒ)
+        
+        If ComboBox15.ListIndex >= 0 And ComboBox15.ListIndex <= 13 Then
+            ' «·‘—ÿ «·√Ê·: «·„Êﬁ› «·ÊŸÌ›Ì
+            If Trim(ws.Cells(frow1, 58).value) = Trim(ComboBox15.value) Then
+                match = True
+            End If
+            
+        ElseIf ComboBox15.ListIndex = 14 Then
+            ' «·‘—ÿ «·À«‰Ì: «·»ÕÀ »«· «—ÌŒ («·‘—ÿ 15 ›Ì «·ﬁ«∆„…)
+            If isSearchDate And IsDate(ws.Cells(frow1, "BN").value) Then
+                If CLng(CDate(ws.Cells(frow1, "BN").value)) >= targetVal Then
+                    match = True
+                    
+                End If
+            End If
+        End If
+        
+        ' ≈÷«›… «·‰ ÌÃ…
+        If match Then
+            ListBox1.AddItem
+            ListBox1.List(ListBox1.ListCount - 1, 0) = ws.Cells(frow1, 5).value
+            ListBox1.List(ListBox1.ListCount - 1, 1) = frow1
+        End If
+    Next frow1
 
-ComboBox3.value = ""
+    '  ÕœÌÀ «·‹ ListView »‰›” «·„‰ÿﬁ
+    With Me.ListView1
+        .ListItems.Clear
+        Dim frw_lv As Long, last_lv As Long
+        last_lv = ws.Range("A" & ws.rowS.count).End(xlUp).row
+        
+        For frw_lv = 9 To last_lv
+            Dim lvMatch As Boolean
+            lvMatch = False
+            
+            If ComboBox15.ListIndex >= 0 And ComboBox15.ListIndex <= 13 Then
+                If Trim(ws.Cells(frw_lv, "BF").value) = Trim(ComboBox15.value) Then lvMatch = True
+            ElseIf ComboBox15.ListIndex = 14 Then
+                If isSearchDate And IsDate(ws.Cells(frw_lv, "BN").value) Then
+                    If CLng(CDate(ws.Cells(frw_lv, "BN").value)) >= targetVal Then lvMatch = True
+                End If
+            End If
+            
+            If lvMatch Then
+                Dim item1 As ListItem
+                Set item1 = .ListItems.Add(, , ws.Cells(frw_lv, "A").value)
+                Dim c As Integer
+                For c = 1 To 62
+                    item1.SubItems(c) = ws.Cells(frw_lv, c + 1).value
+                Next c
+            End If
+        Next frw_lv
+    End With
 
-Sheets(1).Cells(4, "cb").value = ComboBox15.value
+    '  ›⁄Ì· «·‰‘— «· ·ﬁ«∆Ì
+    If ListBox1.ListCount > 0 Then
+        ListBox1.ListIndex = 0
+        Call ListBox1_Click
+    End If
 
-If Sheets(1).Cells(4, "cb").value = ComboBox15.value Then
-
-TextBox93.value = Sheets(1).Cells(4, "cd")
-TextBox94.value = Sheets(1).Cells(4, "ce")
-TextBox97.value = Sheets(1).Cells(4, "cf")
-TextBox98.value = Sheets(1).Cells(4, "cg")
-TextBox95.value = Sheets(1).Cells(4, "ch")
-TextBox96.value = Sheets(1).Cells(4, "cc")
-TextBox107.value = Sheets(1).Cells(4, "ci")
-'TextBox75.Text = Application.WorksheetFunction.Count(Sheets(1).Range("a9:a" & frw2))
-'=COUNTIF(BF9:BF578,BL9)
-
-'TextBox75.Text = ListView1.ListItems.Count
-UserForm1.TextBox93.value = Format(UserForm1.TextBox93.value, "#,## IQD")
-UserForm1.TextBox94.value = Format(UserForm1.TextBox94.value, "#,## IQD")
-UserForm1.TextBox97.value = Format(UserForm1.TextBox97.value, "#,## IQD")
-UserForm1.TextBox98.value = Format(UserForm1.TextBox98.value, "#,## IQD")
-UserForm1.TextBox95.value = Format(UserForm1.TextBox95.value, "#,## IQD")
-UserForm1.TextBox96.value = Format(UserForm1.TextBox96.value, "#,## IQD")
-
-Label118.Caption = " ›«’Ì· «·Õ”«»«  Õ”» «·„Êﬁ› «·Ê÷Ì›Ì:" & "  " & ComboBox15.value
-End If
-'===========================================
-ListBox1.Clear
-
-TextBox72.Text = ""
-Sheets(1).Activate
-Dim frow1 As Integer
-     ss = Sheets(1).Cells(Rows.count, 5).End(xlUp).row
-     
-     For frow1 = 9 To ss
-    If ComboBox15.value = Sheets(1).Cells(frow1, 58) Then
-        ListBox1.AddItem
-        ListBox1.List(ListBox1.ListCount - 1, 0) = Cells(frow1, 5).value
-       
+    Application.ScreenUpdating = True
+    
+    Dim countResult As Long
+    countResult = ListBox1.ListCount ' «·⁄œ«œ Â‰« Ìﬁ—√ «·⁄œœ «·›⁄·Ì «·„ÊÃÊœ ›Ì «··”  »Êﬂ” »⁄œ «·›· —…
+    
+    If ComboBox15.ListIndex = 14 Then
+        ' ≈–« ﬂ«‰ «·«Œ Ì«— ÂÊ «· «—ÌŒ
+        Label118.Caption = " ›«’Ì· «·Õ”«»«  Õ”» «· «—ÌŒ «·„Œ «— ›Ì  Ìﬂ”  »Êﬂ” 110: " & _
+                           " Ê⁄œœÂ„ (" & countResult & ")"
+    Else
+        ' ≈–« ﬂ«‰ «·«Œ Ì«— ÂÊ «·„Êﬁ› «·ÊŸÌ›Ì
+        Label118.Caption = " ›«’Ì· «·Õ”«»«  Õ”» «·„Êﬁ› «·ÊŸÌ›Ì: " & ComboBox15.Text & _
+                           " Ê⁄œœÂ„ (" & countResult & ")"
     End If
     
-Next
-Dim last2 As Integer
-     last2 = Sheets(1).Cells(Rows.count, 5).End(xlUp).row
-     
-TextBox75.Text = Application.WorksheetFunction.CountIfs(Sheets(1).Range("bf9:bf" & last2), Me.ComboBox15.Text)
-
-
-'================================ Õ„Ì· «·»Ì«‰«  ›Ì «· listview
-
-With Me.ListView1
-.ListItems.Clear
-Dim item1 As ListItem
-Dim last1, frw1 As Integer
-
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
-For frw1 = 9 To last1
-If ComboBox15.value = Sheets(1).Cells(frw1, "bf") Then
-Set item1 = ListView1.ListItems.Add(, , Sheets(1).Cells(frw1, "A"))
-item1.SubItems(1) = Sheets(1).Cells(frw1, "b")
-item1.SubItems(2) = Sheets(1).Cells(frw1, "c")
-item1.SubItems(3) = Sheets(1).Cells(frw1, "d")
-item1.SubItems(4) = Sheets(1).Cells(frw1, "e")
-item1.SubItems(5) = Sheets(1).Cells(frw1, "f")
-item1.SubItems(6) = Sheets(1).Cells(frw1, "g")
-item1.SubItems(7) = Sheets(1).Cells(frw1, "h")
-item1.SubItems(8) = Sheets(1).Cells(frw1, "i")
-item1.SubItems(9) = Sheets(1).Cells(frw1, "j")
-item1.SubItems(10) = Sheets(1).Cells(frw1, "k")
-item1.SubItems(11) = Sheets(1).Cells(frw1, "l")
-item1.SubItems(12) = Sheets(1).Cells(frw1, "m")
-item1.SubItems(13) = Sheets(1).Cells(frw1, "n")
-item1.SubItems(14) = Sheets(1).Cells(frw1, "o")
-item1.SubItems(15) = Sheets(1).Cells(frw1, "p")
-item1.SubItems(16) = Sheets(1).Cells(frw1, "q")
-item1.SubItems(17) = Sheets(1).Cells(frw1, "r")
-item1.SubItems(18) = Sheets(1).Cells(frw1, "s")
-item1.SubItems(19) = Sheets(1).Cells(frw1, "t")
-item1.SubItems(20) = Sheets(1).Cells(frw1, "u")
-item1.SubItems(21) = Sheets(1).Cells(frw1, "v")
-item1.SubItems(22) = Sheets(1).Cells(frw1, "w")
-item1.SubItems(23) = Sheets(1).Cells(frw1, "x")
-item1.SubItems(24) = Sheets(1).Cells(frw1, "y")
-item1.SubItems(25) = Sheets(1).Cells(frw1, "z")
-item1.SubItems(26) = Sheets(1).Cells(frw1, "aa")
-item1.SubItems(27) = Sheets(1).Cells(frw1, "ab")
-item1.SubItems(28) = Sheets(1).Cells(frw1, "ac")
-item1.SubItems(29) = Sheets(1).Cells(frw1, "ad")
-item1.SubItems(30) = Sheets(1).Cells(frw1, "ae")
-item1.SubItems(31) = Sheets(1).Cells(frw1, "af")
-item1.SubItems(32) = Sheets(1).Cells(frw1, "ag")
-item1.SubItems(33) = Sheets(1).Cells(frw1, "ah")
-item1.SubItems(34) = Sheets(1).Cells(frw1, "ai")
-item1.SubItems(35) = Sheets(1).Cells(frw1, "aj")
-item1.SubItems(36) = Sheets(1).Cells(frw1, "ak")
-item1.SubItems(37) = Sheets(1).Cells(frw1, "al")
-item1.SubItems(38) = Sheets(1).Cells(frw1, "am")
-item1.SubItems(39) = Sheets(1).Cells(frw1, "an")
-item1.SubItems(40) = Sheets(1).Cells(frw1, "ao")
-item1.SubItems(41) = Sheets(1).Cells(frw1, "ap")
-item1.SubItems(42) = Sheets(1).Cells(frw1, "aq")
-item1.SubItems(43) = Sheets(1).Cells(frw1, "ar")
-item1.SubItems(44) = Sheets(1).Cells(frw1, "as")
-item1.SubItems(45) = Sheets(1).Cells(frw1, "at")
-item1.SubItems(46) = Sheets(1).Cells(frw1, "au")
-item1.SubItems(47) = Sheets(1).Cells(frw1, "av")
-item1.SubItems(48) = Sheets(1).Cells(frw1, "aw")
-item1.SubItems(49) = Sheets(1).Cells(frw1, "ax")
-item1.SubItems(50) = Sheets(1).Cells(frw1, "ay")
-item1.SubItems(51) = Sheets(1).Cells(frw1, "az")
-item1.SubItems(52) = Sheets(1).Cells(frw1, "ba")
-item1.SubItems(53) = Sheets(1).Cells(frw1, "bb")
-item1.SubItems(54) = Sheets(1).Cells(frw1, "bc")
-item1.SubItems(55) = Sheets(1).Cells(frw1, "bd")
-item1.SubItems(56) = Sheets(1).Cells(frw1, "be")
-item1.SubItems(57) = Sheets(1).Cells(frw1, "bf")
-item1.SubItems(58) = Sheets(1).Cells(frw1, "bg")
-item1.SubItems(59) = Sheets(1).Cells(frw1, "bh")
-item1.SubItems(60) = Sheets(1).Cells(frw1, "bi")
-item1.SubItems(61) = Sheets(1).Cells(frw1, "bj")
-item1.SubItems(62) = Sheets(1).Cells(frw1, "bk")
-
-End If
-
-
-
-Next frw1
-
-UserForm1.TextBox73.value = Format(UserForm1.TextBox73.value, "#,## IQD")
-UserForm1.TextBox74.value = Format(UserForm1.TextBox74.value, "#,## IQD")
-UserForm1.TextBox64.value = Format(UserForm1.TextBox64.value, "#,## IQD")
-UserForm1.TextBox80.value = Format(UserForm1.TextBox80.value, "#,## IQD")
-UserForm1.TextBox66.value = Format(UserForm1.TextBox66.value, "#,## IQD")
-
-'=============================================
-    ListView1.ColumnHeaders(1).Alignment = lvwColumnLeft
-    ListView1.ColumnHeaders(2).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(3).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(4).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(5).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(6).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(7).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(8).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(9).Alignment = lvwColumnCenter
     
-    
-    ListView1.ColumnHeaders(10).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(11).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(12).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(13).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(14).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(15).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(16).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(17).Alignment = lvwColumnCenter
-    
-    
-    
-    
-    ListView1.ColumnHeaders(18).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(19).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(20).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(21).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(22).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(23).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(24).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(25).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(26).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(27).Alignment = lvwColumnCenter
-   
-   
-   
-    ListView1.ColumnHeaders(28).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(29).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(30).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(31).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(32).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(33).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(34).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(35).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(36).Alignment = lvwColumnCenter
-   
-   
-   
-    ListView1.ColumnHeaders(37).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(38).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(39).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(40).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(41).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(42).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(43).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(44).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(45).Alignment = lvwColumnCenter
-    
-    
-    ListView1.ColumnHeaders(46).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(47).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(48).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(49).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(50).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(51).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(52).Alignment = lvwColumnCenter
-    
-    
-    
-    
-    ListView1.ColumnHeaders(53).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(54).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(55).Alignment = lvwColumnCenter
-    
-    ListView1.ColumnHeaders(56).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(57).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(58).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(59).Alignment = lvwColumnCenter
-    
-    ListView1.ColumnHeaders(60).Alignment = lvwColumnCenter
-   ListView1.ColumnHeaders(61).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(62).Alignment = lvwColumnCenter
-    
-    ListView1.ColumnHeaders(63).Alignment = lvwColumnCenter
-   End With
-
-'===============================================================
+    Exit Sub
 
 
 
 
+ErrorHandler:
+    Application.ScreenUpdating = True
+    MsgBox "ÕœÀ Œÿ√: " & Err.Description, vbCritical
 End Sub
 
 Private Sub ComboBox15_Change()
+On Error GoTo ErrorHandler
+    Application.ScreenUpdating = False
+    
+    Dim ws As Worksheet
+    Set ws = Sheets(1)
+    
+    Label123.Visible = False
+    ComboBox3.value = ""
+    ws.Cells(4, "CB").value = ComboBox15.value
+    
+    ListBox1.Clear
+    ListBox1.ColumnCount = 2
+    ListBox1.ColumnWidths = ";0"
 
-ComboBox3.value = ""
+    Dim frow1 As Long, ss As Long
+    ss = ws.Cells(ws.rowS.count, 5).End(xlUp).row
+    
+    '  ÃÂÌ“ »Ì«‰«  «· «—ÌŒ ··‘—ÿ «·À«‰Ì
+    Dim targetVal As Long
+    Dim isSearchDate As Boolean
+    If IsDate(TextBox110.Text) Then
+        targetVal = CLng(CDate(TextBox110.Text))
+        isSearchDate = True
+    End If
 
-Sheets(1).Cells(4, "cb").value = ComboBox15.value
+    ' Õ·ﬁ… «·»ÕÀ
+    For frow1 = 9 To ss
+        Dim match As Boolean
+        match = False
+        
+        ' Â‰« «· ﬁ”Ì„ «·–ﬂÌ »‰«¡ ⁄·Ï  — Ì» «·«Œ Ì«— (ListIndex)
+        ' ≈–« ﬂ«‰ «·«Œ Ì«— „‰ 0 ≈·Ï 13 (√Ê· 14 ⁄‰’—)° ›ÂÊ «·‘—ÿ «·√Ê·
+        ' ≈–« ﬂ«‰ «·«Œ Ì«— ÂÊ 14 («·⁄‰’— «·Œ«„” ⁄‘—)° ›ÂÊ «·‘—ÿ «·À«‰Ì («· «—ÌŒ)
+        
+        If ComboBox15.ListIndex >= 0 And ComboBox15.ListIndex <= 13 Then
+            ' «·‘—ÿ «·√Ê·: «·„Êﬁ› «·ÊŸÌ›Ì
+            If Trim(ws.Cells(frow1, 58).value) = Trim(ComboBox15.value) Then
+                match = True
+            End If
+            
+        ElseIf ComboBox15.ListIndex = 14 Then
+            ' «·‘—ÿ «·À«‰Ì: «·»ÕÀ »«· «—ÌŒ («·‘—ÿ 15 ›Ì «·ﬁ«∆„…)
+            If isSearchDate And IsDate(ws.Cells(frow1, "BN").value) Then
+                If CLng(CDate(ws.Cells(frow1, "BN").value)) >= targetVal Then
+                    match = True
+                   
+                End If
+            End If
+        End If
+        
+        ' ≈÷«›… «·‰ ÌÃ…
+        If match Then
+            ListBox1.AddItem
+            ListBox1.List(ListBox1.ListCount - 1, 0) = ws.Cells(frow1, 5).value
+            ListBox1.List(ListBox1.ListCount - 1, 1) = frow1
+        End If
+    Next frow1
 
-If Sheets(1).Cells(4, "cb").value = ComboBox15.value Then
+    '  ÕœÌÀ «·‹ ListView »‰›” «·„‰ÿﬁ
+    With Me.ListView1
+        .ListItems.Clear
+        Dim frw_lv As Long, last_lv As Long
+        last_lv = ws.Range("A" & ws.rowS.count).End(xlUp).row
+        
+        For frw_lv = 9 To last_lv
+            Dim lvMatch As Boolean
+            lvMatch = False
+            
+            If ComboBox15.ListIndex >= 0 And ComboBox15.ListIndex <= 13 Then
+                If Trim(ws.Cells(frw_lv, "BF").value) = Trim(ComboBox15.value) Then lvMatch = True
+            ElseIf ComboBox15.ListIndex = 14 Then
+                If isSearchDate And IsDate(ws.Cells(frw_lv, "BN").value) Then
+                    If CLng(CDate(ws.Cells(frw_lv, "BN").value)) >= targetVal Then lvMatch = True
+                End If
+            End If
+            
+            If lvMatch Then
+                Dim item1 As ListItem
+                Set item1 = .ListItems.Add(, , ws.Cells(frw_lv, "A").value)
+                Dim c As Integer
+                For c = 1 To 62
+                    item1.SubItems(c) = ws.Cells(frw_lv, c + 1).value
+                Next c
+            End If
+        Next frw_lv
+    End With
 
-TextBox93.value = Sheets(1).Cells(4, "cd")
-TextBox94.value = Sheets(1).Cells(4, "ce")
-TextBox97.value = Sheets(1).Cells(4, "cf")
-TextBox98.value = Sheets(1).Cells(4, "cg")
-TextBox95.value = Sheets(1).Cells(4, "ch")
-TextBox96.value = Sheets(1).Cells(4, "cc")
-  TextBox107.value = Sheets(1).Cells(4, "ci")
-'TextBox75.Text = Application.WorksheetFunction.Count(Sheets(1).Range("a9:a" & frw2))
-'=COUNTIF(BF9:BF578,BL9)
+    '  ›⁄Ì· «·‰‘— «· ·ﬁ«∆Ì
+    If ListBox1.ListCount > 0 Then
+        ListBox1.ListIndex = 0
+        Call ListBox1_Click
+    End If
 
-'TextBox75.Text = ListView1.ListItems.Count
-UserForm1.TextBox93.value = Format(UserForm1.TextBox93.value, "#,## IQD")
-UserForm1.TextBox94.value = Format(UserForm1.TextBox94.value, "#,## IQD")
-UserForm1.TextBox97.value = Format(UserForm1.TextBox97.value, "#,## IQD")
-UserForm1.TextBox98.value = Format(UserForm1.TextBox98.value, "#,## IQD")
-UserForm1.TextBox95.value = Format(UserForm1.TextBox95.value, "#,## IQD")
-UserForm1.TextBox96.value = Format(UserForm1.TextBox96.value, "#,## IQD")
-
-Label118.Caption = " ›«’Ì· «·Õ”«»«  Õ”» «·„Êﬁ› «·Ê÷Ì›Ì:" & "  " & ComboBox15.value
-End If
-
-'===================================
-ListBox1.Clear
-
-Sheets(1).Activate
-Dim frow1 As Integer
-     ss = Sheets(1).Cells(Rows.count, 5).End(xlUp).row
-     
-     For frow1 = 9 To ss
-    If ComboBox15.value = Sheets(1).Cells(frow1, 58) Then
-        ListBox1.AddItem
-        ListBox1.List(ListBox1.ListCount - 1, 0) = Cells(frow1, 5).value
-       
+    Application.ScreenUpdating = True
+    
+    Dim countResult As Long
+    countResult = ListBox1.ListCount ' «·⁄œ«œ Â‰« Ìﬁ—√ «·⁄œœ «·›⁄·Ì «·„ÊÃÊœ ›Ì «··”  »Êﬂ” »⁄œ «·›· —…
+    
+    If ComboBox15.ListIndex = 14 Then
+        ' ≈–« ﬂ«‰ «·«Œ Ì«— ÂÊ «· «—ÌŒ
+        Label118.Caption = " ›«’Ì· «·Õ”«»«  Õ”» «· «—ÌŒ «·„Œ «—: " & _
+                           " Ê⁄œœÂ„ (" & countResult & ")"
+    Else
+        ' ≈–« ﬂ«‰ «·«Œ Ì«— ÂÊ «·„Êﬁ› «·ÊŸÌ›Ì
+        Label118.Caption = " ›«’Ì· «·Õ”«»«  Õ”» «·„Êﬁ› «·ÊŸÌ›Ì: " & ComboBox15.Text & _
+                           " Ê⁄œœÂ„ (" & countResult & ")"
     End If
     
-Next
-Dim last2 As Integer
-     last2 = Sheets(1).Cells(Rows.count, 5).End(xlUp).row
-     
-TextBox75.Text = Application.WorksheetFunction.CountIfs(Sheets(1).Range("bf9:bf" & last2), Me.ComboBox15.Text)
+    Exit Sub
 
+ErrorHandler:
+    Application.ScreenUpdating = True
+    MsgBox "ÕœÀ Œÿ√: " & Err.Description, vbCritical
+End Sub
 
-'================================ Õ„Ì· «·»Ì«‰«  ›Ì «· listview
-
-With Me.ListView1
-.ListItems.Clear
-Dim item1 As ListItem
-Dim last1, frw1 As Integer
-
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
-For frw1 = 9 To last1
-If ComboBox15.value = Sheets(1).Cells(frw1, "bf") Then
-Set item1 = ListView1.ListItems.Add(, , Sheets(1).Cells(frw1, "A"))
-item1.SubItems(1) = Sheets(1).Cells(frw1, "b")
-item1.SubItems(2) = Sheets(1).Cells(frw1, "c")
-item1.SubItems(3) = Sheets(1).Cells(frw1, "d")
-item1.SubItems(4) = Sheets(1).Cells(frw1, "e")
-item1.SubItems(5) = Sheets(1).Cells(frw1, "f")
-item1.SubItems(6) = Sheets(1).Cells(frw1, "g")
-item1.SubItems(7) = Sheets(1).Cells(frw1, "h")
-item1.SubItems(8) = Sheets(1).Cells(frw1, "i")
-item1.SubItems(9) = Sheets(1).Cells(frw1, "j")
-item1.SubItems(10) = Sheets(1).Cells(frw1, "k")
-item1.SubItems(11) = Sheets(1).Cells(frw1, "l")
-item1.SubItems(12) = Sheets(1).Cells(frw1, "m")
-item1.SubItems(13) = Sheets(1).Cells(frw1, "n")
-item1.SubItems(14) = Sheets(1).Cells(frw1, "o")
-item1.SubItems(15) = Sheets(1).Cells(frw1, "p")
-item1.SubItems(16) = Sheets(1).Cells(frw1, "q")
-item1.SubItems(17) = Sheets(1).Cells(frw1, "r")
-item1.SubItems(18) = Sheets(1).Cells(frw1, "s")
-item1.SubItems(19) = Sheets(1).Cells(frw1, "t")
-item1.SubItems(20) = Sheets(1).Cells(frw1, "u")
-item1.SubItems(21) = Sheets(1).Cells(frw1, "v")
-item1.SubItems(22) = Sheets(1).Cells(frw1, "w")
-item1.SubItems(23) = Sheets(1).Cells(frw1, "x")
-item1.SubItems(24) = Sheets(1).Cells(frw1, "y")
-item1.SubItems(25) = Sheets(1).Cells(frw1, "z")
-item1.SubItems(26) = Sheets(1).Cells(frw1, "aa")
-item1.SubItems(27) = Sheets(1).Cells(frw1, "ab")
-item1.SubItems(28) = Sheets(1).Cells(frw1, "ac")
-item1.SubItems(29) = Sheets(1).Cells(frw1, "ad")
-item1.SubItems(30) = Sheets(1).Cells(frw1, "ae")
-item1.SubItems(31) = Sheets(1).Cells(frw1, "af")
-item1.SubItems(32) = Sheets(1).Cells(frw1, "ag")
-item1.SubItems(33) = Sheets(1).Cells(frw1, "ah")
-item1.SubItems(34) = Sheets(1).Cells(frw1, "ai")
-item1.SubItems(35) = Sheets(1).Cells(frw1, "aj")
-item1.SubItems(36) = Sheets(1).Cells(frw1, "ak")
-item1.SubItems(37) = Sheets(1).Cells(frw1, "al")
-item1.SubItems(38) = Sheets(1).Cells(frw1, "am")
-item1.SubItems(39) = Sheets(1).Cells(frw1, "an")
-item1.SubItems(40) = Sheets(1).Cells(frw1, "ao")
-item1.SubItems(41) = Sheets(1).Cells(frw1, "ap")
-item1.SubItems(42) = Sheets(1).Cells(frw1, "aq")
-item1.SubItems(43) = Sheets(1).Cells(frw1, "ar")
-item1.SubItems(44) = Sheets(1).Cells(frw1, "as")
-item1.SubItems(45) = Sheets(1).Cells(frw1, "at")
-item1.SubItems(46) = Sheets(1).Cells(frw1, "au")
-item1.SubItems(47) = Sheets(1).Cells(frw1, "av")
-item1.SubItems(48) = Sheets(1).Cells(frw1, "aw")
-item1.SubItems(49) = Sheets(1).Cells(frw1, "ax")
-item1.SubItems(50) = Sheets(1).Cells(frw1, "ay")
-item1.SubItems(51) = Sheets(1).Cells(frw1, "az")
-item1.SubItems(52) = Sheets(1).Cells(frw1, "ba")
-item1.SubItems(53) = Sheets(1).Cells(frw1, "bb")
-item1.SubItems(54) = Sheets(1).Cells(frw1, "bc")
-item1.SubItems(55) = Sheets(1).Cells(frw1, "bd")
-item1.SubItems(56) = Sheets(1).Cells(frw1, "be")
-item1.SubItems(57) = Sheets(1).Cells(frw1, "bf")
-item1.SubItems(58) = Sheets(1).Cells(frw1, "bg")
-item1.SubItems(59) = Sheets(1).Cells(frw1, "bh")
-item1.SubItems(60) = Sheets(1).Cells(frw1, "bi")
-item1.SubItems(61) = Sheets(1).Cells(frw1, "bj")
-item1.SubItems(62) = Sheets(1).Cells(frw1, "bk")
-
-End If
-
-
-
-Next frw1
-
-UserForm1.TextBox73.value = Format(UserForm1.TextBox73.value, "#,## IQD")
-UserForm1.TextBox74.value = Format(UserForm1.TextBox74.value, "#,## IQD")
-UserForm1.TextBox64.value = Format(UserForm1.TextBox64.value, "#,## IQD")
-UserForm1.TextBox80.value = Format(UserForm1.TextBox80.value, "#,## IQD")
-UserForm1.TextBox66.value = Format(UserForm1.TextBox66.value, "#,## IQD")
-
-'=============================================
-    ListView1.ColumnHeaders(1).Alignment = lvwColumnLeft
-    ListView1.ColumnHeaders(2).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(3).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(4).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(5).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(6).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(7).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(8).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(9).Alignment = lvwColumnCenter
-    
-    
-    ListView1.ColumnHeaders(10).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(11).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(12).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(13).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(14).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(15).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(16).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(17).Alignment = lvwColumnCenter
-    
-    
-    
-    
-    ListView1.ColumnHeaders(18).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(19).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(20).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(21).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(22).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(23).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(24).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(25).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(26).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(27).Alignment = lvwColumnCenter
-   
-   
-   
-    ListView1.ColumnHeaders(28).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(29).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(30).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(31).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(32).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(33).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(34).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(35).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(36).Alignment = lvwColumnCenter
-   
-   
-   
-    ListView1.ColumnHeaders(37).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(38).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(39).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(40).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(41).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(42).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(43).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(44).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(45).Alignment = lvwColumnCenter
-    
-    
-    ListView1.ColumnHeaders(46).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(47).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(48).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(49).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(50).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(51).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(52).Alignment = lvwColumnCenter
-    
-    
-    
-    
-    ListView1.ColumnHeaders(53).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(54).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(55).Alignment = lvwColumnCenter
-    
-    ListView1.ColumnHeaders(56).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(57).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(58).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(59).Alignment = lvwColumnCenter
-    
-    ListView1.ColumnHeaders(60).Alignment = lvwColumnCenter
-   ListView1.ColumnHeaders(61).Alignment = lvwColumnCenter
-    ListView1.ColumnHeaders(62).Alignment = lvwColumnCenter
-    
-    ListView1.ColumnHeaders(63).Alignment = lvwColumnCenter
-   End With
-'================================
-
-
+Private Sub ComboBox16_Change()
 
 End Sub
 
@@ -759,7 +1381,14 @@ UserForm1.TextBox98.value = Format(UserForm1.TextBox98.value, "#,## IQD")
 UserForm1.TextBox95.value = Format(UserForm1.TextBox95.value, "#,## IQD")
 UserForm1.TextBox96.value = Format(UserForm1.TextBox96.value, "#,## IQD")
 
-Label118.Caption = " ›«’Ì· «·Õ”«»«  Õ”» «·„Êﬁ› «·Ê÷Ì›Ì:" & "  " & TextBox58.Text
+
+Dim last2 As Long
+ Dim ws As Worksheet
+    Set ws = ThisWorkbook.Sheets(1)
+last2 = Sheets(1).Cells(rowS.count, "BF").End(xlUp).row
+TextBox75.Text = Application.WorksheetFunction.CountIfs(Sheets(1).Range("BF9:BF" & last2), Me.ComboBox15.Text)
+Label118.Caption = " ›«’Ì· «·Õ”«»«  Õ”» «·„Êﬁ› «·Ê÷Ì›Ì:  " & TextBox58.Text & " " & "Ê⁄œœÂ„" & "" & "(" & Application.WorksheetFunction.CountIfs(Sheets(1).Range("BF9:BF" & last2), Me.ComboBox3.Text) & ")"
+
 End If
 
 
@@ -792,8 +1421,12 @@ UserForm1.TextBox97.value = Format(UserForm1.TextBox97.value, "#,## IQD")
 UserForm1.TextBox98.value = Format(UserForm1.TextBox98.value, "#,## IQD")
 UserForm1.TextBox95.value = Format(UserForm1.TextBox95.value, "#,## IQD")
 UserForm1.TextBox96.value = Format(UserForm1.TextBox96.value, "#,## IQD")
-
-Label118.Caption = " ›«’Ì· «·Õ”«»«  Õ”» «·„Êﬁ› «·Ê÷Ì›Ì:" & "  " & TextBox58.Text
+Dim last2 As Long
+ Dim ws As Worksheet
+    Set ws = ThisWorkbook.Sheets(1)
+last2 = Sheets(1).Cells(rowS.count, "BF").End(xlUp).row
+TextBox75.Text = Application.WorksheetFunction.CountIfs(Sheets(1).Range("BF9:BF" & last2), Me.ComboBox15.Text)
+Label118.Caption = " ›«’Ì· «·Õ”«»«  Õ”» «·„Êﬁ› «·Ê÷Ì›Ì:  " & TextBox58.Text & " " & "Ê⁄œœÂ„" & "" & "(" & Application.WorksheetFunction.CountIfs(Sheets(1).Range("BF9:BF" & last2), Me.ComboBox3.Text) & ")"
 End If
 If ComboBox3.value = "⁄ﬁœ" Then
 TextBox101.Visible = True
@@ -835,11 +1468,6 @@ End If
 End Sub
 
 Private Sub CommandButton1_Click()
-Unload Me
- Application.Quit
-
-
-
 
 End Sub
 
@@ -882,6 +1510,27 @@ End Sub
 
 Private Sub CommandButton16_Click()
 On Error Resume Next
+
+'============================ ÃœÌœ «·»Ì«‰«  «·Õ«·ÌÂ ﬁ»· «·«Õ ”«»
+
+Sheets(55).Range("a9:bz8000").ClearContents
+Application.ScreenUpdating = False
+Sheets(55).Range("a8").CurrentRegion.Delete
+Sheets(1).Select
+
+Range("a8").CurrentRegion.Select
+Selection.Copy Sheets(55).Range("A1:bz8000")
+
+Application.ScreenUpdating = True
+[a8].Select
+Sheets(55).Select
+Sheets(55).Activate
+Application.ScreenUpdating = True
+
+'============================
+
+
+
 
 If ComboBox3.value = "„” „— »«·Œœ„…" Then
 TextBox100.value = 1
@@ -957,13 +1606,7 @@ End If
 
 
 '=============================================== ‘—Êÿ «·‰Ÿ«„ «·÷—Ì»Ì
-If ComboBox4.value = "«‰ÀÏ" And TextBox23.Text = "«·„ÊŸ› «·„ “ÊÃ Ê “ÊÃ Â —»… »Ì " Then
-MsgBox " «·‰Ÿ«„ «·Ÿ—Ì»Ì Ì—›÷ Â–Â «·„⁄«ÌÌ— ·ﬂÊ‰Â« «‰ÀÏ Ê·« Ì„ﬂ‰ «‰  ‰ÿ»ﬁ ⁄·Ï “ÊÃÂ« —»  »Ì øøø ", vbCritical, "—”«·…  ‰»ÌÂ"
-Exit Sub
-ElseIf TextBox23.Text = "«·«⁄“»" And TextBox22.Text > 0 Then
-MsgBox "Â‰«ﬂ ⁄œ„  Ê«›ﬁ „‰ÿﬁÌ ··‰Ÿ«„ «·÷—Ì»Ì ﬂ√‰ ÌﬂÊ‰ «⁄“» Ê·œÌÂ «ÿ›«· øøø ", vbCritical, "—”«·…  ‰»ÌÂ"
-Exit Sub
-Else
+
 
 
 
@@ -974,7 +1617,7 @@ Else
 '===================================================
 Dim lr, nrow As Integer
 
-lr = Sheets(1).Cells(Rows.count, 2).End(xlUp).row
+lr = Sheets(1).Cells(rowS.count, 2).End(xlUp).row
 For nrow = 9 To lr
 If Sheets(1).Cells(nrow, "b").value = TextBox2.Text And Sheets(1).Cells(nrow, "e").value = TextBox5.Text Then
 
@@ -997,7 +1640,7 @@ Select Case TextBox100.value
 '==================================================„” „— »«·Œœ„…
 Case 1
 Dim lr1, nrow1 As Integer
-lr1 = Sheets(1).Cells(Rows.count, 2).End(xlUp).row
+lr1 = Sheets(1).Cells(rowS.count, 2).End(xlUp).row
 For nrow1 = 9 To lr1
 If UserForm1.TextBox8.value >= 8 And CheckBox4.value = True _
 And Sheets(1).Cells(nrow1, "b").value = TextBox2.Text And Sheets(1).Cells(nrow1, "e").value = TextBox5.Text Then
@@ -1141,28 +1784,141 @@ UserForm1.TextBox76.value = Format(UserForm1.TextBox76.value, "#,## IQD")
 
 
 
-End If
-
-
-
-
-
 
 Call RecordToBlackBox(Me, DictOld)
+
+'===================================================
+
+Pos2_Data(1) = val(Me.TextBox10.value)
+    Pos2_Data(2) = val(Me.TextBox14.value)
+    Pos2_Data(3) = val(Me.TextBox16.value)
+    Pos2_Data(4) = val(Me.TextBox18.value)
+    Pos2_Data(5) = val(Me.TextBox19.value)
+    Pos2_Data(6) = val(Me.TextBox21.value)
+    Pos2_Data(7) = val(Me.TextBox20.value)
+    Pos2_Data(8) = val(Me.TextBox25.value)
+    Pos2_Data(9) = val(Me.TextBox27.value)
+    Pos2_Data(10) = val(Me.TextBox29.value)
+    Pos2_Data(11) = val(Me.TextBox30.value)
+    Pos2_Data(12) = val(Me.TextBox31.value)
+    Pos2_Data(13) = val(Me.TextBox49.value)
+    
+       
+    ' --- √Ê·«: «·«” Õﬁ«ﬁ«  (ﬂ„« — »‰«Â« ”«»ﬁ«) ---
+    ' (‰›” ﬂÊœ «·«” Õﬁ«ﬁ«  «·ﬁœÌ„ „‰ 1 ≈·Ï 13)
+    
+    ' --- À«‰Ì«: «·«” ﬁÿ«⁄«  («·„€–Ì: 24, 32, 33, 34, 35, 36, 38, 40, 43, 44, 46, 47, 48) ---
+   Ded2_Data(1) = val(Me.TextBox24.value)
+    Ded2_Data(2) = val(Me.TextBox32.value)
+    Ded2_Data(3) = val(Me.TextBox33.value)
+    Ded2_Data(4) = val(Me.TextBox34.value)
+    Ded2_Data(5) = val(Me.TextBox35.value)
+    Ded2_Data(6) = val(Me.TextBox36.value)
+    Ded2_Data(7) = val(Me.TextBox38.value)
+    Ded2_Data(8) = val(Me.TextBox40.value)
+    Ded2_Data(9) = val(Me.TextBox43.value)
+    Ded2_Data(10) = val(Me.TextBox44.value)
+    Ded2_Data(11) = val(Me.TextBox46.value)
+    Ded2_Data(12) = val(Me.TextBox47.value)
+    Ded2_Data(13) = val(Me.TextBox48.value)
+    
+   
+   Call count_all
 End Sub
 
 Private Sub CommandButton17_Click()
-On Error GoTo emad
-Application.ThisWorkbook.Save
-ThisWorkbook.SaveCopyAs fileName:="d:\emad\" & "- " & Format(Date, "ddd") & "  " & Format(Now, " HH  MM") & " - " & ThisWorkbook.Name
-ThisWorkbook.SaveCopyAs fileName:="e:\emad\" & "- " & Format(Date, "ddd") & "  " & Format(Now, " HH  MM") & " - " & ThisWorkbook.Name
-MsgBox "·ﬁœ  „  ⁄„·Ì… «·‰”Œ «·«Œ Ì«ÿÌ »‰Ã«Õ", vbDefaultButton1, "—”«·…  ÊÃÌÂ"
-emad:
+UserForm2.Show
 End Sub
 
 Private Sub CommandButton18_Click()
-On Error Resume Next
 
+Me.ListBox1.SetFocus
+    DoEvents
+    
+    ' 2.  ‰›Ì– «·⁄„·Ì… «·‘«„·…
+    Call RunFullReportProcess
+End Sub
+
+
+
+Sub RunFullReportProcess()
+    Dim wsSource As Worksheet, wsReport As Worksheet
+    Dim wbNew As Workbook
+    Dim i As Long, r As Long, rowNum As Long, iCol As Long
+    Dim reportCols As Variant, reportTitle As String, fileName As String, folderPath As String
+    
+    ' ≈Ìﬁ«›  ÕœÌÀ «·‘«‘… · ”—Ì⁄ «·⁄„·Ì… Ê„‰⁄ «· ·ﬂƒ
+    Application.ScreenUpdating = False
+    Application.Calculation = xlCalculationManual
+    
+    Set wsSource = ThisWorkbook.Sheets("Sheet1")
+    Set wsReport = ThisWorkbook.Sheets("report_filter")
+    folderPath = "D:\export1\"
+    
+    If Me.ListBox1.ListCount = 0 Then
+        MsgBox "·«  ÊÃœ »Ì«‰«  ··‰ﬁ·!", vbExclamation
+        GoTo Cleanup
+    End If
+    
+    ' 1. ‰ﬁ· «·»Ì«‰« 
+    wsReport.Cells.Clear
+    reportCols = Array("B", "C", "e", "F", "H", "I", "J", "N", "P", "R", "S", "T", "U", "V", "X", "Y", "AA", "AC", "AD", "AE", "AV", "AW", "bn")
+    
+    ' ‰ﬁ· «·⁄‰«ÊÌ‰ (”Ì»œ√ „‰ «·’› 5 ›Ì ‘Ì  «· ﬁ—Ì— · —ﬂ „”«Õ… ··⁄‰Ê«‰)
+    For i = LBound(reportCols) To UBound(reportCols)
+        wsReport.Cells(5, i + 1).value = wsSource.Cells(8, reportCols(i)).value
+    Next i
+    
+    ' ‰ﬁ· «·»Ì«‰«  ( »œ√ „‰ «·’› 6)
+    r = 6
+    For i = 0 To Me.ListBox1.ListCount - 1
+        rowNum = val(Me.ListBox1.List(i, 1))
+        If rowNum >= 9 Then
+            For iCol = LBound(reportCols) To UBound(reportCols)
+                wsReport.Cells(r, iCol + 1).value = wsSource.Cells(rowNum, reportCols(iCol)).value
+            Next iCol
+            r = r + 1
+        End If
+    Next i
+    
+    ' 2.  ‰”Ìﬁ «·⁄‰Ê«‰ ›Ì „‰ ’› «·√⁄„œ… (œ„Ã „‰ A1 ≈·Ï V1)
+    ' «·⁄„Êœ V ÂÊ  ﬁ—Ì»« ‰Â«Ì… «·√⁄„œ… «·„ÿ·Ê»…
+    wsReport.Range("A1:V4").Merge
+    
+    ' »‰«¡ «·Ã„·… «·„ÿ·Ê»…: " ﬁ—Ì— »«·»Ì«‰« " + «·ﬂÊ„»Ê»Êﬂ” + «”„ «·‘Â—
+    reportTitle = " ﬁ—Ì— »«·»Ì«‰«  «·Œ«’ »‹ " & Me.ComboBox15.value & " ·‘Â— " & monthName(Month(Date))
+    
+    With wsReport.Range("A1")
+        .value = reportTitle
+        .Font.Name = "Times New Roman"
+        .Font.Size = 18
+        .Font.Bold = True
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlCenter
+    End With
+    
+    ' 3.  ’œÌ— «·„·›
+    If Dir(folderPath, vbDirectory) = "" Then MkDir folderPath
+    wsReport.Copy
+    Set wbNew = ActiveWorkbook
+    
+    fileName = folderPath & Me.ComboBox15.value & "_" & Format(Date, "yyyy-mm-dd") & ".xlsx"
+    
+    Application.DisplayAlerts = False
+    wbNew.SaveAs fileName:=fileName, FileFormat:=xlOpenXMLWorkbook
+    wbNew.Close SaveChanges:=False
+    Application.DisplayAlerts = True
+    
+    ' 4.  ‰ŸÌ› «·‘Ì  «·√’·Ì
+    wsReport.rowS("1:4").Delete
+    wsReport.Columns.AutoFit
+    wsReport.Activate
+    
+    MsgBox " „  ’œÌ— «· ﬁ—Ì— »‰Ã«Õ »«”„: " & vbNewLine & Me.ComboBox15.value, vbInformation
+
+Cleanup:
+    Application.ScreenUpdating = True
+    Application.Calculation = xlCalculationAutomatic
 End Sub
 
 Private Sub CommandButton19_Click()
@@ -1187,7 +1943,7 @@ Private Sub CommandButton2_Click()
 On Error Resume Next
 Sheets(1).Activate
 Dim lastR As Integer
-lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
 For X = 9 To lastR
 If Sheets(1).Cells(X, 1).value = TextBox1.value Or Sheets(1).Cells(X, 2) = TextBox2.Text Then
  MsgBox "«·—ﬁ„ „ﬂ—— ›Ì «·ﬁÌœ ·« Ì„ﬂ‰ «÷«› Â „—Â À«‰ÌÂ", vbOKOnly, "—”«·…  ÊÃÌÂ"
@@ -1217,7 +1973,7 @@ Next
 
     Sheets(1).Activate
 
-    iRow = Range("A" & Rows.count).End(xlUp).row
+    iRow = Range("A" & rowS.count).End(xlUp).row
 '=======================================================
   ' TextBox14.Text = 0                                              '
   ' TextBox16.Text = 0
@@ -1300,8 +2056,8 @@ Else
    Range("A" & iRow + 1).Offset(0, 57).value = TextBox58.value
     Range("A" & iRow + 1).Offset(0, 58).value = TextBox59.value
     Range("A" & iRow + 1).Offset(0, 59).value = TextBox60.value
-   ' Range("A" & iRow + 1).Offset(0, 64).Value = TextBox64.Value
-   ' Range("A" & iRow + 1).Offset(0, 61).Value = TextBox62.Value
+  Range("A" & iRow + 1).Offset(0, 72).value = TextBox99.value
+   Range("A" & iRow + 1).Offset(0, 60).value = TextBox61.value
    ' Range("A" & iRow + 1).Offset(0, 62).Value = TextBox63.Value
    
    
@@ -1318,18 +2074,9 @@ End Sub
 
 
 Private Sub CommandButton20_Click()
-On Error GoTo emad
-
-
-
-
-
-
-
-
-'=======================================================
+On Error Resume Next
 Dim lastR As Integer
-lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
     For Y = 9 To lastR
     
     If Sheets(1).Cells(Y, 2) = TextBox2.Text Then
@@ -1337,55 +2084,55 @@ lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
     Exit For
     End If
     Next Y
-    Sheets(1).Cells(Y, 1) = TextBox1.Text
-    Sheets(1).Cells(Y, 2) = TextBox2.Text
-    Sheets(1).Cells(Y, 3) = TextBox3.Text
+    Sheets(1).Cells(Y, 1) = Int(TextBox1.Text)
+    Sheets(1).Cells(Y, 2) = Int(TextBox2.Text)
+    Sheets(1).Cells(Y, 3) = Int(TextBox3.Text)
     Sheets(1).Cells(Y, 4) = ComboBox4.value
     Sheets(1).Cells(Y, 5) = TextBox5.Text
     Sheets(1).Cells(Y, 6) = ComboBox5.value
     Sheets(1).Cells(Y, 7) = TextBox7.Text
-    Sheets(1).Cells(Y, 8) = TextBox8.Text
-    Sheets(1).Cells(Y, 9) = TextBox9.Text
-    Sheets(1).Cells(Y, 10) = TextBox10.Text
-    Sheets(1).Cells(Y, 11) = TextBox11.Text
+    Sheets(1).Cells(Y, 8) = Int(TextBox8.Text)
+    Sheets(1).Cells(Y, 9) = Int(TextBox9.Text)
+    Sheets(1).Cells(Y, 10) = Int(TextBox10.Text)
+    Sheets(1).Cells(Y, 11) = Int(TextBox11.Text)
     Sheets(1).Cells(Y, 12) = TextBox12.Text
      Sheets(1).Cells(Y, 13) = ComboBox6.value
-    Sheets(1).Cells(Y, 14) = TextBox14.Text
+    Sheets(1).Cells(Y, 14) = Int(TextBox14.Text)
     Sheets(1).Cells(Y, 15) = ComboBox7.value
-    Sheets(1).Cells(Y, 16) = TextBox16.Text
+    Sheets(1).Cells(Y, 16) = Int(TextBox16.Text)
     Sheets(1).Cells(Y, 17) = ComboBox8.value
-    Sheets(1).Cells(Y, 18) = TextBox18.Text
-    Sheets(1).Cells(Y, 19) = TextBox19.Text
-    Sheets(1).Cells(Y, 20) = TextBox20.Text
-    Sheets(1).Cells(Y, 21) = TextBox21.Text
-    Sheets(1).Cells(Y, 22) = TextBox22.Text
+    Sheets(1).Cells(Y, 18) = Int(TextBox18.Text)
+    Sheets(1).Cells(Y, 19) = Int(TextBox19.Text)
+    Sheets(1).Cells(Y, 20) = Int(TextBox20.Text)
+    Sheets(1).Cells(Y, 21) = Int(TextBox21.Text)
+    Sheets(1).Cells(Y, 22) = Int(TextBox22.Text)
     Sheets(1).Cells(Y, 23) = TextBox23.Text
-    Sheets(1).Cells(Y, 24) = TextBox24.Text
-    Sheets(1).Cells(Y, 25) = TextBox25.Text
+    Sheets(1).Cells(Y, 24) = Int(TextBox24.Text)
+    Sheets(1).Cells(Y, 25) = Int(TextBox25.Text)
     Sheets(1).Cells(Y, 26) = ComboBox10.value
-    Sheets(1).Cells(Y, 27) = TextBox27.Text
+    Sheets(1).Cells(Y, 27) = Int(TextBox27.Text)
     Sheets(1).Cells(Y, 28) = ComboBox11.value
-  Sheets(1).Cells(Y, 29) = TextBox29.Text
-    Sheets(1).Cells(Y, 30) = TextBox30.Text
-    Sheets(1).Cells(Y, 31) = TextBox31.Text
-  Sheets(1).Cells(Y, 32) = TextBox32.Text
-   Sheets(1).Cells(Y, 33) = TextBox33.Text
-    Sheets(1).Cells(Y, 34) = TextBox34.Text
-    Sheets(1).Cells(Y, 35) = TextBox35.Text
+  Sheets(1).Cells(Y, 29) = Int(TextBox29.Text)
+    Sheets(1).Cells(Y, 30) = Int(TextBox30.Text)
+    Sheets(1).Cells(Y, 31) = Int(TextBox31.Text)
+  Sheets(1).Cells(Y, 32) = Int(TextBox32.Text)
+   Sheets(1).Cells(Y, 33) = Int(TextBox33.Text)
+    Sheets(1).Cells(Y, 34) = Int(TextBox34.Text)
+    Sheets(1).Cells(Y, 35) = Int(TextBox35.Text)
     Sheets(1).Cells(Y, 36) = TextBox36.Text
     Sheets(1).Cells(Y, 37) = TextBox37.Text
-    Sheets(1).Cells(Y, 38) = TextBox38.Text
+    Sheets(1).Cells(Y, 38) = Int(TextBox38.Text)
     Sheets(1).Cells(Y, 39) = TextBox39.Text
     Sheets(1).Cells(Y, 40) = TextBox40.Text
     Sheets(1).Cells(Y, 41) = TextBox41.Text
-    Sheets(1).Cells(Y, 42) = TextBox42.Text
+    Sheets(1).Cells(Y, 42) = Int(TextBox42.Text)
     Sheets(1).Cells(Y, 43) = TextBox43.Text
     Sheets(1).Cells(Y, 44) = TextBox44.Text
     Sheets(1).Cells(Y, 45) = TextBox45.Text
-    Sheets(1).Cells(Y, 46) = TextBox46.Text
-    Sheets(1).Cells(Y, 47) = TextBox47.Text
-  Sheets(1).Cells(Y, 48) = TextBox48.Text
-   Sheets(1).Cells(Y, 49) = TextBox49.Text
+    Sheets(1).Cells(Y, 46) = Int(TextBox46.Text)
+    Sheets(1).Cells(Y, 47) = Int(TextBox47.Text)
+  Sheets(1).Cells(Y, 48) = Int(TextBox48.Text)
+   Sheets(1).Cells(Y, 49) = Int(TextBox49.Text)
    Sheets(1).Cells(Y, 50) = TextBox50.Text
     Sheets(1).Cells(Y, 51) = ComboBox9.value
     Sheets(1).Cells(Y, 52) = TextBox52.Text
@@ -1414,11 +2161,12 @@ lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
    Sheets(1).Cells(Y, 73) = TextBox64.Text
    Sheets(1).Cells(Y, 74) = TextBox91.Text
     Sheets(1).Cells(Y, "bu") = TextBox99.Text
-    Sheets(1).Cells(Y, "ca") = TextBox100.Text
+    Sheets(1).Cells(Y, "ca") = Int(TextBox100.Text)
     
    Call emad_pro
      MsgBox " „  ⁄„·Ì…  ÕœÌÀ «·»Ì«‰«  »‰Ã«Õ", vbDefaultButton1, "—”«·…  ÊÃÌÂ"
 emad:
+
 End Sub
 
 Private Sub CommandButton21_Click()
@@ -1426,9 +2174,9 @@ On Error GoTo emad
 Dim file_dialog As Office.FileDialog
 Dim file_path As String
 Set file_dialog = Application.FileDialog(msoFileDialogFilePicker)
- file_dialog.title = "«Œ — ’Ê—…"
+ file_dialog.Title = "«Œ — ’Ê—…"
 With file_dialog
-.title = "«Œ — ’Ê—…"
+.Title = "«Œ — ’Ê—…"
 
 .Filters.Clear
 .Filters.Add "Image", "*.gif,*.jpg,*.*jpeg"
@@ -1451,7 +2199,7 @@ End Sub
 Private Sub CommandButton22_Click()
 Sheets(1).Activate
 Dim lastR As Integer
-lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
 
 For X = 9 To lastR
 If Cells(X, 5) = TextBox5.Text And Cells(X, 2) = TextBox2.Text Then
@@ -1474,40 +2222,10 @@ Next X
 End Sub
 
 Private Sub CommandButton23_Click()
-Application.DisplayAlerts = False
-ThisWorkbook.Save
-MsgBox "·ﬁœ  „ Õ›Ÿ «·»Ì«‰«  «· Ì ﬁ„  »«œŒ«·Â«", vbOKOnly, "—”«·…  ‰»ÌÂ"
 
-Unload Me
-UserForm9.Show
 End Sub
 
 Private Sub CommandButton24_Click()
-On Error GoTo emad
-Dim lastR As Integer
-Dim file_path As String
-lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
-    For Y = 9 To lastR
-    
-    If Sheets(1).Cells(Y, 5) = TextBox5.Text And Sheets(1).Cells(Y, 2) = TextBox2.Text Then
-   
-    Exit For
-    End If
-    Next Y
-    
-  
-   
-   'Call emad_pro
-
- '=========================================
- file_path = "D:\employ_pic\" & TextBox5.Text & ".jpg"
- 
- TextBox64.Text = file_path
- SavePicture Image1.Picture, TextBox64.Text
-
-Sheets(1).Cells(Y, 64) = TextBox64.Text
-MsgBox " „ Õ›Ÿ «·’Ê—…"
-emad:
 
 End Sub
 
@@ -1519,7 +2237,7 @@ End Sub
 
 
 Private Sub CommandButton27_Click()
-UserForm21.Show
+
 End Sub
 
 Private Sub CommandButton28_Click()
@@ -1527,7 +2245,7 @@ UserForm22.Show
 End Sub
 
 Private Sub CommandButton29_Click()
-UserForm23.Show
+
 End Sub
 
 Private Sub CommandButton3_Click()
@@ -1538,171 +2256,27 @@ emad:
 End Sub
 
 Private Sub CommandButton30_Click()
-UserForm24.Show
+
 End Sub
 
 Private Sub CommandButton31_Click()
 
 ' ""Õ”» «· ﬁ« ÿ⁄ «·ÃœÊ· «·÷—Ì»Ì «‰ ÌﬂÊ‰ «·⁄œœ ’›—""
 '=================================================== ÕœÌÀ
-Dim lastR As Integer
-lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
-    For Y = 9 To lastR
-    
-    If Sheets(1).Cells(Y, 5) = TextBox5.Text And Sheets(1).Cells(Y, 2) = TextBox2.Text Then
-   
-    Exit For
-    End If
-    Next Y
-  '  Sheets(1).Cells(y, 1) = TextBox1.Text
-  '  Sheets(1).Cells(y, 2) = TextBox2.Text
- '   Sheets(1).Cells(y, 3) = TextBox3.Text
- '   Sheets(1).Cells(y, 4) = ComboBox4.Value
-  '  Sheets(1).Cells(y, 5) = TextBox5.Text
- '   Sheets(1).Cells(y, 6) = ComboBox5.Value
- '   Sheets(1).Cells(y, 7) = TextBox7.Text
- '   Sheets(1).Cells(y, 8) = TextBox8.Text
- '   Sheets(1).Cells(y, 9) = TextBox9.Text
- '   Sheets(1).Cells(y, 10) = TextBox10.Text
- '   Sheets(1).Cells(y, 11) = TextBox11.Text
-  '  Sheets(1).Cells(y, 12) = TextBox12.Text
- '    Sheets(1).Cells(y, 13) = ComboBox6.Value
- '   Sheets(1).Cells(y, 14) = TextBox14.Text
-'    Sheets(1).Cells(y, 15) = ComboBox7.Value
-'    Sheets(1).Cells(y, 16) = TextBox16.Text
-'    Sheets(1).Cells(y, 17) = ComboBox8.Value
-'    Sheets(1).Cells(y, 18) = TextBox18.Text
-'    Sheets(1).Cells(y, 19) = TextBox19.Text
-'    Sheets(1).Cells(y, 20) = TextBox20.Text
-    Sheets(1).Cells(Y, 21) = TextBox21.Text
-    Sheets(1).Cells(Y, 22) = TextBox22.Text
-   
-'    Sheets(1).Cells(y, 24) = TextBox24.Text
- '   Sheets(1).Cells(y, 25) = TextBox25.Text
-'    Sheets(1).Cells(y, 26) = ComboBox10.Value
- '   Sheets(1).Cells(y, 27) = TextBox27.Text
- '   Sheets(1).Cells(y, 28) = ComboBox11.Value
-'  Sheets(1).Cells(y, 29) = TextBox29.Text
-'    Sheets(1).Cells(y, 30) = TextBox30.Text
- '   Sheets(1).Cells(y, 31) = TextBox31.Text
-'  Sheets(1).Cells(y, 32) = TextBox32.Text
-'   Sheets(1).Cells(y, 33) = TextBox33.Text
-'    Sheets(1).Cells(y, 34) = TextBox34.Text
- '   Sheets(1).Cells(y, 35) = TextBox35.Text
- '   Sheets(1).Cells(y, 36) = TextBox36.Text
- '   Sheets(1).Cells(y, 37) = TextBox37.Text
-'    Sheets(1).Cells(y, 38) = TextBox38.Text
-'    Sheets(1).Cells(y, 39) = TextBox39.Text
-'    Sheets(1).Cells(y, 40) = TextBox40.Text
-'    Sheets(1).Cells(y, 41) = TextBox41.Text
-'    Sheets(1).Cells(y, 42) = TextBox42.Text
-'    Sheets(1).Cells(y, 43) = TextBox43.Text
-'    Sheets(1).Cells(y, 44) = TextBox44.Text
-'    Sheets(1).Cells(y, 45) = TextBox45.Text
-'    Sheets(1).Cells(y, 46) = TextBox46.Text
-'    Sheets(1).Cells(y, 47) = TextBox47.Text
-'  Sheets(1).Cells(y, 48) = TextBox48.Text
- '  Sheets(1).Cells(y, 49) = TextBox49.Text
- '  Sheets(1).Cells(y, 50) = TextBox50.Text
- '   Sheets(1).Cells(y, 51) = ComboBox9.Value
- '   Sheets(1).Cells(y, 52) = TextBox52.Text
-'  Sheets(1).Cells(y, 53) = TextBox53.Text
-'   Sheets(1).Cells(y, 54) = TextBox54.Text
-'    Sheets(1).Cells(y, 55) = TextBox55.Text
-'    Sheets(1).Cells(y, 56) = TextBox56.Text
-'    Sheets(1).Cells(y, 57) = TextBox57.Text
-'  Sheets(1).Cells(y, 58) = TextBox58.Text
-'   Sheets(1).Cells(y, 59) = TextBox59.Text
-'    Sheets(1).Cells(y, 60) = TextBox60.Text
-'    Sheets(1).Cells(y, 61) = TextBox61.Text
-'  Sheets(1).Cells(y, 62) = TextBox62.Text
-'   Sheets(1).Cells(y, 63) = TextBox63.Text
-'  Sheets(1).Cells(y, 64) = TextBox64.Text
- '   Sheets(1).Cells(y, 66) = Date
-    
-'    Sheets(1).Cells(y, 66) = TextBox82.Text
-'  Sheets(1).Cells(y, 67) = TextBox83.Text
- '  Sheets(1).Cells(y, 68) = TextBox84.Text
-'  Sheets(1).Cells(y, 69) = TextBox85.Text
-'    Sheets(1).Cells(y, 70) = TextBox86.Text
-'  Sheets(1).Cells(y, 71) = TextBox87.Text
 
-
-
-
-
-'===========================================
-Ê—ﬁ…1.Range("x9").Formula2R1C1 = "=iferror(IF(OR(RC[-1]= thariaba1!R1C20:R2C20),VLOOKUP(RC[-14],astktat1,RC[-2]+3,1),IF(OR(RC[-1]=thariaba2!R1C19),VLOOKUP(RC[-14],astktaat2,RC[-2]+3,1),IF(OR(RC[-1]=thariaba3!R1C19:R3C19),VLOOKUP(RC[-14],astktaat3,RC[-2]+3,1),IF(AND(VLOOKUP(RC[-1],sheet1!R1C77:R5C78,2,0)<4,RC[-2]>0),""Õ”» «· ﬁ« ÿ⁄ «·ÃœÊ· «·÷—Ì»Ì «‰ ÌﬂÊ‰ «·⁄œœ ’›—"",VLOOKUP(RC[-14],astktaat,VLOOKUP(RC[-1],sheet1!R1C77:R5C78,2,0)+RC[-2],1))))),0)"
-
-Ê—ﬁ…1.Range("x9:x8000").FillDown
- Sheets(1).Cells(Y, 23) = TextBox23.Text
-'=========================================
-UserForm53.Show
-'Dim lastr1, y1 As Integer
-'lastr1 = Sheets(1).Cells(Rows.Count, 1).End(xlUp).Row
-  '  For y1 = 9 To lastr1
-     '   If Sheets(1).Cells(y1, "x") = "Õ”» «· ﬁ« ÿ⁄ «·ÃœÊ· «·÷—Ì»Ì «‰ ÌﬂÊ‰ «·⁄œœ ’›—" Then
- '  k = 0
- ' UserForm53.ListBox1.AddItem
-  '     UserForm53.ListBox1.List(k, 0) = Sheets(1).Cells(y1, "e")
-       
-    '    k = k + 1
-   
-   
-   
-  ' MsgBox "Â‰«ﬂ Œÿ√ ›Ì «Õ ”«» „‰ŸÊ„… «·«” ﬁÿ«⁄ «·÷—Ì»Ì Õ«Ê· «’·«Õ… ﬁœ ÌﬂÊ‰ ›Ì «·ﬁÌœ " & Sheets(1).Cells(y, "e"), vbCritical, "—”«·…  ‰»ÌÂ"
-
-'End If
-'Next
-
-
-'MsgBox " „  ⁄„Ì„ «·Ÿ—Ì»Â »‰Ã«Õ", vbDefaultButton1
 End Sub
 
 Private Sub CommandButton32_Click()
 '============================== ‰ﬁ· „‰ ‘Ì  Œ«—ÃÌ «·Ï ﬁ«⁄œ… «·»Ì«‰«  «·Õ«·ÌÂ »ﬂ· «· ›«’Ì·
 
-On Error Resume Next
-Sheets(1).Activate
-Call DeleteDataToColumn84
-
-
-Application.Visible = True
-Call open_file
-Application.Visible = True
-Windows("rwtab_backup.xlsm").Activate
-Sheets(1).Select
-ActiveSheet.Range("b9:br8000").Select
-Selection.Copy
-ThisWorkbook.Activate
-Sheets(1).Select
-Range("b9:br8000").Select
-Selection.PasteSpecial Paste:=xlPasteValues
-Application.CutCopyMode = False
-Windows("rwtab_backup.xlsm").Close
-Application.Visible = False
-
-Sheets(1).Range("a9").Formula = "=IF(B9="""","""", SUBTOTAL(3,$B$9:B9))"
-Sheets(1).Range("a9:a8000").FillDown
-
-
-Sheets(13).Activate
-
-Range("b9:br8000").ClearContents
-
-Application.ScreenUpdating = False
-Call copy_from_to_no_userform1
-Application.ScreenUpdating = True
-
-MsgBox "·ﬁœ  „ ‰ﬁ· Ê«” Ì—«œ «·»Ì«‰«  «·Œ«—ÃÌÂ »‰Ã«Õ", vbCritical, "—”«·…  ‰»ÌÂ"
 End Sub
 
 Private Sub CommandButton33_Click()
-UserForm26.Show
+
 End Sub
 
 Private Sub CommandButton34_Click()
-UserForm67.Show
+
 
 
 End Sub
@@ -1808,7 +2382,10 @@ End Sub
 
 Private Sub CommandButton35_Click()
 Sheets(38).Activate
-If UserForm1.TextBox58.Text = "—« » Ã“∆Ì" And UserForm1.ComboBox3.value = "—« » Ã“∆Ì" Then
+If UserForm1.TextBox58.Text = "„” „— »«·Œœ„…" Or UserForm1.TextBox58.Text = "Ì „ ⁄ »«Ã«“Â Œ„” ”‰Ê« " Or UserForm1.TextBox58.Text = " «Ã«“… »œÊ‰ —« »" Or UserForm1.TextBox58.Text = "≈Ã«“… „⁄Ì· «·„ ›—€" _
+Or UserForm1.TextBox58.Text = "—›⁄ Ìœ «Ê ≈Ìﬁ«› ’—›" Or UserForm1.ComboBox3.value = "«„Ê„Â «Ê· 6 «‘Â—" Or UserForm1.ComboBox3.value = "«„Ê„Â À«‰Ì 6 «‘Â—" _
+Or UserForm1.ComboBox3.value = " ‰”Ì»" Or UserForm1.ComboBox3.value = "⁄ﬁœ" Or UserForm1.ComboBox3.value = "≈Ã«“… ·Ã«‰ ÿ»ÌÂ" Or UserForm1.ComboBox3.value = "—« » Ã“∆Ì" _
+Or UserForm1.ComboBox3.value = "·œÌÂ  ÷„Ì‰" Or UserForm1.ComboBox3.value = "·œÌÂ ”·›" Then
    
  '   iRow = Range("A" & Rows.Count).End(xlUp).Row
  '   Range("A" & iRow + 1).Offset(0, 0) = TextBox2.Text
@@ -1821,7 +2398,7 @@ If UserForm1.TextBox58.Text = "—« » Ã“∆Ì" And UserForm1.ComboBox3.value = "—« » 
    
    
    
-  lastR = Sheets(38).Cells(Rows.count, 1).End(xlUp).row
+  lastR = Sheets(38).Cells(rowS.count, 1).End(xlUp).row
     For Y = 2 To lastR
     
     If Sheets(38).Cells(Y, 1) = TextBox2.Text And Sheets(38).Cells(Y, 2) = TextBox5.Text Then
@@ -1846,14 +2423,14 @@ ActiveCell.EntireRow.Delete
    
    
    
-    lastr1 = Sheets(38).Cells(Rows.count, 1).End(xlUp).row
-    For y1 = 2 To lastr1
+    lastR1 = Sheets(38).Cells(rowS.count, 1).End(xlUp).row
+    For y1 = 2 To lastR1
       If Sheets(38).Cells(y1, 1) <> TextBox2.Text And Sheets(38).Cells(y1, 2) <> TextBox5.Text Then
     
     Exit For
     End If
      Next
-    iRow = Range("A" & Rows.count).End(xlUp).row
+    iRow = Range("A" & rowS.count).End(xlUp).row
     Range("A" & iRow + 1).Offset(0, 0) = TextBox2.Text
     Range("A" & iRow + 1).Offset(0, 1) = TextBox5.Text
     Range("A" & iRow + 1).Offset(0, 2) = TextBox10.Text
@@ -1870,187 +2447,148 @@ ActiveCell.EntireRow.Delete
  'UserForm29.Show
 
 Else
-MsgBox "«‰ »Â ⁄·Ìﬂ «Ê·« »«Œ Ì«— «·„Êﬁ› «·ÊŸÌ›Ì ·Â–« «·„‰ ”» »’›… —« » Ã“∆Ì ·Ì ”‰Ï ··‰Ÿ«„ ﬁ—«∆… «·› —Â «·«Ê·Ï Ê„‰ »⁄œÂ« ⁄«Êœ «⁄ÿ«¡ ’›Â Ê„Êﬁ› ÊŸÌ›Ì «·„·«∆„ ·Â", vbCritical, "—”«·…  ‰»ÌÂ"
+MsgBox "·ﬁœ  „ «Œ Ì«— «·„Êﬁ›", vbCritical, "—”«·…  ‰»ÌÂ"
 
 End If
 
-   
+ Pos1_Data(1) = val(Me.TextBox10.value)
+    Pos1_Data(2) = val(Me.TextBox14.value)
+    Pos1_Data(3) = val(Me.TextBox16.value)
+    Pos1_Data(4) = val(Me.TextBox18.value)
+    Pos1_Data(5) = val(Me.TextBox19.value)
+    Pos1_Data(6) = val(Me.TextBox21.value)
+    Pos1_Data(7) = val(Me.TextBox20.value)
+    Pos1_Data(8) = val(Me.TextBox25.value)
+    Pos1_Data(9) = val(Me.TextBox27.value)
+    Pos1_Data(10) = val(Me.TextBox29.value)
+    Pos1_Data(11) = val(Me.TextBox30.value) ' «·„Œ’’« 
+    Pos1_Data(12) = val(Me.TextBox31.value) ' «·«” Õﬁ«ﬁ «·ﬂ·Ì
+    Pos1_Data(13) = val(Me.TextBox49.value) ' «·ﬁÌ„… «·≈÷«›Ì…
+    
+    MsgBox " „ ÕÃ“  ›«’Ì· «·„Êﬁ› «·√Ê· ›Ì «·–«ﬂ—…", vbInformation
+    
+    
+   ' --- √Ê·«: «·«” Õﬁ«ﬁ«  (ﬂ„« — »‰«Â« ”«»ﬁ«) ---
+    ' (‰›” ﬂÊœ «·«” Õﬁ«ﬁ«  «·ﬁœÌ„ „‰ 1 ≈·Ï 13)
+    
+    ' --- À«‰Ì«: «·«” ﬁÿ«⁄«  («·„€–Ì: 24, 32, 33, 34, 35, 36, 38, 40, 43, 44, 46, 47, 48) ---
+    Ded1_Data(1) = val(Me.TextBox24): Ded1_Data(2) = val(Me.TextBox32)
+    Ded1_Data(3) = val(Me.TextBox33): Ded1_Data(4) = val(Me.TextBox34)
+    Ded1_Data(5) = val(Me.TextBox35): Ded1_Data(6) = val(Me.TextBox36)
+    Ded1_Data(7) = val(Me.TextBox38): Ded1_Data(8) = val(Me.TextBox40)
+    Ded1_Data(9) = val(Me.TextBox43): Ded1_Data(10) = val(Me.TextBox44)
+    Ded1_Data(11) = val(Me.TextBox46): Ded1_Data(12) = val(Me.TextBox47)
+    Ded1_Data(13) = val(Me.TextBox48)
+    
+    MsgBox " „ ÕÃ“ «” Õﬁ«ﬁ«  Ê«” ﬁÿ«⁄«  «·„Êﬁ› «·√Ê·", vbInformation
+    
 
+    
 End Sub
 
 Private Sub CommandButton37_Click()
-On Error Resume Next
-'=IF(AND(BF9="Ì „ ⁄ »«Ã«“Â Œ„” ”‰Ê« "),J9-(AF9+AG9)&"  ""·œÌÂ «Ã«“Â Œ„” ”‰Ê«  Ê«·„ »ﬁÌ ’«›Ì «·—« » ",IF(AND(BF9=" «Ã«“… »œÊ‰ —« »"),0  &""&"  ·œÌÂ «Ã«“Â »œÊ‰ —« »  ",AE9-AV9))
-' «·ŒÊ«—“„ÌÂ  »œ∆
-'1 «Õ ”«»  œ«·… «·÷—Ì»Â
-'2 «Õ ”«» «·«” Õﬁ«ﬁ« 
-'3 «Õ ”«» «·«” ﬁÿ«⁄« 
-'4 «Õ ”«» «·’«›Ì
-'5 «Õ ”«» ‰”»… «·€Ì«»
-'6 «Õ ”«» œ«·… «·„Êﬁ› «·Ê÷Ì›Ì
-'7
-'8
-
-
-'======================================== «·«” Õﬁ«ﬁ« 
-
-
-
-
-Select Case TextBox100.value
-'==================================================„” „— »«·Œœ„…
-Case 1
-Call mastmer_5dma_22
-
-'======================================== «Ã«“… Œ„” ”‰Ê« 
-Case 2
-Call five_snwat_22
-
-
-'==================================================«Ã«“… »œÊ‰ —« »
-Case 3
-Call bdoon_ratb1_22
-'===========================================«Ã«“… „⁄Ì·
-Case 4
-Call mo3el_1_22
-'=================================—›⁄ Ìœ «Ê «Ìﬁ«› ’—›
-Case 5
-Call raf3_yead_1_22
-'=================================«„Ê„… «Ê· ”  «‘Â—
-Case 6
-Call mother_hood_1_6_1_22
-'=================================«„Ê„… À«‰Ì ”  «‘Â—
-Case 7
-Call mother_hood_2_6_1_22
-'================================= ‰”Ì»
-Case 8
-Call tanseeb_1_22
-'=================================⁄ﬁœ
-Case 9
-Call contract_1_22
-'=================================«Ã«“… ·Ã«‰ ÿ»Ì…
-
-Case 10
-Call lejan_tabea_1_22
-
-'=================================„” „— »«·Œœ„Â „⁄  ÷„Ì‰…
-
-Case 12
-Call mastmer_5dma_22
-
-
-
-
-'=================================„” „— »«·Œœ„Â „⁄ ”·›…
-
-Case 13
-Call mastmer_5dma_22
-
-
-End Select
-
-'==================================================«·’«›Ì
-
-
-
-
-
-
-'=======================================================
-Dim lastR As Integer
-lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
-    For Y = 9 To lastR
+Application.ScreenUpdating = False
+    Application.Calculation = xlCalculationManual
+    Application.EnableEvents = False
     
-    If Sheets(1).Cells(Y, 5) = TextBox5.Text Then
-   
-    Exit For
+    On Error GoTo ErrorHandler ' „⁄«·Ã √Œÿ«¡ ·÷„«‰ ≈⁄«œ… ≈⁄œ«œ«  «·≈ﬂ”· ›Ì Õ«· ÊﬁÊ⁄ Œÿ√
+
+    ' 2.  ‰›Ì– «·ŒÊ«—“„Ì… «·»—„ÃÌ… ··„Êﬁ› «·ÊŸÌ›Ì
+    Select Case val(Me.TextBox100.value)
+        Case 1, 12, 13: Call mastmer_5dma_22
+        Case 2:  Call five_snwat_22
+        Case 3:  Call bdoon_ratb1_22
+        Case 4:  Call mo3el_1_22
+        Case 5:  Call raf3_yead_1_22
+        Case 6:  Call mother_hood_1_6_1_22
+        Case 7:  Call mother_hood_2_6_1_22
+        Case 8:  Call tanseeb_1_22
+        Case 9:  Call contract_1_22
+        Case 10: Call lejan_tabea_1_22
+    End Select
+
+    ' 3.  ÕœÌœ «·’› «·„ÿ·Ê» (»ÕÀ ›«∆ﬁ «·”—⁄…)
+    Dim ws As Worksheet: Set ws = Sheets(1)
+    Dim lastR As Long: lastR = ws.Cells(ws.rowS.count, 5).End(xlUp).row
+    Dim Y As Long
+    
+    ' «·»ÕÀ ⁄‰ «·«”„/«·—ﬁ„ ›Ì «·⁄„Êœ 5 (E)
+    Dim matchResult As Variant
+    matchResult = Application.match(Me.TextBox5.Text, ws.Range("E:E"), 0)
+    
+    If IsError(matchResult) Then
+        Y = lastR + 1 ' ≈÷«›… ’› ÃœÌœ
+    Else
+        Y = matchResult '  ÕœÌÀ «·’› «·Õ«·Ì
     End If
-    Next Y
-    Sheets(1).Cells(Y, 1) = TextBox1.Text
-    Sheets(1).Cells(Y, 2) = TextBox2.Text
-    Sheets(1).Cells(Y, 3) = TextBox3.Text
-    Sheets(1).Cells(Y, 4) = ComboBox4.value
-    Sheets(1).Cells(Y, 5) = TextBox5.Text
-    Sheets(1).Cells(Y, 6) = ComboBox5.value
-    Sheets(1).Cells(Y, 7) = TextBox7.Text
-    Sheets(1).Cells(Y, 8) = TextBox8.Text
-    Sheets(1).Cells(Y, 9) = TextBox9.Text
-    Sheets(1).Cells(Y, 10) = TextBox10.Text
-    Sheets(1).Cells(Y, 11) = TextBox11.Text
-    Sheets(1).Cells(Y, 12) = TextBox12.Text
-     Sheets(1).Cells(Y, 13) = ComboBox6.value
-    Sheets(1).Cells(Y, 14) = TextBox14.Text
-    Sheets(1).Cells(Y, 15) = ComboBox7.value
-    Sheets(1).Cells(Y, 16) = TextBox16.Text
-    Sheets(1).Cells(Y, 17) = ComboBox8.value
-    Sheets(1).Cells(Y, 18) = TextBox18.Text
-    Sheets(1).Cells(Y, 19) = TextBox19.Text
-    Sheets(1).Cells(Y, 20) = TextBox20.Text
-    Sheets(1).Cells(Y, 21) = TextBox21.Text
-    Sheets(1).Cells(Y, 22) = TextBox22.Text
-    Sheets(1).Cells(Y, 23) = TextBox23.Text
-    Sheets(1).Cells(Y, 24) = TextBox24.Text
-    Sheets(1).Cells(Y, 25) = TextBox25.Text
-    Sheets(1).Cells(Y, 26) = ComboBox10.value
-    Sheets(1).Cells(Y, 27) = TextBox27.Text
-    Sheets(1).Cells(Y, 28) = ComboBox11.value
-  Sheets(1).Cells(Y, 29) = TextBox29.Text
-    Sheets(1).Cells(Y, 30) = TextBox30.Text
-    Sheets(1).Cells(Y, 31) = TextBox31.Text
-  Sheets(1).Cells(Y, 32) = TextBox32.Text
-   Sheets(1).Cells(Y, 33) = TextBox33.Text
-    Sheets(1).Cells(Y, 34) = TextBox34.Text
-    Sheets(1).Cells(Y, 35) = TextBox35.Text
-    Sheets(1).Cells(Y, 36) = TextBox36.Text
-    Sheets(1).Cells(Y, 37) = TextBox37.Text
-    Sheets(1).Cells(Y, 38) = TextBox38.Text
-    Sheets(1).Cells(Y, 39) = TextBox39.Text
-    Sheets(1).Cells(Y, 40) = TextBox40.Text
-    Sheets(1).Cells(Y, 41) = TextBox41.Text
-    Sheets(1).Cells(Y, 42) = TextBox42.Text
-    Sheets(1).Cells(Y, 43) = TextBox43.Text
-    Sheets(1).Cells(Y, 44) = TextBox44.Text
-    Sheets(1).Cells(Y, 45) = TextBox45.Text
-    Sheets(1).Cells(Y, 46) = TextBox46.Text
-    Sheets(1).Cells(Y, 47) = TextBox47.Text
-  Sheets(1).Cells(Y, 48) = TextBox48.Text
-   Sheets(1).Cells(Y, 49) = TextBox49.Text
-   Sheets(1).Cells(Y, 50) = TextBox50.Text
-    Sheets(1).Cells(Y, 51) = ComboBox9.value
-    Sheets(1).Cells(Y, 52) = TextBox52.Text
-  Sheets(1).Cells(Y, 53) = TextBox53.Text
-   Sheets(1).Cells(Y, 54) = TextBox54.Text
-    Sheets(1).Cells(Y, 55) = TextBox55.Text
-    Sheets(1).Cells(Y, 56) = TextBox56.Text
-    Sheets(1).Cells(Y, 57) = TextBox57.Text
-  Sheets(1).Cells(Y, 58) = TextBox58.Text
-   Sheets(1).Cells(Y, 59) = TextBox59.Text
-    Sheets(1).Cells(Y, 60) = TextBox60.Text
-    Sheets(1).Cells(Y, 61) = TextBox61.Text
-  Sheets(1).Cells(Y, 62) = TextBox62.Text
-   Sheets(1).Cells(Y, 63) = TextBox63.Text
-   Sheets(1).Cells(Y, 64) = TextBox64.Text
-      TextBox82.Text = Format(TextBox92.Text, "yyyy/mm/dd")
-    Sheets(1).Cells(Y, 66) = Format(TextBox82.Text, "yyyy/mm/dd")
-  '  Sheets(1).Cells(y, 68) = TextBox84.Text
- ' Sheets(1).Cells(y, 69) = TextBox85.Text
-  ' Sheets(1).Cells(y, 70) = TextBox86.Text
-   Sheets(1).Cells(Y, 71) = TextBox87.Text
-   Sheets(1).Cells(Y, 72) = TextBox88.Text
-   'Sheets(1).Cells(y, 73) = TextBox64.Text
-   Sheets(1).Cells(Y, 74) = TextBox91.Text
-   
-   
-   Call emad_pro
-         ' For i = 1 To 49
-       ' Me.Controls("TextBox" & i).Text = ""
-   ' Next i
-   '=============================================
- 
 
+    ' 4.  Ã„Ì⁄ ﬂ«›… «·»Ì«‰«  (74 Õﬁ·) ›Ì „’›Ê›… Ê«Õœ… »«·–«ﬂ—…
+    Dim dataArray(1 To 1, 1 To 74) As Variant
+    
+    ' ---  ⁄»∆… «·„’›Ê›… »«·»Ì«‰«  («·«” Õﬁ«ﬁ«  Ê«·«” ﬁÿ«⁄« ) ---
+    dataArray(1, 1) = Me.TextBox1.Text:   dataArray(1, 2) = Me.TextBox2.Text
+    dataArray(1, 3) = Me.TextBox3.Text:   dataArray(1, 4) = Me.ComboBox4.value
+    dataArray(1, 5) = Me.TextBox5.Text:   dataArray(1, 6) = Me.ComboBox5.value
+    dataArray(1, 7) = Me.TextBox7.Text:   dataArray(1, 8) = Me.TextBox8.Text
+    dataArray(1, 9) = Me.TextBox9.Text:   dataArray(1, 10) = Me.TextBox10.Text
+    dataArray(1, 11) = Me.TextBox11.Text: dataArray(1, 12) = Me.TextBox12.Text
+    dataArray(1, 13) = Me.ComboBox6.value: dataArray(1, 14) = Me.TextBox14.Text
+    dataArray(1, 15) = Me.ComboBox7.value: dataArray(1, 16) = Me.TextBox16.Text
+    dataArray(1, 17) = Me.ComboBox8.value: dataArray(1, 18) = Me.TextBox18.Text
+    dataArray(1, 19) = Me.TextBox19.Text:  dataArray(1, 20) = Me.TextBox20.Text
+    dataArray(1, 21) = Me.TextBox21.Text:  dataArray(1, 22) = Me.TextBox22.Text
+    dataArray(1, 23) = Me.TextBox23.Text:  dataArray(1, 24) = Me.TextBox24.Text
+    dataArray(1, 25) = Me.TextBox25.Text:  dataArray(1, 26) = Me.ComboBox10.value
+    dataArray(1, 27) = Me.TextBox27.Text:  dataArray(1, 28) = Me.ComboBox11.value
+    dataArray(1, 29) = Me.TextBox29.Text:  dataArray(1, 30) = Me.TextBox30.Text
+    dataArray(1, 31) = Me.TextBox31.Text:  dataArray(1, 32) = Me.TextBox32.Text
+    dataArray(1, 33) = Me.TextBox33.Text:  dataArray(1, 34) = Me.TextBox34.Text
+    dataArray(1, 35) = Me.TextBox35.Text:  dataArray(1, 36) = Me.TextBox36.Text
+    dataArray(1, 37) = Me.TextBox37.Text:  dataArray(1, 38) = Me.TextBox38.Text
+    dataArray(1, 39) = Me.TextBox39.Text:  dataArray(1, 40) = Me.TextBox40.Text
+    dataArray(1, 41) = Me.TextBox41.Text:  dataArray(1, 42) = Me.TextBox42.Text
+    dataArray(1, 43) = Me.TextBox43.Text:  dataArray(1, 44) = Me.TextBox44.Text
+    dataArray(1, 45) = Me.TextBox45.Text:  dataArray(1, 46) = Me.TextBox46.Text
+    dataArray(1, 47) = Me.TextBox47.Text:  dataArray(1, 48) = Me.TextBox48.Text
+    dataArray(1, 49) = Me.TextBox49.Text:  dataArray(1, 50) = Me.TextBox50.Text
+    dataArray(1, 51) = Me.ComboBox9.value: dataArray(1, 52) = Me.TextBox52.Text
+    dataArray(1, 53) = Me.TextBox53.Text:  dataArray(1, 54) = Me.TextBox54.Text
+    dataArray(1, 55) = Me.TextBox55.Text:  dataArray(1, 56) = Me.TextBox56.Text
+    dataArray(1, 57) = Me.TextBox57.Text:  dataArray(1, 58) = Me.TextBox58.Text
+    dataArray(1, 59) = Me.TextBox59.Text:  dataArray(1, 60) = Me.TextBox60.Text
+    dataArray(1, 61) = Me.TextBox61.Text:  dataArray(1, 62) = Me.TextBox62.Text
+    dataArray(1, 63) = Me.TextBox63.Text:  dataArray(1, 64) = Me.TextBox64.Text
+    
+    '  ‰”Ìﬁ«  Œ«’… ( «—ÌŒ)
+    dataArray(1, 66) = Format(Me.TextBox82.Text, "yyyy/mm/dd")
+    
+    ' ÕﬁÊ· ≈÷«›Ì…
+    dataArray(1, 71) = Me.TextBox87.Text
+    dataArray(1, 72) = Me.TextBox88.Text
+    dataArray(1, 74) = Me.TextBox91.Text
 
-   
-UserForm29.Show
+    ' 5.  —ÕÌ· «·„’›Ê›… ﬂ«„·… ≈·Ï «·‘Ì  »÷€ÿ… Ê«Õœ…
+    ws.Cells(Y, 1).Resize(1, 74).value = dataArray
+
+    ' 6. «” œ⁄«¡ «·≈Ã—«¡ «·›—⁄Ì
+    Call emad_pro
+
+    ' 7. ≈⁄«œ… «·≈⁄œ«œ«  «·√’·Ì… ··≈ﬂ”· („Â„ Ãœ« ﬁ»· › Õ «·›Ê—„)
+    Application.ScreenUpdating = True
+    Application.Calculation = xlCalculationAutomatic
+    Application.EnableEvents = True
+
+    ' 8. › Õ Ê«ÃÂ… «·Õ”«»«  «·„ ﬁœ„… (UserForm29)
+    UserForm29.Show
+
+    Exit Sub
+
+ErrorHandler:
+    ' ≈⁄«œ…  ‘€Ì· «·≈⁄œ«œ«  ›Ì Õ«· ÕœÊÀ Œÿ√ „›«Ã∆
+    Application.ScreenUpdating = True
+    Application.Calculation = xlCalculationAutomatic
+    Application.EnableEvents = True
+    MsgBox "ÕœÀ Œÿ√ €Ì— „ Êﬁ⁄: " & Err.Description, vbCritical
    
 End Sub
 
@@ -2065,9 +2603,9 @@ End Sub
 Private Sub CommandButton39_Click()
 Dim rng As Range
 Dim cel As Range
-Dim lastr1 As Integer
-lastr1 = Sheets(1).Cells(Rows.count, "b").End(xlUp).row
-Set rng = Sheets(1).Range("au9:au" & lastr1)
+Dim lastR1 As Integer
+lastR1 = Sheets(1).Cells(rowS.count, "b").End(xlUp).row
+Set rng = Sheets(1).Range("au9:au" & lastR1)
 For Each cel In rng
 If IsEmpty(cel) Or Not IsNumeric(cel) Then
 cel = 0
@@ -2094,7 +2632,7 @@ Private Sub CommandButton4_Click()
   TextBox49.Enabled = True
         
    
-    Dim lastr1 As Integer
+    Dim lastR1 As Integer
 'lastr1 = Sheets(1).Cells(Rows.Count, 1).End(xlUp).Row
    ' For y = 9 To lastr1
      If TextBox56.Text = "" Or TextBox57.Text = "" Or TextBox58.Text = "" Then
@@ -2112,7 +2650,7 @@ Private Sub CommandButton4_Click()
 
     Sheets(3).Activate
 
-    iRow = Range("A" & Rows.count).End(xlUp).row
+    iRow = Range("A" & rowS.count).End(xlUp).row
 '=======================================================
   ' TextBox14.Text = 0                                              '
   ' TextBox16.Text = 0
@@ -2205,18 +2743,26 @@ Private Sub CommandButton4_Click()
 
 'On Error Resume Next
 Sheets(1).Activate
-Dim lastR As Integer
-lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
+Dim lastR As Long
+Dim X As Long
+
+' Õ”«» ¬Œ— ’› »‰«¡ ⁄·Ï «·⁄„Êœ «·√Ê·
+lastR = Sheets(1).Cells(Sheets(1).rowS.count, 1).End(xlUp).row
+
 For X = 9 To lastR
-If Sheets(1).Cells(X, 2) = TextBox2.Text And Sheets(1).Cells(X, 5) = TextBox5.Text Then
- Sheets(1).Cells(X, 1).Select
+    If Sheets(1).Cells(X, 2).value = TextBox2.Text And Sheets(1).Cells(X, 5).value = TextBox5.Text Then
+        
+        ' „”Õ ÊÕ–› «·Œ·«Ì« ÷„‰ «·‰ÿ«ﬁ „‰ A ≈·Ï CR ›ﬁÿ ··’› X „⁄ ”Õ» Â–« «·‰ÿ«ﬁ ··√⁄·Ï ›ﬁÿ
+        Sheets(1).Range("A" & X & ":CR" & X).Delete Shift:=xlUp
+        
+        Exit For ' «·Œ—ÊÃ »⁄œ ≈ „«„ «·Õ–› · Ã‰»  ﬂ—«— «·⁄„·Ì« 
+        
+    End If
+Next X
 
-
+MsgBox " „  —ÕÌ· «·»Ì«‰«  ÊÕ–› «·”Ã· »‰Ã«Õ", vbInformation
 End If
-Next
 
-ActiveCell.EntireRow.Delete
-End If
 End Sub
 
 
@@ -2229,126 +2775,40 @@ End Sub
 
 Private Sub CommandButton42_Click()
 Sheets(1).Activate
-Dim lastR As Integer
-lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
+Dim lastR As Long
+Dim X As Long
+
+' Õ”«» ¬Œ— ’› »‰«¡ ⁄·Ï «·⁄„Êœ «·√Ê·
+lastR = Sheets(1).Cells(Sheets(1).rowS.count, 1).End(xlUp).row
+
 For X = 9 To lastR
-If Sheets(1).Cells(X, 2) = TextBox2.Text And Sheets(1).Cells(X, 5) = TextBox5.Text Then
- Sheets(1).Cells(X, 1).Select
-
-
-End If
-Next
-
-ActiveCell.EntireRow.Delete
+    If Sheets(1).Cells(X, 2).value = TextBox2.Text And Sheets(1).Cells(X, 5).value = TextBox5.Text Then
+        
+        ' „”Õ ÊÕ–› «·Œ·«Ì« ÷„‰ «·‰ÿ«ﬁ „‰ A ≈·Ï CR ›ﬁÿ ··’› X „⁄ ”Õ» Â–« «·‰ÿ«ﬁ ··√⁄·Ï ›ﬁÿ
+        Sheets(1).Range("A" & X & ":CR" & X).Delete Shift:=xlUp
+        
+        Exit For ' «·Œ—ÊÃ »⁄œ ≈ „«„ «·Õ–› · Ã‰»  ﬂ—«— «·⁄„·Ì« 
+        
+    End If
+Next X
  MsgBox " „ Õ–› «·ﬁÌœ »‰Ã«Õ", vbOKOnly, "—”«·…  ‰»ÌÂ"
+
 
 End Sub
 
 
 
 Private Sub CommandButton40_Click()
-Unload Me
-UserForm34.Show
+
 End Sub
 
 
 
 Private Sub CommandButton44_Click()
-Unload Me
-UserForm51.Show
+
 End Sub
 
 Private Sub CommandButton45_Click()
-Dim wsSrc As Worksheet, wsTgt As Worksheet
-    Dim lastRowSrc As Long, LastCol As Long
-    Dim lastRowTgt As Long, insertRow As Long
-    Dim dataArr As Variant, blockArr As Variant
-    Dim monthName As String, targetSheet As String
-    Dim i As Long
-
-    Set wsSrc = Sheets("Sheet1")
-
-    ' ¬Œ— ⁄„Êœ Õ”» —ƒÊ” «·’› 8
-    LastCol = wsSrc.Cells(8, wsSrc.Columns.count).End(xlToLeft).Column
-
-    ' ‰”Œ —ƒÊ” «·√⁄„œ… „‰ «·’› 8 ≈·Ï ‘Ì  «·Âœ›
-    monthName = Trim(wsSrc.Range("CB9").value)
-    If monthName = "" Then
-        MsgBox "⁄„Êœ «·‘Â— CB ›«—€", vbExclamation
-        Exit Sub
-    End If
-
-    ' —»ÿ «”„ «·‘Â— „⁄ «”„ «·‘Ì 
-    Select Case LCase(monthName)
-        Case "Ì‰«Ì—", "ﬂ«‰Ê‰ «·À«‰Ì": targetSheet = "jan"
-        Case "›»—«Ì—", "‘»«ÿ": targetSheet = "feb"
-        Case "„«—”", "¬–«—": targetSheet = "mar"
-        Case "«»—Ì·", "‰Ì”«‰": targetSheet = "apr"
-        Case "„«ÌÊ", "«Ì«—": targetSheet = "may"
-        Case "ÌÊ‰ÌÊ", "Õ“Ì—«‰": targetSheet = "jun"
-        Case "ÌÊ·ÌÊ", " „Ê“": targetSheet = "jul"
-        Case "«€”ÿ”", "¬»": targetSheet = "aug"
-        Case "”» „»—", "«Ì·Ê·": targetSheet = "sep"
-        Case "«ﬂ Ê»—", " ‘—Ì‰ «·«Ê·": targetSheet = "oct"
-        Case "‰Ê›„»—", " ‘—Ì‰ «·À«‰Ì": targetSheet = "nov"
-        Case "œÌ”„»—", "ﬂ«‰Ê‰ «·«Ê·": targetSheet = "dec"
-        Case Else
-            MsgBox "«”„ «·‘Â— €Ì— „⁄—Ê›: " & monthName, vbCritical
-            Exit Sub
-    End Select
-
-    Set wsTgt = Sheets(targetSheet)
-
-    ' ‰”Œ —ƒÊ” «·√⁄„œ… „‰ «·’› 8
-    wsTgt.Rows(8).value = wsSrc.Rows(8).value
-
-    '  √ﬂÌœ ﬁ»· «· —ÕÌ·
-    If MsgBox("Â· √‰  „ √ﬂœ „‰  —ÕÌ· »Ì«‰«  ‘Â— " & monthName & " ø" & vbCrLf & _
-              " √ﬂœ √‰ Ã„Ì⁄ «·„ €Ì—«  „ﬂ „·….", vbOKCancel + vbQuestion) = vbCancel Then
-        MsgBox "Õ”‰«° ⁄‰œ ÿ·» «· —ÕÌ· ﬂ‰ „ √ﬂœ«.", vbInformation
-        Exit Sub
-    End If
-
-    Application.ScreenUpdating = False
-
-    ' ¬Œ— ’› »Ì«‰«  ›Ì Sheet1
-    lastRowSrc = wsSrc.Cells(wsSrc.Rows.count, 1).End(xlUp).row
-    If lastRowSrc < 9 Then
-        MsgBox "·«  ÊÃœ »Ì«‰«  ·· —ÕÌ·", vbExclamation
-        Exit Sub
-    End If
-
-    '  Õ„Ì· »Ì«‰«  Sheet1 ≈·Ï „’›Ê›…
-    dataArr = wsSrc.Range(wsSrc.Cells(9, 1), wsSrc.Cells(lastRowSrc, LastCol)).value
-
-    ' Õ–› »Ì«‰«  Â–« «·‘Â— ›ﬁÿ „‰ ‘Ì  «·Âœ›
-    lastRowTgt = wsTgt.Cells(wsTgt.Rows.count, 1).End(xlUp).row
-    If lastRowTgt < 9 Then lastRowTgt = 8
-
-    For i = lastRowTgt To 9 Step -1
-        If wsTgt.Cells(i, 80).value = monthName Then  ' 80 = CB
-            wsTgt.Rows(i).Delete
-        End If
-    Next i
-
-    ' ≈⁄«œ… Õ”«» ¬Œ— ’› »⁄œ «·Õ–›
-    lastRowTgt = wsTgt.Cells(wsTgt.Rows.count, 1).End(xlUp).row
-    If lastRowTgt < 9 Then lastRowTgt = 8
-    insertRow = lastRowTgt + 1
-
-    ' ≈œ—«Ã »Ì«‰«  «·‘Â— ﬂ„’›Ê›…
-    wsTgt.Cells(insertRow, 1).Resize(UBound(dataArr, 1), UBound(dataArr, 2)).value = dataArr
-
-    '  —ÕÌ· «·ﬂ ·… CC1:CQ5 ﬂ„’›Ê›…
-    blockArr = wsSrc.Range("CC1:CQ5").value
-    wsTgt.Range("CC1:CQ5").value = blockArr
-
-    '  √ﬂœ „‰ „”Õ √Ì Ê÷⁄ ‰”Œ ”«»ﬁ
-    Application.CutCopyMode = False
-
-    Application.ScreenUpdating = True
-
-    MsgBox " „  —ÕÌ· »Ì«‰«  ‘Â— " & monthName & " ≈·Ï «·‘Ì  " & targetSheet & " »‰Ã«Õ.", vbInformation
 
 End Sub
 
@@ -2368,82 +2828,14 @@ Private Sub CommandButton46_Click()
 End Sub
 
 Private Sub CommandButton47_Click()
-Unload Me
-UserForm59.Show
+
 End Sub
 
 Private Sub CommandButton48_Click()
-Unload Me
-UserForm61.Show
+
 End Sub
 
 Private Sub CommandButton49_Click()
-  Dim ws As Worksheet, wsMap As Worksheet
-    Dim lastRow As Long, i As Long, r As Long, c As Long
-    Dim jobTitle As String, jobDesc As String
-    Dim cellValue As String
-    Dim found As Boolean
-
-    Set ws = ThisWorkbook.Sheets("Sheet1")
-    Set wsMap = ThisWorkbook.Sheets("Sheet10")
-
-    lastRow = ws.Cells(ws.Rows.count, "F").End(xlUp).row
-
-    For i = 9 To lastRow
-        jobTitle = Trim(ws.Cells(i, "F").value)
-        jobDesc = ""
-        found = False
-
-        If jobTitle <> "" Then
-            ' Õ«·… Œ«’…: "„œÌ—" ·ÊÕœÂ
-            If LCase(jobTitle) = "„œÌ—" Then
-                jobDesc = "«œ«—Ì"
-                found = True
-            Else
-                jobTitle = NormalizeText(jobTitle)
-                ' «·»ÕÀ «·œﬁÌﬁ √Ê·«
-                For r = 2 To 61
-                    For c = 2 To 12
-                        cellValue = NormalizeText(wsMap.Cells(r, c).value)
-                        If cellValue <> "" Then
-                            If jobTitle = cellValue Then
-                                jobDesc = wsMap.Cells(r, "A").value
-                                found = True
-                                Exit For
-                            End If
-                        End If
-                    Next c
-                    If found Then Exit For
-                Next r
-
-                ' «·»ÕÀ «· ﬁ—Ì»Ì »‰«¡ ⁄·Ï «·ﬁÊ«⁄œ «·À«» …
-                If Not found Then
-                    jobDesc = GetFixedRule(jobTitle)
-                    If jobDesc <> "" Then found = True
-                End If
-
-                ' ≈–« ·„ ‰Ãœ ‘Ì¡ ? „Õ«Ê·… „ÿ«»ﬁ…  ﬁ—Ì»Ì… ⁄«„…
-                If Not found Then
-                    For r = 2 To 61
-                        For c = 2 To 12
-                            cellValue = NormalizeText(wsMap.Cells(r, c).value)
-                            If cellValue <> "" Then
-                                If IsApproxMatch(jobTitle, cellValue) Then
-                                    jobDesc = wsMap.Cells(r, "A").value
-                                    found = True
-                                    Exit For
-                                End If
-                            End If
-                        Next c
-                        If found Then Exit For
-                    Next r
-                End If
-            End If
-        End If
-
-        ws.Cells(i, "CF").value = jobDesc
-    Next i
-    MsgBox "·ﬁœ  „ «⁄«œ… »‰«¡ «·Ê’› «·ÊŸÌ›Ì »‰Ã«Õ", vbDefaultButton1, "—”«·…  ÊÃÌÂ"
 End Sub
 Private Function NormalizeText(txt As String) As String
     txt = Trim(txt)
@@ -2476,17 +2868,17 @@ Private Function IsApproxMatch(text1 As String, text2 As String) As Boolean
     End If
 End Function
 Private Function GetFixedRule(jobTitle As String) As String
-    Dim title As String
-    title = LCase(jobTitle)
+    Dim Title As String
+    Title = LCase(jobTitle)
 
     ' ﬁ«⁄œ… ›‰Ì: √Ì ⁄‰Ê«‰ ÌÕ ÊÌ "›‰Ì" √Ê "›‰ÌÌ‰" √Ê "›‰Ì‰"
-    If InStr(title, "›‰Ì") > 0 Or InStr(title, "›‰ÌÌ‰") > 0 Or InStr(title, "›‰Ì‰") > 0 Then
+    If InStr(Title, "›‰Ì") > 0 Or InStr(Title, "›‰ÌÌ‰") > 0 Or InStr(Title, "›‰Ì‰") > 0 Then
         GetFixedRule = "›‰Ì"
         Exit Function
     End If
 
     ' «·ﬁÊ«⁄œ «·À«» … «·√Œ—Ï
-    Select Case title
+    Select Case Title
         Case "—∆Ì” „·«ÕŸÌ‰", "—∆Ì” „·«ÕŸÌ‰ ›‰ÌÌ‰", "„·«ÕŸ"
             GetFixedRule = "›‰Ì"
         Case "„œÌ—  ‰›Ì–Ì"
@@ -2500,11 +2892,27 @@ End Function
 
 
 Private Sub CommandButton50_Click()
-UserForm63.Show
+
 End Sub
 
 Private Sub CommandButton51_Click()
-UserForm70.Show
+
+End Sub
+
+Private Sub CommandButton52_Click()
+UserForm76.Show
+End Sub
+
+Private Sub CommandButton53_Click()
+
+End Sub
+
+Private Sub CommandButton54_Click()
+UserForm84.Show
+End Sub
+
+Private Sub CommandButton55_Click()
+UserForm85.Show
 End Sub
 
 Private Sub CommandButton6_Click()
@@ -2516,9 +2924,11 @@ Private Sub CommandButton6_Click()
 If MsgBox("   ***Â·  —€» »«œŒ«· «·»Ì«‰«  ⁄»— „‰’… Ê«·Ê«ÃÂ… «·Õ«·ÌÂ  øø    **** " & vbCrLf & " Ê«–« ﬂ«‰ ·œÌﬂ ”Ã·«  „ Ê›—Â ›Ì „’‰› Œ«—ÃÌ „‰ «·„„ﬂ‰ «” Ì—«œÂ« ⁄»— »Ê«»… «·« ’«· «·ﬂ —Ê‰Ì «÷€ÿ ⁄·Ï “— NO    ", vbYesNo, "—”«·…  ÊÃÌÂ") = vbYes Then
      
      Sheets(1).Activate
+     Label123.Visible = False
+     TextBox58.Text = "„” „— »«·Œœ„…"
      Dim iRow As Long, i As Long
 
-    iRow = Cells(Rows.count, "b").End(xlUp).row
+    iRow = Cells(rowS.count, "b").End(xlUp).row
     TextBox1.value = iRow - 7
      TextBox2.value = ""
      TextBox3.value = ""
@@ -2638,7 +3048,7 @@ Dim wksSource As Worksheet
  With Me.ListView1
 .ListItems.Clear
 Sheets(1).Activate
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 
 
 
@@ -2752,7 +3162,7 @@ Dim simadd As Double
 Dim simsubtract As Double
 Dim item2 As ListItem
 Dim last2, frw2 As Integer
-last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw2 = 9 To last2
 
 
@@ -2977,6 +3387,571 @@ Private Sub Frame6_Click()
 
 End Sub
 
+Private Sub Image10_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Image10_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+UserForm67.Show
+End Sub
+
+Private Sub Image11_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Image11_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+On Error GoTo emad
+Dim lastR As Integer
+Dim file_path As String
+lastR = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
+    For Y = 9 To lastR
+    
+    If Sheets(1).Cells(Y, 5) = TextBox5.Text And Sheets(1).Cells(Y, 2) = TextBox2.Text Then
+   
+    Exit For
+    End If
+    Next Y
+    
+  
+   
+   'Call emad_pro
+
+ '=========================================
+ file_path = "D:\employ_pic\" & TextBox5.Text & ".jpg"
+ 
+ TextBox64.Text = file_path
+ SavePicture Image1.Picture, TextBox64.Text
+
+Sheets(1).Cells(Y, 64) = TextBox64.Text
+MsgBox " „ Õ›Ÿ «·’Ê—…"
+emad:
+
+End Sub
+
+Private Sub Image12_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Image12_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+UserForm70.Show
+End Sub
+
+Private Sub Image13_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Image13_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+Unload Me
+UserForm34.Show
+End Sub
+
+Private Sub Image14_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Image14_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+Unload Me
+UserForm59.Show
+End Sub
+
+Private Sub Image15_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Image15_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+Dim wsSrc As Worksheet, wsTgt As Worksheet
+    Dim lastRowSrc As Long, lastCol As Long
+    Dim lastRowTgt As Long, insertRow As Long
+    Dim dataArr As Variant
+    Dim monthName As String, targetSheet As String
+    Dim i As Long
+
+    Set wsSrc = Sheets("Sheet1")
+
+    ' ¬Œ— ⁄„Êœ Õ”» —ƒÊ” «·’› 8
+    lastCol = wsSrc.Cells(8, wsSrc.Columns.count).End(xlToLeft).Column
+
+    ' ‰”Œ —ƒÊ” «·√⁄„œ… „‰ «·’› 8 ≈·Ï ‘Ì  «·Âœ›
+    monthName = Trim(wsSrc.Range("CB9").value)
+    If monthName = "" Then
+        MsgBox "⁄„Êœ «·‘Â— CB ›«—€", vbExclamation
+        Exit Sub
+    End If
+
+    ' —»ÿ «”„ «·‘Â— „⁄ «”„ «·‘Ì 
+   Dim cleanName As String
+    cleanName = Trim(monthName)
+
+    Select Case cleanName
+        ' --- ‘Â— 1: Ì‰«Ì— / ﬂ«‰Ê‰ «·À«‰Ì ---
+        Case "Ì‰«Ì—", "ﬂ«‰Ê‰ «·À«‰Ì", "ﬂ«‰Ê‰ «·À«‰Ì", "ﬂ«‰Ê‰ «·À«‰Ì"
+            targetSheet = "jan"
+            
+        ' --- ‘Â— 2: ›»—«Ì— / ‘»«ÿ ---
+        Case "›»—«Ì—", "‘»«ÿ"
+            targetSheet = "feb"
+            
+        ' --- ‘Â— 3: „«—” / ¬–«— ---
+        Case "„«—”", "¬–«—", "¬–«—", "«–«—"
+            targetSheet = "mar"
+            
+        ' --- ‘Â— 4: «»—Ì· / √›—⁄ / ‰Ì”«‰ ---
+        Case "«»—Ì·", "√»—Ì·", "‰Ì”«‰"
+            targetSheet = "apr"
+            
+        ' --- ‘Â— 5: „«ÌÊ / √Ì«— ---
+        Case "„«ÌÊ", "√Ì«—", "«Ì«—", "√ÛÌ¯Û«—"
+            targetSheet = "may"
+            
+        ' --- ‘Â— 6: ÌÊ‰ÌÊ / Õ“Ì—«‰ ---
+        Case "ÌÊ‰ÌÊ", "Õ“Ì—«‰"
+            targetSheet = "jun"
+            
+        ' --- ‘Â— 7: ÌÊ·ÌÊ /  „Ê“ ---
+        Case "ÌÊ·ÌÊ", " „Ê“"
+            targetSheet = "jul"
+            
+        ' --- ‘Â— 8: «€”ÿ” / ¬» ---
+        Case "«€”ÿ”", "√€”ÿ”", "¬»", "«»"
+            targetSheet = "aug"
+            
+        ' --- ‘Â— 9: ”» „»— / √Ì·Ê· ---
+        Case "”» „»—", "√Ì·Ê·", "«Ì·Ê·", "√ÛÌ˙·ıÊ·"
+            targetSheet = "sep"
+            
+        ' --- ‘Â— 10: «ﬂ Ê»— /  ‘—Ì‰ «·√Ê· ---
+        Case "«ﬂ Ê»—", "√ﬂ Ê»—", " ‘—Ì‰ «·«Ê·", " ‘—Ì‰ «·√Ê·", " ‘—Ì‰ «·√Ê·"
+            targetSheet = "oct"
+            
+        ' --- ‘Â— 11: ‰Ê›„»— /  ‘—Ì‰ «·À«‰Ì ---
+        Case "‰Ê›„»—", " ‘—Ì‰ «·À«‰Ì", " ‘—Ì‰ «·À«‰Ì"
+            targetSheet = "nov"
+            
+        ' --- ‘Â— 12: œÌ”„»— / ﬂ«‰Ê‰ «·√Ê· ---
+        Case "œÌ”„»—", "ﬂ«‰Ê‰ «·«Ê·", "ﬂ«‰Ê‰ «·√Ê·", "ﬂ«‰Ê‰ «·√Ê·"
+            targetSheet = "dec"
+            
+        Case Else
+            MsgBox "«”„ «·‘Â— €Ì— „⁄—Ê›: " & monthName, vbCritical
+            Exit Sub
+    End Select
+
+    Set wsTgt = Sheets(targetSheet)
+
+    ' ‰”Œ —ƒÊ” «·√⁄„œ… „‰ «·’› 8
+    wsTgt.rowS(8).value = wsSrc.rowS(8).value
+
+    '  √ﬂÌœ ﬁ»· «· —ÕÌ·
+    If MsgBox("Â· √‰  „ √ﬂœ „‰  —ÕÌ· »Ì«‰«  ‘Â— " & monthName & " ø" & vbCrLf & _
+              " √ﬂœ √‰ Ã„Ì⁄ «·„ €Ì—«  „ﬂ „·….", vbOKCancel + vbQuestion) = vbCancel Then
+        MsgBox "Õ”‰«° ⁄‰œ ÿ·» «· —ÕÌ· ﬂ‰ „ √ﬂœ«.", vbInformation
+        Exit Sub
+    End If
+
+    Application.ScreenUpdating = False
+
+    ' ¬Œ— ’› »Ì«‰«  ›Ì Sheet1
+    lastRowSrc = wsSrc.Cells(wsSrc.rowS.count, 1).End(xlUp).row
+    If lastRowSrc < 9 Then
+        MsgBox "·«  ÊÃœ »Ì«‰«  ·· —ÕÌ·", vbExclamation
+        Application.ScreenUpdating = True
+        Exit Sub
+    End If
+
+    '  Õ„Ì· »Ì«‰«  Sheet1 ≈·Ï „’›Ê›…
+    dataArr = wsSrc.Range(wsSrc.Cells(9, 1), wsSrc.Cells(lastRowSrc, lastCol)).value
+
+    ' Õ–› »Ì«‰«  Â–« «·‘Â— ›ﬁÿ „‰ ‘Ì  «·Âœ›
+    lastRowTgt = wsTgt.Cells(wsTgt.rowS.count, 1).End(xlUp).row
+    If lastRowTgt < 9 Then lastRowTgt = 8
+
+    For i = lastRowTgt To 9 Step -1
+        If wsTgt.Cells(i, 80).value = monthName Then  ' 80 = CB
+            wsTgt.rowS(i).Delete
+        End If
+    Next i
+
+    ' ≈⁄«œ… Õ”«» ¬Œ— ’› »⁄œ «·Õ–›
+    lastRowTgt = wsTgt.Cells(wsTgt.rowS.count, 1).End(xlUp).row
+    If lastRowTgt < 9 Then lastRowTgt = 8
+    insertRow = lastRowTgt + 1
+
+    ' ≈œ—«Ã »Ì«‰«  «·‘Â— ﬂ„’›Ê›…
+    wsTgt.Cells(insertRow, 1).Resize(UBound(dataArr, 1), UBound(dataArr, 2)).value = dataArr
+
+    '  —ÕÌ· «·ﬂ ·… CC1:CZ5 „⁄ «·«Õ ›«Ÿ »«·’Ì€ Ê«·„⁄«œ·« 
+    wsSrc.Range("Cb1:CZ5").Copy
+    wsTgt.Range("Cb1").PasteSpecial Paste:=xlPasteAll
+    
+    '  √ﬂœ „‰ „”Õ √Ì Ê÷⁄ ‰”Œ ”«»ﬁ
+    Application.CutCopyMode = False
+
+    Application.ScreenUpdating = True
+
+    MsgBox " „  —ÕÌ· »Ì«‰«  ‘Â— " & monthName & " ≈·Ï «·‘Ì  " & targetSheet & " »‰Ã«Õ.", vbInformation
+End Sub
+
+Private Sub Image16_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Image16_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+Unload Me
+UserForm61.Show
+End Sub
+
+Private Sub Image17_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Image17_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+  Dim ws As Worksheet, wsMap As Worksheet
+    Dim lastRow As Long, i As Long, r As Long, c As Long
+    Dim jobTitle As String, jobDesc As String
+    Dim cellValue As String
+    Dim found As Boolean
+
+    Set ws = ThisWorkbook.Sheets("Sheet1")
+    Set wsMap = ThisWorkbook.Sheets("Sheet10")
+
+    lastRow = ws.Cells(ws.rowS.count, "F").End(xlUp).row
+
+    For i = 9 To lastRow
+        jobTitle = Trim(ws.Cells(i, "F").value)
+        jobDesc = ""
+        found = False
+
+        If jobTitle <> "" Then
+            ' Õ«·… Œ«’…: "„œÌ—" ·ÊÕœÂ
+            If LCase(jobTitle) = "„œÌ—" Then
+                jobDesc = "«œ«—Ì"
+                found = True
+            Else
+                jobTitle = NormalizeText(jobTitle)
+                ' «·»ÕÀ «·œﬁÌﬁ √Ê·«
+                For r = 2 To 61
+                    For c = 2 To 12
+                        cellValue = NormalizeText(wsMap.Cells(r, c).value)
+                        If cellValue <> "" Then
+                            If jobTitle = cellValue Then
+                                jobDesc = wsMap.Cells(r, "A").value
+                                found = True
+                                Exit For
+                            End If
+                        End If
+                    Next c
+                    If found Then Exit For
+                Next r
+
+                ' «·»ÕÀ «· ﬁ—Ì»Ì »‰«¡ ⁄·Ï «·ﬁÊ«⁄œ «·À«» …
+                If Not found Then
+                    jobDesc = GetFixedRule(jobTitle)
+                    If jobDesc <> "" Then found = True
+                End If
+
+                ' ≈–« ·„ ‰Ãœ ‘Ì¡ ? „Õ«Ê·… „ÿ«»ﬁ…  ﬁ—Ì»Ì… ⁄«„…
+                If Not found Then
+                    For r = 2 To 61
+                        For c = 2 To 12
+                            cellValue = NormalizeText(wsMap.Cells(r, c).value)
+                            If cellValue <> "" Then
+                                If IsApproxMatch(jobTitle, cellValue) Then
+                                    jobDesc = wsMap.Cells(r, "A").value
+                                    found = True
+                                    Exit For
+                                End If
+                            End If
+                        Next c
+                        If found Then Exit For
+                    Next r
+                End If
+            End If
+        End If
+
+        ws.Cells(i, "CF").value = jobDesc
+    Next i
+    MsgBox "·ﬁœ  „ «⁄«œ… »‰«¡ «·Ê’› «·ÊŸÌ›Ì »‰Ã«Õ", vbDefaultButton1, "—”«·…  ÊÃÌÂ"
+
+End Sub
+
+Private Sub Image18_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Image18_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+UserForm63.Show
+End Sub
+
+Private Sub Image19_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Image19_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+Application.DisplayAlerts = False
+ThisWorkbook.Save
+MsgBox "·ﬁœ  „ Õ›Ÿ «·»Ì«‰«  «· Ì ﬁ„  »«œŒ«·Â«", vbOKOnly, "—”«·…  ‰»ÌÂ"
+
+Unload Me
+UserForm9.Show
+End Sub
+
+Private Sub Image2_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Image2_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+UserForm22.Show
+End Sub
+
+Private Sub Image20_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Image20_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+UserForm22.Show
+End Sub
+
+Private Sub Image21_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Image21_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+UserForm26.Show
+End Sub
+
+Private Sub Image3_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Image3_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+Dim InputPass As String
+    
+    ' ŸÂÊ— ‰«›–… ≈œŒ«· ﬂ·„… «·„—Ê—
+    InputPass = InputBox("Ì—ÃÏ ≈œŒ«· ﬂ·„… «·„—Ê— ··Ê’Ê· ≈·Ï Â–« «·‰„Ê–Ã:", " Õﬁﬁ √„‰Ì")
+    
+    ' «· Õﬁﬁ „‰ «·»«”Ê—œ
+    If InputPass = "emadsaad" Then
+        ' ≈–« ﬂ«‰  ’ÕÌÕ…° «› Õ «·›Ê—„
+        UserForm81.Show
+    Else
+        ' ≈–« ﬂ«‰  Œ«ÿ∆…° √ŸÂ— —”«·…  ‰»ÌÂ Ê·«  › Õ «·›Ê—„
+        MsgBox "ﬂ·„… «·„—Ê— €Ì— ’ÕÌÕ…. ·«  „·ﬂ ’·«ÕÌ… «·œŒÊ·!", vbCritical, "œŒÊ· „—›Ê÷"
+    End If
+End Sub
+
+Private Sub Image4_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Image4_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+UserForm21.Show
+End Sub
+
+Private Sub Image5_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Image5_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+UserForm24.Show
+End Sub
+
+Private Sub Image6_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Image6_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+UserForm23.Show
+End Sub
+
+Private Sub Image7_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Image7_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+On Error Resume Next
+Dim lastR As Integer
+lastR = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
+    For Y = 9 To lastR
+    
+    If Sheets(1).Cells(Y, 5) = TextBox5.Text And Sheets(1).Cells(Y, 2) = TextBox2.Text Then
+   
+    Exit For
+    End If
+    Next Y
+  '  Sheets(1).Cells(y, 1) = TextBox1.Text
+  '  Sheets(1).Cells(y, 2) = TextBox2.Text
+ '   Sheets(1).Cells(y, 3) = TextBox3.Text
+ '   Sheets(1).Cells(y, 4) = ComboBox4.Value
+  '  Sheets(1).Cells(y, 5) = TextBox5.Text
+ '   Sheets(1).Cells(y, 6) = ComboBox5.Value
+ '   Sheets(1).Cells(y, 7) = TextBox7.Text
+ '   Sheets(1).Cells(y, 8) = TextBox8.Text
+ '   Sheets(1).Cells(y, 9) = TextBox9.Text
+ '   Sheets(1).Cells(y, 10) = TextBox10.Text
+ '   Sheets(1).Cells(y, 11) = TextBox11.Text
+  '  Sheets(1).Cells(y, 12) = TextBox12.Text
+ '    Sheets(1).Cells(y, 13) = ComboBox6.Value
+ '   Sheets(1).Cells(y, 14) = TextBox14.Text
+'    Sheets(1).Cells(y, 15) = ComboBox7.Value
+'    Sheets(1).Cells(y, 16) = TextBox16.Text
+'    Sheets(1).Cells(y, 17) = ComboBox8.Value
+'    Sheets(1).Cells(y, 18) = TextBox18.Text
+'    Sheets(1).Cells(y, 19) = TextBox19.Text
+'    Sheets(1).Cells(y, 20) = TextBox20.Text
+    Sheets(1).Cells(Y, 21) = TextBox21.Text
+    Sheets(1).Cells(Y, 22) = TextBox22.Text
+   
+'    Sheets(1).Cells(y, 24) = TextBox24.Text
+ '   Sheets(1).Cells(y, 25) = TextBox25.Text
+'    Sheets(1).Cells(y, 26) = ComboBox10.Value
+ '   Sheets(1).Cells(y, 27) = TextBox27.Text
+ '   Sheets(1).Cells(y, 28) = ComboBox11.Value
+'  Sheets(1).Cells(y, 29) = TextBox29.Text
+'    Sheets(1).Cells(y, 30) = TextBox30.Text
+ '   Sheets(1).Cells(y, 31) = TextBox31.Text
+'  Sheets(1).Cells(y, 32) = TextBox32.Text
+'   Sheets(1).Cells(y, 33) = TextBox33.Text
+'    Sheets(1).Cells(y, 34) = TextBox34.Text
+ '   Sheets(1).Cells(y, 35) = TextBox35.Text
+ '   Sheets(1).Cells(y, 36) = TextBox36.Text
+ '   Sheets(1).Cells(y, 37) = TextBox37.Text
+'    Sheets(1).Cells(y, 38) = TextBox38.Text
+'    Sheets(1).Cells(y, 39) = TextBox39.Text
+'    Sheets(1).Cells(y, 40) = TextBox40.Text
+'    Sheets(1).Cells(y, 41) = TextBox41.Text
+'    Sheets(1).Cells(y, 42) = TextBox42.Text
+'    Sheets(1).Cells(y, 43) = TextBox43.Text
+'    Sheets(1).Cells(y, 44) = TextBox44.Text
+'    Sheets(1).Cells(y, 45) = TextBox45.Text
+'    Sheets(1).Cells(y, 46) = TextBox46.Text
+'    Sheets(1).Cells(y, 47) = TextBox47.Text
+'  Sheets(1).Cells(y, 48) = TextBox48.Text
+ '  Sheets(1).Cells(y, 49) = TextBox49.Text
+ '  Sheets(1).Cells(y, 50) = TextBox50.Text
+ '   Sheets(1).Cells(y, 51) = ComboBox9.Value
+ '   Sheets(1).Cells(y, 52) = TextBox52.Text
+'  Sheets(1).Cells(y, 53) = TextBox53.Text
+'   Sheets(1).Cells(y, 54) = TextBox54.Text
+'    Sheets(1).Cells(y, 55) = TextBox55.Text
+'    Sheets(1).Cells(y, 56) = TextBox56.Text
+'    Sheets(1).Cells(y, 57) = TextBox57.Text
+'  Sheets(1).Cells(y, 58) = TextBox58.Text
+'   Sheets(1).Cells(y, 59) = TextBox59.Text
+'    Sheets(1).Cells(y, 60) = TextBox60.Text
+'    Sheets(1).Cells(y, 61) = TextBox61.Text
+'  Sheets(1).Cells(y, 62) = TextBox62.Text
+'   Sheets(1).Cells(y, 63) = TextBox63.Text
+'  Sheets(1).Cells(y, 64) = TextBox64.Text
+ '   Sheets(1).Cells(y, 66) = Date
+    
+'    Sheets(1).Cells(y, 66) = TextBox82.Text
+'  Sheets(1).Cells(y, 67) = TextBox83.Text
+ '  Sheets(1).Cells(y, 68) = TextBox84.Text
+'  Sheets(1).Cells(y, 69) = TextBox85.Text
+'    Sheets(1).Cells(y, 70) = TextBox86.Text
+'  Sheets(1).Cells(y, 71) = TextBox87.Text
+
+ Ê—ﬁ…1.Range("x9").Formula2R1C1 = "=IFERROR(IF(OR(RC[-1]=thariaba1!R1C20:R2C20),VLOOKUP(RC[-14],astktat1,RC[-2]+3,1)," & _
+                 "IF(OR(RC[-1]=thariaba2!R1C19),VLOOKUP(RC[-14],astktaat2,RC[-2]+3,1)," & _
+                 "IF(OR(RC[-1]=thariaba3!R1C19:R3C19),VLOOKUP(RC[-14],astktaat3,RC[-2]+3,1)," & _
+                 "IF(VLOOKUP(RC[-1],sheet1!R1C77:R5C78,2,0)=5," & _
+                 "INDEX(Sheet2!R9C4:R8000C4, MATCH(1, (Sheet2!R9C2:R8000C2<=RC[-14])*(Sheet2!R9C3:R8000C3>=RC[-14]), 0))," & _
+                 "IF(AND(VLOOKUP(RC[-1],sheet1!R1C77:R5C78,2,0)<4,RC[-2]>0),""Õ”» «· ﬁ« ÿ⁄ «·ÃœÊ· «·÷—Ì»Ì «‰ ÌﬂÊ‰ «·⁄œœ ’›—"",VLOOKUP(RC[-14],astktaat,VLOOKUP(RC[-1],sheet1!R1C77:R5C78,2,0)+RC[-2],1)))))),0)"
+'===========================================
+
+  '   Ê—ﬁ…1.Range("x9").Formula2R1C1 = "=iferror(IF(OR(RC[-1]= thariaba1!R1C20:R2C20),VLOOKUP(RC[-14],astktat1,RC[-2]+3,1),IF(OR(RC[-1]=thariaba2!R1C19),VLOOKUP(RC[-14],astktaat2,RC[-2]+3,1),IF(OR(RC[-1]=thariaba3!R1C19:R3C19),VLOOKUP(RC[-14],astktaat3,RC[-2]+3,1),IF(AND(VLOOKUP(RC[-1],sheet1!R1C77:R5C78,2,0)<4,RC[-2]>0),""Õ”» «· ﬁ« ÿ⁄ «·ÃœÊ· «·÷—Ì»Ì «‰ ÌﬂÊ‰ «·⁄œœ ’›—"",VLOOKUP(RC[-14],astktaat,VLOOKUP(RC[-1],sheet1!R1C77:R5C78,2,0)+RC[-2],1))))),0)"
+
+
+
+   Ê—ﬁ…1.Range("x9:x8000").FillDown
+
+ Sheets(1).Cells(Y, 23) = TextBox23.Text
+'=========================================
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ UserForm53.Show
+ 
+ 
+ 
+ 
+ 
+ 
+'Dim lastr1, y1 As Integer
+'lastr1 = Sheets(1).Cells(Rows.Count, 1).End(xlUp).Row
+  '  For y1 = 9 To lastr1
+     '   If Sheets(1).Cells(y1, "x") = "Õ”» «· ﬁ« ÿ⁄ «·ÃœÊ· «·÷—Ì»Ì «‰ ÌﬂÊ‰ «·⁄œœ ’›—" Then
+ '  k = 0
+ ' UserForm53.ListBox1.AddItem
+  '     UserForm53.ListBox1.List(k, 0) = Sheets(1).Cells(y1, "e")
+       
+    '    k = k + 1
+   
+   
+   
+  ' MsgBox "Â‰«ﬂ Œÿ√ ›Ì «Õ ”«» „‰ŸÊ„… «·«” ﬁÿ«⁄ «·÷—Ì»Ì Õ«Ê· «’·«Õ… ﬁœ ÌﬂÊ‰ ›Ì «·ﬁÌœ " & Sheets(1).Cells(y, "e"), vbCritical, "—”«·…  ‰»ÌÂ"
+
+'End If
+'Next
+
+
+'MsgBox " „  ⁄„Ì„ «·Ÿ—Ì»Â »‰Ã«Õ", vbDefaultButton1
+End Sub
+
+Private Sub Image8_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Image8_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+Unload Me
+UserForm51.Show
+End Sub
+
+Private Sub Image9_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal X As Single, ByVal Y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Image9_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+On Error Resume Next
+Sheets(1).Activate
+Call DeleteDataToColumn84
+
+
+Application.Visible = True
+Call open_file
+Application.Visible = True
+Windows("rwtab_backup.xlsm").Activate
+Sheets(1).Select
+ActiveSheet.Range("b9:br8000").Select
+Selection.Copy
+ThisWorkbook.Activate
+Sheets(1).Select
+Range("b9:br8000").Select
+Selection.PasteSpecial Paste:=xlPasteValues
+Application.CutCopyMode = False
+Windows("rwtab_backup.xlsm").Close
+Application.Visible = False
+
+Sheets(1).Range("a9").Formula = "=IF(B9="""","""", SUBTOTAL(3,$B$9:B9))"
+Sheets(1).Range("a9:a8000").FillDown
+
+
+Sheets(13).Activate
+
+Range("b9:br8000").ClearContents
+
+Application.ScreenUpdating = False
+Call copy_from_to_no_userform1
+Application.ScreenUpdating = True
+
+MsgBox "·ﬁœ  „ ‰ﬁ· Ê«” Ì—«œ «·»Ì«‰«  «·Œ«—ÃÌÂ »‰Ã«Õ", vbCritical, "—”«·…  ‰»ÌÂ"
+
+End Sub
+
 Private Sub Label108_Click()
 
 
@@ -2998,174 +3973,51 @@ Private Sub Label127_Click()
     '  ‘€Ì· Õ—ﬂ… «· ﬁ·’ («·ÿÊ· 0 ·ÌŒ ›Ì ÊÌŸÂ— „«  Õ Â)
     AnimateLabel 78, 0
     Label127.Visible = False
+    CommandButton54.Visible = True
+End Sub
+
+Private Sub Label128_Click()
+
+        ' ≈ŸÂ«— «··Ì»· √Ê·«
+        Label127.Visible = True
+        ' ≈⁄«œ… «··Ê‰ «·√’·Ì («·„Œ“‰ ›Ì «·„ €Ì— ⁄‰œ  ‘€Ì· «·›Ê—„)
+        Label127.BackColor = OrigColor
+        '  ‘€Ì· Õ—ﬂ… «· „œœ ··√»⁄«œ «·√’·Ì…
+        AnimateLabel OrigW, OrigH
+ 
+     CommandButton54.Visible = False
 End Sub
 
 Private Sub ListBox1_AfterUpdate()
 On Error Resume Next
 Call arb
-
+Dim last2 As Long
+ Dim ws As Worksheet
+    Set ws = ThisWorkbook.Sheets(1)
+last2 = Sheets(1).Cells(rowS.count, "BF").End(xlUp).row
+TextBox75.Text = Application.WorksheetFunction.CountIfs(Sheets(1).Range("BF9:BF" & last2), Me.ComboBox15.Text)
+Label118.Caption = " ›«’Ì· «·Õ”«»«  Õ”» «·„Êﬁ› «·Ê÷Ì›Ì:  " & TextBox58.Text & " " & "Ê⁄œœÂ„" & "" & "(" & Application.WorksheetFunction.CountIfs(Sheets(1).Range("BF9:BF" & last2), Me.ComboBox3.Text) & ")"
 End Sub
 
 Private Sub ListBox1_Click()
-On Error Resume Next
-TextBox92.Text = Sheets(1).Cells(1, "cb")
-Call arb
-'=================================
-
-Call UpdateSummaryFormula
-
-
-
-
-
-
-
-
-
-'=================================
-
-
-Sheets(1).Activate
-If TextBox2.Text = "" And TextBox5.Text = "" Then
-Image1.Picture = LoadPicture("D:\employ_pic\shdow_pic.jpg")
-End If
-For i = 0 To ListBox1.ListCount
-    If ListBox1.Selected(i) = True Then
-        For j = 1 To 63
-        Controls("TextBox" & j).Text = Cells(ListBox1.List(i, 1), j)
-       TextBox10.Visible = False
-        Next j
-    End If
-Next i
-ComboBox1.Visible = False
-'===================================
-Dim last1, frw1 As Integer
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
-For frw1 = 9 To last1
-If Sheets(1).Cells(frw1, "b") = TextBox2.Text And Sheets(1).Cells(frw1, "e") = TextBox5.Text Then
-Image1.Picture = LoadPicture(Sheets(1).Cells(frw1, 64))
-Image2.Picture = LoadPicture(Sheets(1).Cells(frw1, 65))
-ComboBox4.Text = Sheets(1).Cells(frw1, 4)
-ComboBox5.Text = Sheets(1).Cells(frw1, 6)
-ComboBox6.Text = Sheets(1).Cells(frw1, "m")
-ComboBox7.Text = Sheets(1).Cells(frw1, "o")
-ComboBox8.Text = Sheets(1).Cells(frw1, "q")
-ComboBox9.Text = Sheets(1).Cells(frw1, "ay")
-ComboBox10.Text = Sheets(1).Cells(frw1, "z")
-ComboBox11.Text = Sheets(1).Cells(frw1, "ab")
-ComboBox3.Text = Sheets(1).Cells(frw1, "bf")
-IsLoading = True
-CheckBox5.value = Sheets(1).Cells(frw1, "cg")
-IsLoading = False
-TextBox82.Text = Format(Sheets(1).Cells(frw1, "bn"), "yyyy/mm/dd")
-
-TextBox83.Text = Sheets(1).Cells(frw1, "bo")
-TextBox84.Text = Sheets(1).Cells(frw1, "bp")
-TextBox85.Text = Sheets(1).Cells(frw1, "bq")
-TextBox86.Text = Sheets(1).Cells(frw1, "br")
-TextBox87.Text = Sheets(1).Cells(frw1, "bs")
-TextBox88.Text = Sheets(1).Cells(frw1, "bt")
-TextBox91.Text = Sheets(1).Cells(frw1, "bv")
-TextBox99.Text = Sheets(1).Cells(frw1, "bu")
-TextBox100.Text = Sheets(1).Cells(frw1, "ca")
-TextBox105.Text = Sheets(1).Cells(frw1, "ce")
-TextBox106.Text = Sheets(1).Cells(frw1, "cf")
-TextBox107.Text = Sheets(1).Cells(4, "ci")
-
-CheckBox4.value = Sheets(1).Cells(frw1, "cd")
-
-
-'=====================
-
-'=========================
-
-
-If TextBox58.Text = "⁄ﬁœ" Then
-TextBox10.Enabled = False
-Label123.Visible = True
-TextBox10.Text = Sheets(1).Cells(frw1, "j")
-TextBox10.Visible = False
-TextBox101.Visible = True
-
-TextBox101.Text = Sheets(1).Cells(frw1, "j")
-
-Else
-TextBox101.Visible = False
-TextBox10.Visible = True
-Label123.Visible = False
-End If
-End If
-Next frw1
-If TextBox49.Text <> "" Then
-TextBox77.Text = ConvertNumberToText(TextBox49.Text, "œÌ‰«—", "")
-Else
-TextBox77.Text = 0
-End If
-
-
-If TextBox58.Text = "Ì „ ⁄ »«Ã«“Â Œ„” ”‰Ê« " Then
-
-TextBox20.Text = 0
-
-End If
-
-
-TextBox89.value = Sheets(1).Cells(2, "bw").value
-TextBox90.value = Sheets(1).Cells(2, "bx").value
-
-If TextBox58.Text = "—« » Ã“∆Ì" Or TextBox58.Text = "«„Ê„Â À«‰Ì 6 «‘Â—" Then
-CommandButton16.Enabled = False
-Else
-CommandButton16.Enabled = True
-End If
-
-'===========================================
-Sheets(1).Cells(4, "cb").value = TextBox58.Text
-
-TextBox93.value = Sheets(1).Cells(4, "cd")
-TextBox94.value = Sheets(1).Cells(4, "ce")
-TextBox97.value = Sheets(1).Cells(4, "cf")
-TextBox98.value = Sheets(1).Cells(4, "cg")
-TextBox95.value = Sheets(1).Cells(4, "ch")
-TextBox96.value = Sheets(1).Cells(4, "cc")
-  
-'TextBox75.Text = Application.WorksheetFunction.Count(Sheets(1).Range("a9:a" & frw2))
-'=COUNTIF(BF9:BF578,BL9)
-
-TextBox75.Text = ListView1.ListItems.count
-UserForm1.TextBox93.value = Format(UserForm1.TextBox93.value, "#,## IQD")
-UserForm1.TextBox94.value = Format(UserForm1.TextBox94.value, "#,## IQD")
-UserForm1.TextBox97.value = Format(UserForm1.TextBox97.value, "#,## IQD")
-UserForm1.TextBox98.value = Format(UserForm1.TextBox98.value, "#,## IQD")
-UserForm1.TextBox95.value = Format(UserForm1.TextBox95.value, "#,## IQD")
-UserForm1.TextBox96.value = Format(UserForm1.TextBox96.value, "#,## IQD")
-
-Label118.Caption = " ›«’Ì· «·Õ”«»«  Õ”» «·„Êﬁ› «·Ê÷Ì›Ì:" & "  " & TextBox58.Text
-
-TextBox89.value = Format(val(TextBox85) / val(TextBox10) * 100, "00.0") & "%"
-TextBox90.value = Format(val(TextBox86) / val(TextBox10) * 100, "00.0") & "%"
-
-ComboBox12.value = ""
-ComboBox13.value = ""
-TextBox103.value = "„ﬁœ«— ‰”»… «·„‹‹‹Œ’’«  «·„‹‹∆ÊÌ…" & " = " & (val(TextBox14) + val(TextBox16) + val(TextBox18) + val(TextBox27) + val(TextBox29)) / val(TextBox10) * 100 & "%"
-'==========================
-
-If ComboBox4.value = "«‰ÀÏ" And TextBox23.Text = "«·„ÊŸ› «·„ “ÊÃ Ê “ÊÃ Â —»… »Ì " Then
-MsgBox "«·‰Ÿ«„ «·Ÿ—Ì»Ì Ì—›÷ Â–Â «·„⁄«ÌÌ— ·ﬂÊ‰Â« «‰ÀÏ Ê·« Ì„ﬂ‰ «‰  ‰ÿ»ﬁ ⁄·Ï “ÊÃÂ« —»  »Ì øøø", vbCritical, "—”«·…  ‰»ÌÂ"
-
-
-
-ElseIf TextBox23.Text = "«·«⁄“»" And TextBox22.Text > 0 Then
-MsgBox "Â‰«ﬂ ⁄œ„  Ê«›ﬁ „‰ÿﬁÌ ··‰Ÿ«„ «·÷—Ì»Ì ﬂ√‰ ÌﬂÊ‰ «⁄“» Ê·œÌÂ «ÿ›«· øøø ", vbCritical, "—”«·…  ‰»ÌÂ"
-
-
-End If
-Call UpdateSummaryFormula
-Call CaptureSnapshot(Me, DictOld)
+Call Data_Distributor
+Dim last2 As Long
+ Dim ws As Worksheet
+    Set ws = ThisWorkbook.Sheets(1)
+last2 = Sheets(1).Cells(rowS.count, "BF").End(xlUp).row
+TextBox75.Text = Application.WorksheetFunction.CountIfs(Sheets(1).Range("BF9:BF" & last2), Me.ComboBox15.Text)
+Label118.Caption = " ›«’Ì· «·Õ”«»«  Õ”» «·„Êﬁ› «·Ê÷Ì›Ì:  " & TextBox58.Text & " " & "Ê⁄œœÂ„" & "" & "(" & Application.WorksheetFunction.CountIfs(Sheets(1).Range("BF9:BF" & last2), Me.ComboBox3.Text) & ")"
 End Sub
 
 Private Sub ListBox1_DblClick(ByVal Cancel As MSForms.ReturnBoolean)
 ComboBox1.Visible = False
+Dim last2 As Long
+ Dim ws As Worksheet
+    Set ws = ThisWorkbook.Sheets(1)
+last2 = Sheets(1).Cells(rowS.count, "BF").End(xlUp).row
+TextBox75.Text = Application.WorksheetFunction.CountIfs(Sheets(1).Range("BF9:BF" & last2), Me.ComboBox15.Text)
+Label118.Caption = " ›«’Ì· «·Õ”«»«  Õ”» «·„Êﬁ› «·Ê÷Ì›Ì:  " & TextBox58.Text & " " & "Ê⁄œœÂ„" & "" & "(" & Application.WorksheetFunction.CountIfs(Sheets(1).Range("BF9:BF" & last2), Me.ComboBox3.Text) & ")"
+
 
 If ComboBox6.value = "" Or ComboBox7.value = "" Or ComboBox8.value = "" Or ComboBox10.value = "" Or ComboBox11.value = "" Then
 ComboBox6.value = 0
@@ -3176,10 +4028,6 @@ ComboBox11.value = 0
 Else
 Exit Sub
 End If
-
-
-
-
 
 
 
@@ -3201,11 +4049,25 @@ End Sub
 
 Private Sub ListBox1_KeyDown(ByVal KeyCode As MSForms.ReturnInteger, ByVal Shift As Integer)
 Call arb
+Dim last2 As Long
+ Dim ws As Worksheet
+    Set ws = ThisWorkbook.Sheets(1)
+last2 = Sheets(1).Cells(rowS.count, "BF").End(xlUp).row
+TextBox75.Text = Application.WorksheetFunction.CountIfs(Sheets(1).Range("BF9:BF" & last2), Me.ComboBox15.Text)
+Label118.Caption = " ›«’Ì· «·Õ”«»«  Õ”» «·„Êﬁ› «·Ê÷Ì›Ì:  " & TextBox58.Text & " " & "Ê⁄œœÂ„" & "" & "(" & Application.WorksheetFunction.CountIfs(Sheets(1).Range("BF9:BF" & last2), Me.ComboBox3.Text) & ")"
+
 
 End Sub
 
 Private Sub ListBox1_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
 Call arb
+
+Dim last2 As Long
+ Dim ws As Worksheet
+    Set ws = ThisWorkbook.Sheets(1)
+last2 = Sheets(1).Cells(rowS.count, "BF").End(xlUp).row
+TextBox75.Text = Application.WorksheetFunction.CountIfs(Sheets(1).Range("BF9:BF" & last2), Me.ComboBox15.Text)
+Label118.Caption = " ›«’Ì· «·Õ”«»«  Õ”» «·„Êﬁ› «·Ê÷Ì›Ì:  " & TextBox58.Text & " " & "Ê⁄œœÂ„" & "" & "(" & Application.WorksheetFunction.CountIfs(Sheets(1).Range("BF9:BF" & last2), Me.ComboBox3.Text) & ")"
 
 
 
@@ -3362,6 +4224,10 @@ TextBox52.Text = ListView1.SelectedItem.ListSubItems(51)
 TextBox56.Text = ListView1.SelectedItem.ListSubItems(55)
 TextBox57.Text = ListView1.SelectedItem.ListSubItems(56)
 TextBox54.Text = ListView1.SelectedItem.ListSubItems(53)
+
+TextBox58.Text = ListView1.SelectedItem.ListSubItems(57)
+ComboBox3.Text = ListView1.SelectedItem.ListSubItems(57)
+
 TextBox59.Text = ListView1.SelectedItem.ListSubItems(58)
 TextBox55.Text = ListView1.SelectedItem.ListSubItems(54)
 TextBox60.Text = ListView1.SelectedItem.ListSubItems(59)
@@ -3438,6 +4304,9 @@ TextBox52.Text = ListView1.SelectedItem.ListSubItems(51)
 TextBox56.Text = ListView1.SelectedItem.ListSubItems(55)
 TextBox57.Text = ListView1.SelectedItem.ListSubItems(56)
 TextBox54.Text = ListView1.SelectedItem.ListSubItems(53)
+TextBox58.Text = ListView1.SelectedItem.ListSubItems(57)
+ComboBox3.Text = ListView1.SelectedItem.ListSubItems(57)
+
 TextBox59.Text = ListView1.SelectedItem.ListSubItems(58)
 TextBox55.Text = ListView1.SelectedItem.ListSubItems(54)
 TextBox60.Text = ListView1.SelectedItem.ListSubItems(59)
@@ -3499,9 +4368,19 @@ On Error Resume Next
 If OptionButton2.value = True Then
 OptionButton1.value = False
 If Not Intersect(Target, UserForm1.ActiveControl) Is Nothing Then
-Call englsh
+
 End If
 End If
+End Sub
+
+
+
+Private Sub SpinButton1_Change()
+
+End Sub
+
+Private Sub TextBox1_AfterUpdate()
+
 End Sub
 
 Private Sub TextBox1_Change()
@@ -3533,23 +4412,37 @@ Private Sub TextBox102_Change()
 
 End Sub
 
+Private Sub TextBox102_DblClick(ByVal Cancel As MSForms.ReturnBoolean)
+Call count_all
+UserForm75.Show
+
+End Sub
+
 Private Sub TextBox104_Change()
 
 End Sub
 
 Private Sub TextBox11_AfterUpdate()
 
-If TextBox49.value = 0 Or TextBox58.Text = "Ì „ ⁄ »«Ã«“Â Œ„” ”‰Ê« " Or TextBox58.Text = "≈Ã«“… „⁄Ì· «·„ ›—€" _
-Or TextBox58.Text = "—›⁄ Ìœ «Ê ≈Ìﬁ«› ’—›" Or TextBox58.Text = "«„Ê„Â «Ê· 6 «‘Â—" Or TextBox58.Text = "«„Ê„Â À«‰Ì 6 «‘Â—" Or TextBox58.Text = "≈Ã«“… ·Ã«‰ ÿ»ÌÂ" Then
+If TextBox49.value = 0 Or TextBox58.Text = "Ì „ ⁄ »«Ã«“Â Œ„” ”‰Ê« " Or TextBox58.Text = "≈Ã«“… „⁄Ì· «·„ ›—€" Or TextBox58.Text = "" _
+Or TextBox58.Text = "—›⁄ Ìœ" Or TextBox58.Text = "«„Ê„Â «Ê· 6 «‘Â—" Or TextBox58.Text = "«„Ê„Â À«‰Ì 6 «‘Â—" Or TextBox58.Text = "≈Ã«“… ·Ã«‰ ÿ»ÌÂ" Then
 TextBox11.value = 0
 TextBox12.value = 30
 TextBox47.value = 0
-MsgBox "·« Ì„ﬂ‰ «œŒ«·  ﬁÌ„… ··€Ì«» ·«‰Â «·„‰ ”» Œ«—Ã „Êﬁ› «·Œœ„… Ê·Â–« ”Ì„‰⁄ «·‰Ÿ«„ „‰ «Õ ”«» ﬁÌ„… «·€Ì«»", vbCritical, "—”«·…  ‰»ÌÂ"
+'MsgBox "·« Ì„ﬂ‰ «œŒ«·  ﬁÌ„… ··€Ì«» ·«‰ «·„‰ ”» Œ«—Ã „Êﬁ› «·Œœ„… Ê·Â–« ”Ì„‰⁄ «·‰Ÿ«„ „‰ «Õ ”«» ﬁÌ„… «·€Ì«»", vbCritical, "—”«·…  ‰»ÌÂ"
+
 Else
 
 Call true_salary_1
 
 End If
+If TextBox11.value > 0 And TextBox12.value < 30 Then
+TextBox99.Text = "€Ì«»"
+Else
+TextBox99.Text = ""
+
+End If
+
 End Sub
 
 Private Sub TextBox11_Change()
@@ -3566,6 +4459,22 @@ Else
 Call true_salary_1
 
 End If
+If TextBox11.value > 0 And TextBox12.value < 30 Then
+TextBox99.Text = "€Ì«»"
+Else
+TextBox99.Text = ""
+
+End If
+
+End Sub
+
+Private Sub TextBox110_Change()
+
+End Sub
+
+Private Sub TextBox110_Enter()
+Call englsh
+TextBox110.Text = ""
 End Sub
 
 Private Sub TextBox12_Change()
@@ -3606,7 +4515,6 @@ End Sub
 
 Private Sub TextBox2_Change()
 
-
 End Sub
 
 Private Sub TextBox20_Change()
@@ -3619,6 +4527,10 @@ End Sub
 
 Private Sub TextBox22_Change()
 
+If TextBox23.Text = "«·«⁄“»" Or TextBox23.Text = "«·„ÿ·ﬁ Ê·Ì” ·œÌÂ Õ÷«‰… ··√Ê·«œ" Then
+TextBox20.value = 0
+TextBox22.value = 0
+Else
 Dim numlong As Long
 Dim numlong1 As Long
 numlong = 10000
@@ -3628,6 +4540,7 @@ numlong1 = 40000
 TextBox20.value = numlong1
 ElseIf TextBox22.value <= 4 Then
 TextBox20.value = val(TextBox22.value) * numlong
+End If
 End If
 End Sub
 
@@ -3853,6 +4766,49 @@ End Sub
 
 Private Sub TextBox49_Change()
 
+Dim i As Integer
+    
+    ' «· √ﬂœ „‰ ÊÃÊœ —ﬁ„
+    If IsNumeric(Me.TextBox49.value) Then
+        
+        ' ›Õ’ ≈–« ﬂ«‰  «·ﬁÌ„… »«·„«Ì‰’
+        If CDbl(Me.TextBox49.value) < 0 Then
+            
+            ' Õ·ﬁ…  ﬂ—«— ·⁄„· Ê„Ì÷ („À·« 3 „—« )
+            For i = 1 To 3
+                ' «··Ê‰ «·›”›Ê—Ì
+                Me.TextBox49.BackColor = RGB(173, 255, 47)
+                DoEvents ' ··”„«Õ ··‰„Ê–Ã » ÕœÌÀ «··Ê‰ ›Ê—«
+                Sleep_Static 100 '  Êﬁ› »”Ìÿ Ãœ«
+                
+                ' «··Ê‰ «·√»Ì÷
+                Me.TextBox49.BackColor = vbWhite
+                DoEvents
+                Sleep_Static 100
+            Next i
+            
+            ' ›Ì «·‰Â«Ì… ‰ —ﬂÂ ⁄·Ï «··Ê‰ «·›”›Ê—Ì ·· ‰»ÌÂ «·œ«∆„
+            Me.TextBox49.BackColor = RGB(173, 255, 47)
+            Me.TextBox49.ForeColor = vbRed ' ·Ê‰ «·Œÿ √Õ„— ··„«Ì‰’
+            
+        Else
+            ' ≈–« ﬂ«‰ «·—ﬁ„ „ÊÃ»« ‰—Ã⁄Â ··Ê÷⁄ «·ÿ»Ì⁄Ì
+            Me.TextBox49.BackColor = vbWhite
+            Me.TextBox49.ForeColor = vbBlack
+        End If
+        
+    Else
+        Me.TextBox49.BackColor = vbWhite
+    End If
+End Sub
+
+' œ«·… „”«⁄œ… »”Ìÿ… ·· √ŒÌ— «·“„‰Ì œ«Œ· «·‰„Ê–Ã
+Sub Sleep_Static(MilliSeconds As Long)
+    Dim EndTime As Double
+    EndTime = Timer + (MilliSeconds / 1000)
+    Do While Timer < EndTime
+        DoEvents
+    Loop
 End Sub
 
 Private Sub TextBox5_Change()
@@ -3908,7 +4864,7 @@ Private Sub TextBox56_Change()
 End Sub
 
 Private Sub TextBox57_Change()
-
+arb
 End Sub
 
 Private Sub TextBox58_AfterUpdate()
@@ -3930,7 +4886,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 If TextBox58.Text = Sheets(1).Cells(frw1, "bf") Then
 Set item1 = ListView1.ListItems.Add(, , Sheets(1).Cells(frw1, "A"))
@@ -4114,7 +5070,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 If TextBox58.Text = Sheets(1).Cells(frw1, "bf") Then
 Set item1 = ListView1.ListItems.Add(, , Sheets(1).Cells(frw1, "A"))
@@ -4341,7 +5297,7 @@ Dim wksSource As Worksheet
  With Me.ListView1
 .ListItems.Clear
 Sheets(1).Activate
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 
 
 
@@ -4450,7 +5406,7 @@ ListView1.ListItems.Clear
 With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 Set item1 = ListView1.ListItems.Add(, , Sheets(1).Cells(frw1, "A"))
 item1.SubItems(1) = Sheets(1).Cells(frw1, "b")
@@ -4625,6 +5581,8 @@ End Sub
 
 Private Sub TextBox72_Change()
 On Error Resume Next
+
+
 Application.ScreenUpdating = False
 Application.Calculation = xlCalculationManual
 
@@ -4642,7 +5600,7 @@ Sheets(1).Activate
     If TextBox72 = "" Then Exit Sub
     Sheets(1).Activate
 
-    ss = Sheets(1).Cells(Rows.count, 5).End(xlUp).row
+    ss = Sheets(1).Cells(rowS.count, 5).End(xlUp).row
      k = 0
      
      
@@ -4675,7 +5633,7 @@ End If
 TextBox72.Text = ""
 
 
-For i = 9 To Sheets(1).Cells(Rows.count, 5).End(xlUp).row
+For i = 9 To Sheets(1).Cells(rowS.count, 5).End(xlUp).row + 1
 ListBox1.AddItem
  ListBox1.List(i - 9, 0) = Cells(i, 5).value
   ListBox1.List(i - 9, 1) = i
@@ -4685,7 +5643,7 @@ TextBox20.value = ""
 End If
 
 Dim last1 As Integer
-last1 = Sheets(1).Cells(Rows.count, "e").End(xlUp).row
+last1 = Sheets(1).Cells(rowS.count, "e").End(xlUp).row
 TextBox75.Text = last1 - 8
 
 End Sub
@@ -4707,6 +5665,7 @@ End Sub
 
 Private Sub TextBox8_Change()
 On Error Resume Next
+
 Sheets(9).Cells(18, "g") = TextBox8.Text
 Sheets(9).Cells(18, "f") = TextBox9.Text
 TextBox10.Text = Sheets(9).Cells(18, "h")
@@ -4745,7 +5704,16 @@ TextBox91.Text = Sheets(9).Cells(17, "s")
 
 End Sub
 
+Private Sub TextBox83_Change()
+
+End Sub
+
+Private Sub TextBox84_Change()
+
+End Sub
+
 Private Sub TextBox85_AfterUpdate()
+
 TextBox89.value = Format(val(TextBox85) / val(TextBox10) * 100, "00.0") & "%"
 End Sub
 
@@ -4757,6 +5725,7 @@ End Sub
 
 Private Sub TextBox86_AfterUpdate()
 On Error Resume Next
+
 TextBox90.value = Format(val(TextBox86) / val(TextBox10) * 100, "00.0") & "%"
 End Sub
 
@@ -4772,8 +5741,8 @@ End Sub
 Private Sub TextBox9_Change()
 On Error Resume Next
 
-Sheets(9).Cells(18, "g") = TextBox8.Text
-Sheets(9).Cells(18, "f") = TextBox9.Text
+Sheets(9).Cells(17, "q") = TextBox8.Text
+Sheets(9).Cells(17, "r") = TextBox9.Text
 TextBox10.Text = Sheets(9).Cells(18, "h")
 
 Sheets(9).Cells(17, "q") = TextBox8.Text
@@ -4792,6 +5761,15 @@ If TextBox9.Text = "" Then
 Exit Sub
 End If
 End Sub
+
+Private Sub TextBox90_Change()
+
+End Sub
+
+Private Sub TextBox99_Change()
+arb
+End Sub
+
 Private Sub UserForm_Activate()
 
 On Error GoTo emad
@@ -4804,8 +5782,8 @@ Call AddToForm(MIN_BOX)
 Call AddToForm(MAX_BOX)
 ComboBox1.List = Sheets(4).Range("f1:f11").value
 ComboBox2.List = Sheets(5).Range("a1:a373").value
-ComboBox3.List = Sheets(4).Range("o1:p13").value
-ComboBox15.List = Sheets(4).Range("o1:p13").value
+ComboBox3.List = Sheets(4).Range("o1:p17").value
+ComboBox15.List = Sheets(4).Range("o1:p17").value
 ComboBox4.List = Array("–ﬂ—", "«‰ÀÏ")
 ComboBox14.List = Array("ŒÿÊ—… ”«∆ﬁ", "·« Ì” Õﬁ")
 
@@ -4815,7 +5793,7 @@ ComboBox6.List = Array("0", "0.15", "0.25", "0.35", "0.45", "0.55", "0.65", "0.7
 
 ComboBox7.List = Array("0.35", "0.5", "0")
 ComboBox8.List = Array("0.5", "0.3", "0.25", "0.20", "0.15", "0")
-ComboBox9.List = Array("„«” —", "ﬂ«‘")
+ComboBox9.List = Array("„«” —", "ﬂ«‘ „” ·„", "ﬂ«‘ ’›—Ì")
 ComboBox10.List = Array("0.3", "0.25", "0.20", "0.15", "0")
 ComboBox11.List = Array("1", "0.80", "0.30", "0.25", "0.20", "0.15", "0")
 ComboBox12.List = Array("ﬂ«‰Ê‰ «·À«‰Ì", "‘»«ÿ", "¬–«—", "‰Ì”«‰", "√Ì«—", "Õ“Ì—«‰", " „Ê“", "¬»", "√Ì·Ê·", " ‘—Ì‰†«·√Ê·", " ‘—Ì‰†«·À«‰Ì", "ﬂ«‰Ê‰†«·√Ê·")
@@ -4870,13 +5848,13 @@ End If
 
 
 
-Dim lastr1 As Integer
-lastr1 = Sheets(1).Cells(Rows.count, "b").End(xlUp).row
+Dim lastR1 As Integer
+lastR1 = Sheets(1).Cells(rowS.count, "b").End(xlUp).row
 
 Ê—ﬁ…1.Range("cb9").Formula = "=TEXT(TODAY(),""mmm"")"
-Ê—ﬁ…1.Range("cb9:cb" & lastr1).FillDown
+Ê—ﬁ…1.Range("cb9:cb" & lastR1).FillDown
 Dim last1 As Integer
-last1 = Sheets(1).Cells(Rows.count, "e").End(xlUp).row
+last1 = Sheets(1).Cells(rowS.count, "e").End(xlUp).row
 TextBox75.Text = last1 - 8
 
 Application.ScreenUpdating = True
@@ -4885,6 +5863,8 @@ Application.Calculation = xlCalculationAutomatic
 Call CalculateSalaryPositions
 Call UpdateLiveFormulas_Sheet1
 Call FillAT
+
+ 
 emad:
 End Sub
 
@@ -4892,21 +5872,24 @@ End Sub
 
 
 
+
+
+   
 Private Sub UserForm_Click()
-Dim last1 As Integer
-last1 = Sheets(1).Cells(Rows.count, "e").End(xlUp).row
-TextBox75.Text = last1 - 8
-Call CaptureSnapshot(Me, DictOld)
- Label127.Visible = True
-    ' ≈⁄«œ… «··Ê‰ «·√’·Ì ﬁ»· «· „œœ
-    Label127.BackColor = OrigColor
-    
-    AnimateLabel OrigW, OrigH
+Call englsh
+End Sub
+
+Private Sub UserForm_DblClick(ByVal Cancel As MSForms.ReturnBoolean)
+Call englsh
 End Sub
 
 Private Sub UserForm_Initialize()
 '===============================
 On Error Resume Next
+
+Zoomer.Bind Me, Me.SpinButton1, Me.az
+Call SyncCheckBox6WithCG
+
 
  OrigW = Label127.Width
     OrigH = Label127.Height
@@ -4920,7 +5903,7 @@ On Error Resume Next
     For Each ws In ThisWorkbook.Worksheets
         Select Case LCase(ws.Name)
             Case "jan", "feb", "mar", "apr", "may", "jun", _
-                 "jul", "aug", "sep", "oct", "nov", "dec"
+                 "jul", "aug", "sep", "oct", "nov", "dec", "past_month55"
                 Me.ComboBox16.AddItem ws.Name
         End Select
     Next ws
@@ -5094,7 +6077,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 Set item1 = ListView1.ListItems.Add(, , Sheets(1).Cells(frw1, "A"))
 item1.SubItems(1) = Sheets(1).Cells(frw1, "b")
@@ -5307,7 +6290,7 @@ Label123.Visible = False
 
 
 Dim last As Integer
-last = Sheets(1).Cells(Rows.count, "e").End(xlUp).row
+last = Sheets(1).Cells(rowS.count, "e").End(xlUp).row
 TextBox75.Text = last - 8
 
 
@@ -5325,7 +6308,7 @@ End Sub
 Private Sub GetMonthDataToSheet1(monthSheetName As String)
 
     Dim wsSrc As Worksheet, wsDest As Worksheet
-    Dim lastRow As Long, LastCol As Long
+    Dim lastRow As Long, lastCol As Long
     Dim dataRange As Range, dataArr As Variant, headersArr As Variant
     Dim nRows As Long, nCols As Long
     Dim actualCells As Long
@@ -5334,8 +6317,8 @@ Private Sub GetMonthDataToSheet1(monthSheetName As String)
     Set wsDest = Sheets("Sheet1")
 
     '  ÕœÌœ ¬Œ— ’› Ê¬Œ— ⁄„Êœ
-    lastRow = wsSrc.Cells(wsSrc.Rows.count, 1).End(xlUp).row
-    LastCol = wsSrc.Cells(8, wsSrc.Columns.count).End(xlToLeft).Column
+    lastRow = wsSrc.Cells(wsSrc.rowS.count, 1).End(xlUp).row
+    lastCol = wsSrc.Cells(8, wsSrc.Columns.count).End(xlToLeft).Column
 
     ' ===== «· Õﬁﬁ „‰ ÊÃÊœ √Ì »Ì«‰«  =====
     If lastRow < 9 Then
@@ -5344,7 +6327,7 @@ Private Sub GetMonthDataToSheet1(monthSheetName As String)
         Exit Sub
     End If
 
-    Set dataRange = wsSrc.Range(wsSrc.Cells(9, 1), wsSrc.Cells(lastRow, LastCol))
+    Set dataRange = wsSrc.Range(wsSrc.Cells(9, 1), wsSrc.Cells(lastRow, lastCol))
     
     ' ⁄œ √Ì Œ·Ì…  Õ ÊÌ ⁄·Ï »Ì«‰« 
     actualCells = Application.WorksheetFunction.CountA(dataRange)
@@ -5355,7 +6338,7 @@ Private Sub GetMonthDataToSheet1(monthSheetName As String)
     End If
 
     ' ﬁ—«¡… «·ÂÌœ— Ê«·»Ì«‰« 
-    headersArr = wsSrc.Rows(8).Resize(1, LastCol).value
+    headersArr = wsSrc.rowS(8).Resize(1, lastCol).value
     dataArr = dataRange.value
     nRows = UBound(dataArr, 1)
     nCols = UBound(dataArr, 2)
@@ -5367,7 +6350,7 @@ Private Sub GetMonthDataToSheet1(monthSheetName As String)
     wsDest.Cells(9, 1).Resize(nRows, nCols).value = dataArr
 
 End Sub
-Sub UpdateCGInSheet(EmpID As String, Status As Boolean)
+Sub UpdateCGInSheet(empID As String, status As Boolean)
     Dim ws As Worksheet
     Dim lastRow As Long
     Dim i As Long
@@ -5376,14 +6359,14 @@ Sub UpdateCGInSheet(EmpID As String, Status As Boolean)
     Set ws = ThisWorkbook.Sheets(1)
     
     ' ≈ÌÃ«œ ¬Œ— ’› ›Ì «·⁄„Êœ B («·—ﬁ„ «·ÊŸÌ›Ì)
-    lastRow = ws.Cells(ws.Rows.count, "B").End(xlUp).row
+    lastRow = ws.Cells(ws.rowS.count, "B").End(xlUp).row
     
     ' Õ·ﬁ…  ﬂ—«—Ì…  »œ√ „‰ «·’› 9
     For i = 9 To lastRow
         ' „ﬁ«—‰… «·—ﬁ„ «·ÊŸÌ›Ì „⁄ «·ﬁÌ„… «·„ÊÃÊœ… ›Ì «·‘Ì 
-        If Trim(ws.Cells(i, "B").value) = Trim(EmpID) Then
+        If Trim(ws.Cells(i, "B").value) = Trim(empID) Then
             '  ÕœÌÀ «·Œ·Ì… ›Ì «·⁄„Êœ CG »«·ﬁÌ„… «·„ÿ·Ê»… (True √Ê False)
-            ws.Cells(i, "CG").value = Status
+            ws.Cells(i, "CG").value = status
             Exit For ' «·Œ—ÊÃ „‰ «·Õ·ﬁ… »⁄œ ≈ „«„ «· ÕœÌÀ
         End If
     Next i
@@ -5410,3 +6393,177 @@ Sub AnimateLabel(TargetW As Single, TargetH As Single)
     Label127.Width = TargetW
     Label127.Height = TargetH
 End Sub
+
+
+Sub Data_Distributor()
+On Error Resume Next
+
+' 1.  ÕœÌÀ «·„⁄«œ·«  «·√”«”Ì…
+TextBox92.Text = Sheets(1).Cells(1, "cb")
+Call arb
+Call UpdateSummaryFormula
+
+' 2.  ›⁄Ì· «·‘Ì  Ê«· Õﬁﬁ „‰ «·ÕﬁÊ· «·√”«”Ì… ··’Ê—
+Sheets(1).Activate
+If TextBox2.Text = "" And TextBox5.Text = "" Then
+    Image1.Picture = LoadPicture("D:\employ_pic\shdow_pic.jpg")
+End If
+
+' 3. ‰‘— «·»Ì«‰«  «·√”«”Ì… „‰ «·‹ ListBox («·‹ 63  Ìﬂ”  »Êﬂ”)
+Dim i As Integer, j As Integer
+For i = 0 To ListBox1.ListCount - 1
+    If ListBox1.Selected(i) = True Then
+        For j = 1 To 63
+            Controls("TextBox" & j).Text = Cells(ListBox1.List(i, 1), j)
+        Next j
+        TextBox10.Visible = False
+        Exit For ' «·Œ—ÊÃ »⁄œ ≈ÌÃ«œ «·⁄‰’— «·„Œ «—
+    End If
+Next i
+
+ComboBox1.Visible = False
+
+' 4. Õ·ﬁ… «·»ÕÀ Ê«·„ÿ«»ﬁ… ·Ã·» «·„·Õﬁ«  («·„ƒ‘—«  «·„ „„…)
+Dim last1 As Long, frw1 As Long
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+
+For frw1 = 9 To last1
+    ' «·„ÿ«»ﬁ… »‰«¡ ⁄·Ï «· ﬂ”  »Êﬂ” 2 Ê 5 ﬂ„« ›Ì ﬂÊœﬂ
+    If Sheets(1).Cells(frw1, "b").Text = TextBox2.Text And Sheets(1).Cells(frw1, "e").Text = TextBox5.Text Then
+        
+        ' Ã·» «·’Ê— Ê«·ﬂÊ„»Ê»Êﬂ”«  «·„·Õﬁ…
+        Image1.Picture = LoadPicture(Sheets(1).Cells(frw1, 64))
+        Image2.Picture = LoadPicture(Sheets(1).Cells(frw1, 65))
+        ComboBox4.Text = Sheets(1).Cells(frw1, 4)
+        ComboBox5.Text = Sheets(1).Cells(frw1, 6)
+        ComboBox6.Text = Sheets(1).Cells(frw1, "m")
+        ComboBox7.Text = Sheets(1).Cells(frw1, "o")
+        ComboBox8.Text = Sheets(1).Cells(frw1, "q")
+        ComboBox9.Text = Sheets(1).Cells(frw1, "ay")
+        ComboBox10.Text = Sheets(1).Cells(frw1, "z")
+        ComboBox11.Text = Sheets(1).Cells(frw1, "ab")
+        ComboBox3.Text = Sheets(1).Cells(frw1, "bf")
+
+        IsLoading = True
+        CheckBox5.value = Sheets(1).Cells(frw1, "cg")
+        IsLoading = False
+        
+        TextBox82.Text = Format(Sheets(1).Cells(frw1, "bn"), "yyyy/mm/dd")
+        TextBox83.Text = Sheets(1).Cells(frw1, "bo")
+        TextBox84.Text = Sheets(1).Cells(frw1, "bp")
+        TextBox85.Text = Sheets(1).Cells(frw1, "bq")
+        TextBox86.Text = Sheets(1).Cells(frw1, "br")
+        TextBox87.Text = Sheets(1).Cells(frw1, "bs")
+        TextBox88.Text = Sheets(1).Cells(frw1, "bt")
+        TextBox91.Text = Sheets(1).Cells(frw1, "bv")
+        TextBox99.Text = Sheets(1).Cells(frw1, "bu")
+        TextBox100.Text = Sheets(1).Cells(frw1, "ca")
+        TextBox105.Text = Sheets(1).Cells(frw1, "ce")
+        TextBox106.Text = Sheets(1).Cells(frw1, "cf")
+        TextBox107.Text = Sheets(1).Cells(4, "ci")
+        TextBox108.Text = Sheets(1).Cells(frw1, "ci")
+        TextBox109.Text = Sheets(1).Cells(frw1, "cj")
+        CheckBox4.value = Sheets(1).Cells(frw1, "cd")
+        TextBox111.Text = Sheets(1).Cells(frw1, "ck")
+        ' ‘—Êÿ «·—Ê« » Ê«·⁄ﬁÊœ
+        If TextBox58.Text = "⁄ﬁœ" Then
+            TextBox10.Enabled = False
+            Label123.Visible = True
+            TextBox10.Text = Sheets(1).Cells(frw1, "j")
+            TextBox10.Visible = False
+            TextBox101.Visible = True
+            TextBox101.Text = Sheets(1).Cells(frw1, "j")
+        Else
+            TextBox101.Visible = False
+            TextBox10.Visible = True
+            Label123.Visible = False
+        End If
+        Exit For ' ≈‰Â«¡ «·»ÕÀ ⁄‰œ «· ÿ«»ﬁ
+    End If
+Next frw1
+
+' 5. «·⁄„·Ì«  «·Õ”«»Ì… «·‰Â«∆Ì… Ê«· ‰”Ìﬁ
+If val(TextBox49.Text) <> 0 Then
+    TextBox77.Text = ConvertNumberToText(TextBox49.Text, "œÌ‰«—", "")
+Else
+    TextBox77.Text = 0
+End If
+
+If TextBox58.Text = "Ì „ ⁄ »«Ã«“Â Œ„” ”‰Ê« " Then TextBox20.Text = 0
+
+TextBox89.value = Sheets(1).Cells(2, "bw").value
+TextBox90.value = Sheets(1).Cells(2, "bx").value
+
+CommandButton16.Enabled = Not (TextBox58.Text = "—« » Ã“∆Ì" Or TextBox58.Text = "«„Ê„Â À«‰Ì 6 «‘Â—")
+
+Sheets(1).Cells(4, "cb").value = TextBox58.Text
+TextBox93.value = Sheets(1).Cells(4, "cd")
+TextBox94.value = Sheets(1).Cells(4, "ce")
+TextBox97.value = Sheets(1).Cells(4, "cf")
+TextBox98.value = Sheets(1).Cells(4, "cg")
+TextBox95.value = Sheets(1).Cells(4, "ch")
+TextBox96.value = Sheets(1).Cells(4, "cc")
+
+TextBox75.Text = ListView1.ListItems.count
+
+'  ‰”Ìﬁ «·⁄„·…
+Dim fmt As String: fmt = "#,## IQD"
+TextBox93.value = Format(TextBox93.value, fmt)
+TextBox94.value = Format(TextBox94.value, fmt)
+TextBox97.value = Format(TextBox97.value, fmt)
+TextBox98.value = Format(TextBox98.value, fmt)
+TextBox95.value = Format(TextBox95.value, fmt)
+TextBox96.value = Format(TextBox96.value, fmt)
+
+'=============================================
+
+ 
+'=====================================
+TextBox89.value = Format(val(TextBox85) / val(TextBox10) * 100, "00.0") & "%"
+TextBox90.value = Format(val(TextBox86) / val(TextBox10) * 100, "00.0") & "%"
+
+ComboBox12.value = ""
+ComboBox13.value = ""
+TextBox103.value = "„ﬁœ«— ‰”»… «·„‹‹‹Œ’’«  «·„‹‹∆ÊÌ… = " & (val(TextBox14) + val(TextBox16) + val(TextBox18) + val(TextBox27) + val(TextBox29)) / val(TextBox10) * 100 & "%"
+
+' «· Õﬁﬁ „‰ «·„‰ÿﬁ «·÷—Ì»Ì
+If ComboBox4.value = "«‰ÀÏ" And TextBox23.Text = "«·„ÊŸ› «·„ “ÊÃ Ê “ÊÃ Â —»… »Ì " Then
+    MsgBox "«·‰Ÿ«„ «·Ÿ—Ì»Ì Ì—›÷ Â–Â «·„⁄«ÌÌ— ·ﬂÊ‰Â« «‰ÀÏ Ê·« Ì„ﬂ‰ «‰  ‰ÿ»ﬁ ⁄·Ï “ÊÃÂ« —»  »Ì øøø", vbCritical, "—”«·…  ‰»ÌÂ"
+ElseIf TextBox23.Text = "«·«⁄“»" And val(TextBox22.Text) > 0 Then
+    MsgBox "Â‰«ﬂ ⁄œ„  Ê«›ﬁ „‰ÿﬁÌ ··‰Ÿ«„ «·÷—Ì»Ì ﬂ√‰ ÌﬂÊ‰ «⁄“» Ê·œÌÂ «ÿ›«· øøø ", vbCritical, "—”«·…  ‰»ÌÂ"
+End If
+
+Call UpdateSummaryFormula
+Call CaptureSnapshot(Me, DictOld)
+
+End Sub
+
+Public Sub SyncCheckBox6WithCG()
+    Dim wsMain As Worksheet
+    Set wsMain = ThisWorkbook.Sheets(1)
+    
+    Dim lastRow As Long
+    lastRow = wsMain.Cells(wsMain.rowS.count, 2).End(xlUp).row
+    If lastRow < 9 Then lastRow = 9
+    
+    Dim arrData As Variant
+    arrData = wsMain.Range("CG9:CG" & lastRow).value
+    
+    Dim allTrue As Boolean
+    allTrue = True
+    
+    ' ›Õ’ ﬂ«›… «·Œ·«Ì« ›Ì «·⁄„Êœ CG
+    Dim i As Long
+    For i = 1 To UBound(arrData, 1)
+        ' ≈–« ÊÃœ √Ì ﬁÌ„… ·Ì”  "true"° «Ã⁄· «·‰ ÌÃ… False
+        If LCase(CStr(arrData(i, 1))) <> "true" Then
+            allTrue = False
+            Exit For
+        End If
+    Next i
+    
+    '  ÕœÌÀ Õ«·… «·„—»⁄
+    Me.CheckBox6.value = allTrue
+End Sub
+
+
