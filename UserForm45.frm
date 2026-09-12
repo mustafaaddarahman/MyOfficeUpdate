@@ -16,6 +16,9 @@ Attribute VB_Exposed = False
 
 
 
+
+
+
 Private Sub CommandButton27_Click()
 Unload Me
 UserForm10.Show
@@ -42,7 +45,7 @@ Sheets(52).Cells(20, "g").value = Int(TextBox14.Text)
 Sheets(52).Cells(20, "i").value = Int(TextBox15.Text)
 Sheets(52).Cells(22, "a").value = Int(TextBox16.Text)
 Sheets(52).Cells(22, "e").value = Int(TextBox17.Text)
-Sheets(52).Cells(20, "f").value = Int(TextBox18.Text)
+
 
 
 
@@ -73,7 +76,7 @@ TextBox14.Text = Int(Sheets(1).Cells(5, "cp"))
 TextBox15.Text = Int(Sheets(1).Cells(5, "cq"))
 TextBox16.Text = Int(Sheets(1).Cells(5, "cl"))
 TextBox17.Text = Int(Sheets(1).Cells(2, "cg"))
-TextBox18.Text = Int(Sheets(1).Cells(3, "cr"))
+
 
 
 
