@@ -2,7 +2,7 @@ Attribute VB_Name = "kalast_asthkakat_hasb_aldaraga"
 Sub ExportDataFinalV2()
     Dim wbSource As Workbook, wbNew As Workbook
     Dim ws26 As Worksheet, ws31 As Worksheet, wsNew As Worksheet
-    Dim CurrentMonthName As String
+    Dim currentMonthName As String
     Dim folderPath As String, fileName As String, entityName As String, fullHeader As String
     Dim NextRow As Long, i As Integer, startCol As Integer
     Dim signatures As Variant
@@ -20,10 +20,10 @@ Sub ExportDataFinalV2()
     Set ws31 = wbSource.Sheets(31)
     
     entityName = ws31.Range("A2").value
-    CurrentMonthName = Format(Date, "mmmm")
+    currentMonthName = Format(Date, "mmmm")
     
     '  ﬂÊÌ‰ ‰’ «· —ÊÌ”… ·«” Œœ«„Â ›Ì «·„·› Ê«”„ «·Õ›Ÿ
-    fullHeader = "Œ·«’… «·«” Õﬁ«ﬁ«  Õ”» «·œ—Ã… ·‘Â— " & CurrentMonthName & " " & entityName
+    fullHeader = "Œ·«’… «·«” Õﬁ«ﬁ«  Õ”» «·œ—Ã… ·‘Â— " & currentMonthName & " " & entityName
 
     ' 2. ≈‰‘«¡ «·„’‰› «·ÃœÌœ
     Set wbNew = Workbooks.Add
