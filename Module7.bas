@@ -47,7 +47,7 @@ With UserForm3
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(3).Range("A" & rowS.count).End(xlUp).row
+last1 = Sheets(3).Range("A" & Rows.count).End(xlUp).row
 For frw1 = 2 To last1
 If Sheets(3).Cells(frw1, "f") Like "*" & UserForm3.TextBox6.Text & "*" Then
 Set item1 = UserForm3.ListView1.ListItems.Add(, , Sheets(3).Cells(frw1, "A"))
