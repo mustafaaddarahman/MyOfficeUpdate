@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm18 
    Caption         =   "UserForm18"
-   ClientHeight    =   9180.001
+   ClientHeight    =   10920
    ClientLeft      =   120
    ClientTop       =   468
    ClientWidth     =   19056
@@ -13,8 +13,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
-
+Dim Zoomer As New clsZoomManager
 
 
 
@@ -29,7 +28,6 @@ Private Declare PtrSafe Function DrawMenuBar Lib "user32.dll" (ByVal hwnd As Lon
 Private Declare PtrSafe Function GetForegroundWindow Lib "user32.dll" () As Long
 
 Public Sub AddToForm(ByVal Box_Type As Long)
-On Error Resume Next
 Dim BisMask As Long
 Dim Window_Handle As Long
 Dim WindowStyle As Long
@@ -44,7 +42,6 @@ End If
 End Sub
 
 Function rightToLeftListView()
-On Error Resume Next
 Dim Columns As Long
 Dim i As Long
 With ListView1
@@ -72,7 +69,6 @@ End Sub
 
 
 Private Sub CheckBox2_Click()
-On Error Resume Next
 If CheckBox2.value = True Then
 CommandButton15.Enabled = True
 Me.TextBox55.Text = ""
@@ -84,7 +80,6 @@ End If
 End Sub
 
 Private Sub ComboBox1_Change()
-On Error Resume Next
 TextBox23.value = ComboBox1.value
 ComboBox1.Visible = False
 End Sub
@@ -100,7 +95,6 @@ Private Sub ComboBox2_Change()
 End Sub
 
 Private Sub ComboBox3_Change()
-On Error Resume Next
 TextBox58.Text = ComboBox3.value
 End Sub
 
@@ -164,9 +158,8 @@ End Sub
 
 
 Private Sub CommandButton20_Click()
-On Error Resume Next
 Dim lastR As Integer
-lastR = Sheets(3).Cells(rowS.count, 1).End(xlUp).row
+lastR = Sheets(3).Cells(Rows.count, 1).End(xlUp).row
     For Y = 2 To lastR
     
     If Sheets(3).Cells(Y, 5) = TextBox5.Text And Sheets(3).Cells(Y, 2) = TextBox2.Text Then
@@ -275,7 +268,6 @@ UserForm9.Show
 End Sub
 
 Private Sub CommandButton24_Click()
-On Error Resume Next
 UserForm15.Show
 End Sub
 
@@ -291,11 +283,11 @@ Application.ScreenUpdating = False
 Sheets(15).Range("a8:L8341").ClearContents
 Dim lastRow, lastrow1 As Integer
 
-lastRow = Sheets(13).Cells(rowS.count, 2).End(xlUp).row
+lastRow = Sheets(13).Cells(Rows.count, 2).End(xlUp).row
 
 Dim lr, i As Integer
 For i = 1 To lastRow
-lr = Sheets(15).Cells(rowS.count, 1).End(xlUp).row
+lr = Sheets(15).Cells(Rows.count, 1).End(xlUp).row
 Sheets(15).Range("a1:l7").Copy
 Sheets(15).Range("a" & lr + 1 - 1 + 3).PasteSpecial
 Application.CutCopyMode = False
@@ -316,7 +308,6 @@ emad:
 End Sub
 
 Private Sub CommandButton4_Click()
-On Error Resume Next
 '========================================================
 'Data migration
  TextBox14.Enabled = False
@@ -343,7 +334,7 @@ On Error Resume Next
 
     Sheets(1).Activate
 
-    iRow = Range("b" & rowS.count).End(xlUp).row
+    iRow = Range("b" & Rows.count).End(xlUp).row
 '=======================================================
   ' TextBox14.Text = 0                                              '
   ' TextBox16.Text = 0
@@ -436,7 +427,7 @@ TextBox53.Text = Format(Sheets(3).Cells(1, "cc"), "yyyy/mm,dd")
 
 Sheets(3).Activate
 Dim lastR As Integer
-lastR = Sheets(3).Cells(rowS.count, 1).End(xlUp).row
+lastR = Sheets(3).Cells(Rows.count, 1).End(xlUp).row
 For X = 2 To lastR
 If Sheets(3).Cells(X, 2).value = TextBox2.Text And Sheets(3).Cells(X, 5).value = TextBox5.Text Then
  Sheets(3).Cells(X, 1).Select
@@ -461,7 +452,6 @@ End Sub
 
 
 Private Sub CommandButton8_Click()
-On Error Resume Next
 Sheets(3).Activate
 For X = 9 To 1500
 If Cells(X, 5) = TextBox5.Text Then
@@ -488,7 +478,7 @@ Dim last1, frw1 As Integer
 
 
 Sheets(3).Activate
-last1 = Sheets(3).Cells(rowS.count, 1).End(xlUp).row
+last1 = Sheets(3).Cells(Rows.count, 1).End(xlUp).row
 
 
 
@@ -602,7 +592,7 @@ Dim simadd As Double
 Dim simsubtract As Double
 Dim item2 As ListItem
 Dim last2, frw2 As Integer
-last2 = Sheets(3).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(3).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 2 To last2
 
 
@@ -824,7 +814,7 @@ Private Sub Frame_Click()
 End Sub
 
 Private Sub ListBox1_Click()
-On Error Resume Next
+'On Error Resume Next
 Sheets(3).Activate
 If TextBox2.Text = "" And TextBox5.Text = "" Then
 Image1.Picture = LoadPicture("D:\employ_pic\shdow_pic.jpg")
@@ -839,7 +829,7 @@ Next i
 ComboBox1.Visible = False
 '===================================
 Dim last1, frw1 As Integer
-last1 = Sheets(3).Range("A" & rowS.count).End(xlUp).row
+last1 = Sheets(3).Range("A" & Rows.count).End(xlUp).row
 For frw1 = 1 To last1
 
 If Sheets(3).Cells(frw1, "b") = TextBox2.Text And Sheets(3).Cells(frw1, "e") = TextBox5.Text Then
@@ -864,12 +854,10 @@ TextBox53.value = Format(Date, "yyyy/mm/dd")
 End Sub
 
 Private Sub ListBox1_DblClick(ByVal Cancel As MSForms.ReturnBoolean)
-On Error Resume Next
 ComboBox1.Visible = False
 End Sub
 
 Private Sub OptionButton1_Click()
-On Error Resume Next
 If OptionButton1.value = True Then
 OptionButton2.value = False
 Call arb
@@ -1040,7 +1028,7 @@ arb
 End Sub
 
 Private Sub TextBox5_DblClick(ByVal Cancel As MSForms.ReturnBoolean)
-On Error Resume Next
+
 
 TextBox27.value = ""
 ListBox1.Clear
@@ -1054,11 +1042,10 @@ arb
 End Sub
 
 Private Sub TextBox60_DblClick(ByVal Cancel As MSForms.ReturnBoolean)
-On Error Resume Next
 Sheets(3).Activate
 CommandButton5.Locked = True
 TextBox50.SetFocus
-For i = 9 To Sheets(3).Cells(rowS.count, 5).End(xlUp).row
+For i = 9 To Sheets(3).Cells(Rows.count, 5).End(xlUp).row
 ListBox1.AddItem
  ListBox1.List(i - 9, 0) = Cells(i, 5).value
   ListBox1.List(i - 9, 1) = i
@@ -1066,7 +1053,6 @@ ListBox1.AddItem
 End Sub
 
 Private Sub TextBox65_AfterUpdate()
-On Error Resume Next
 If TextBox72.Text = "#N/A" Then
 
  Beep
@@ -1089,7 +1075,6 @@ emad:
 End Sub
 
 Private Sub TextBox65_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
-On Error Resume Next
 TextBox65.Text = ""
 TextBox77.Text = ""
 TextBox72.Text = ""
@@ -1118,7 +1103,7 @@ ListView1.ListItems.Clear
 With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
-last1 = Sheets(3).Range("A" & rowS.count).End(xlUp).row
+last1 = Sheets(3).Range("A" & Rows.count).End(xlUp).row
 For frw1 = 9 To last1
 Set item1 = ListView1.ListItems.Add(, , Sheets(3).Cells(frw1, "A"))
 item1.SubItems(1) = Sheets(3).Cells(frw1, "b")
@@ -1315,7 +1300,7 @@ Sheets(3).Activate
     If TextBox72 = "" Then Exit Sub
     Sheets(3).Activate
 
-    ss = Sheets(3).Cells(rowS.count, 5).End(xlUp).row
+    ss = Sheets(3).Cells(Rows.count, 5).End(xlUp).row
      k = 0
      
      
@@ -1331,11 +1316,10 @@ Next c
 End Sub
 
 Private Sub TextBox72_DblClick(ByVal Cancel As MSForms.ReturnBoolean)
-On Error Resume Next
 Sheets(3).Activate
 TextBox72.Text = ""
 'TextBox50.SetFocus
-For i = 2 To Sheets(3).Cells(rowS.count, 5).End(xlUp).row
+For i = 2 To Sheets(3).Cells(Rows.count, 5).End(xlUp).row
 ListBox1.AddItem
  ListBox1.List(i - 2, 0) = Cells(i, 5).value
   ListBox1.List(i - 2, 1) = i
@@ -1376,10 +1360,11 @@ End Sub
 
 
 
+   
 Private Sub UserForm_Initialize()
 '===============================
 On Error Resume Next
-
+ Zoomer.Bind Me, Me.SpinButton1, Me.az
 '=========================
 Call rightToLeftListView
 With ListView1
@@ -1497,7 +1482,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(3).Range("e" & rowS.count).End(xlUp).row
+last1 = Sheets(3).Range("A" & Rows.count).End(xlUp).row
 For frw1 = 2 To last1
 Set item1 = ListView1.ListItems.Add(, , Sheets(3).Cells(frw1, "A"))
 item1.SubItems(1) = Sheets(3).Cells(frw1, "b")
