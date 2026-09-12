@@ -17,7 +17,7 @@ Next i
 UserForm48.ComboBox1.Visible = False
 '===================================
 Dim last1, frw1 As Integer
-last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw1 = 9 To last1
 If Sheets(1).Cells(frw1, "b") = UserForm48.TextBox2.Text And Sheets(1).Cells(frw1, "e") = UserForm48.TextBox5.Text Then
 Image1.Picture = LoadPicture(Sheets(1).Cells(frw1, 64))
