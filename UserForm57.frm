@@ -13,8 +13,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim Zoomer As New clsZoomManager
-
 Private Sub CommandButton1_Click()
 Unload Me
 UserForm17.Show
@@ -29,4 +27,3 @@ Private Sub CommandButton3_Click()
 Unload Me
 UserForm32.Show
 End Sub
-   
