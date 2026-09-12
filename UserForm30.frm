@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm30 
    Caption         =   "UserForm30"
-   ClientHeight    =   4965
+   ClientHeight    =   4968
    ClientLeft      =   120
    ClientTop       =   468
    ClientWidth     =   8340.001
@@ -13,6 +13,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim Zoomer As New clsZoomManager
+
 
 
 Private Sub ButtonBar1_OnClick(ByVal ButtonId As Long)
@@ -44,3 +46,4 @@ End Sub
 Private Sub UserForm_Click()
 Frame1.Visible = False
 End Sub
+  
