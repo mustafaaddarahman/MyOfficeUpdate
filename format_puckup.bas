@@ -5,21 +5,21 @@ Sub BackupAndPrepareTw6een()
     Dim backupFile As String
     Dim lastRow As Long
     Dim frmLoaded As Boolean
-    Dim frm As Object
+    Dim Frm As Object
     
     Set ws = ThisWorkbook.Sheets("tw6een")
     
     ' «· Õﬁﬁ Â· «·›Ê—„ „› ÊÕ
     frmLoaded = False
-    For Each frm In VBA.UserForms
-        If frm.Name = "UserForm62" Then
+    For Each Frm In VBA.UserForms
+        If Frm.Name = "UserForm62" Then
             frmLoaded = True
             Exit For
         End If
-    Next frm
+    Next Frm
     
     ' ¬Œ— ’› »Ì«‰« 
-    lastRow = ws.Cells(ws.Rows.count, "A").End(xlUp).row
+    lastRow = ws.Cells(ws.rowS.count, "A").End(xlUp).row
     
     ' ≈–« ·«  ÊÃœ »Ì«‰«  „‰ «·’› 9
     If lastRow < 9 Then
@@ -42,7 +42,7 @@ Sub BackupAndPrepareTw6een()
     ActiveWorkbook.Close False
     
     ' „”Õ «·»Ì«‰«  „‰ «·’› 9
-    ws.Rows("9:" & lastRow).ClearContents
+    ws.rowS("9:" & lastRow).ClearContents
     
     MsgBox " „ ≈‰‘«¡ ‰”Œ… «Õ Ì«ÿÌ… Ê„”Õ «·»Ì«‰«  »‰Ã«Õ.", vbInformation
     
