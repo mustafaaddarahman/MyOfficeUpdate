@@ -65,7 +65,7 @@ Public Sub RecordToBlackBox(ByRef Frm As Object, ByRef dict As Object)
                 
                 ' ≈–« ﬂ«‰ «·⁄‰’— „— »ÿ« »⁄„Êœ ›Ì Ê—ﬁ… «·»Ì«‰« 
                 If colIdx <> 0 Then
-                    lr = wsLog.Cells(wsLog.Rows.count, 1).End(xlUp).row + 1
+                    lr = wsLog.Cells(wsLog.rowS.count, 1).End(xlUp).row + 1
                     With wsLog
                         .Cells(lr, 1) = Frm.TextBox2.value             ' «·—ﬁ„ «·ÊŸÌ›Ì
                         .Cells(lr, 2) = Frm.TextBox5.value             ' «”„ «·„ÊŸ›
