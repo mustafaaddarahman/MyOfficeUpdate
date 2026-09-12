@@ -5,10 +5,10 @@ Worksheets("data54").Range("a9:bc10000").ClearContents
 Dim ir As Integer, erow As Integer, sh1 As Worksheet, sh2 As Worksheet, i As Long
 Set sh1 = Sheets(1)
 Set sh2 = Worksheets("data54")
-lr = sh1.Cells(Rows.count, 2).End(xlUp).row
+lr = sh1.Cells(rowS.count, 2).End(xlUp).row
 For i = 8 To lr
 
-erow = sh2.Cells(Rows.count, 1).End(xlUp).Offset(1, 0).row
+erow = sh2.Cells(rowS.count, 1).End(xlUp).Offset(1, 0).row
 sh2.Cells(erow, 1) = sh1.Cells(i, "a")
 sh2.Cells(erow, 2) = sh1.Cells(i, "b")
 sh2.Cells(erow, 3) = sh1.Cells(i, "c")
