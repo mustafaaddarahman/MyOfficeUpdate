@@ -4,7 +4,7 @@ Sub trans_data()
  'Sheets(11).Range("a1").Value = 0
   
 Dim lr, frow As Double
-lr = Sheets(11).Range("a" & Rows.count).End(xlUp).row + 1
+lr = Sheets(11).Range("a" & rowS.count).End(xlUp).row + 1
 With UserForm1.ListView1
 For frow = 1 To UserForm1.ListView1.ListItems.count
 Sheets(11).Cells(lr, "a").value = val(Sheets(11).Cells(lr - 1, "a").value) + 1
