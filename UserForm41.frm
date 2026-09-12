@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm41 
    Caption         =   "UserForm41"
-   ClientHeight    =   2250
+   ClientHeight    =   2256
    ClientLeft      =   120
    ClientTop       =   468
    ClientWidth     =   8148
@@ -13,6 +13,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim Zoomer As New clsZoomManager
+
 Private Sub Label32_Click()
 
 End Sub
@@ -29,3 +31,4 @@ End Sub
 Private Sub UserForm_Click()
 
 End Sub
+  
