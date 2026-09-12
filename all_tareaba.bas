@@ -6,7 +6,7 @@ On Error Resume Next
 
 
  Dim ws As Worksheet: Set ws = ThisWorkbook.Sheets(1)
-    Dim empID As String: empID = UserForm1.TextBox2.value
+    Dim EmpID As String: EmpID = UserForm1.TextBox2.value
     Dim i As Long, lastRow As Long
     Dim IsExcluded As Boolean: IsExcluded = False
 
@@ -14,10 +14,10 @@ On Error Resume Next
     If UserForm1.CheckBox5.value = True Then
         
         ' 2. «·»ÕÀ ›Ì «·‘Ì  ·· √ﬂœ „‰ ÊÃÊœ True ›Ì «·⁄„Êœ CG ·‰›” «·„ÊŸ›
-        lastRow = ws.Cells(ws.rowS.count, "B").End(xlUp).row
+        lastRow = ws.Cells(ws.Rows.count, "B").End(xlUp).row
         
         For i = 9 To lastRow
-            If Trim(ws.Cells(i, "B").value) = empID Then
+            If Trim(ws.Cells(i, "B").value) = EmpID Then
                 ' «· Õﬁﬁ ≈–« ﬂ«‰ «·⁄„Êœ CG ÌÕ ÊÌ ⁄·Ï «·ﬁÌ„… True
                 If ws.Cells(i, "CG").value = True Or ws.Cells(i, "CG").value = "True" Then
                     IsExcluded = True ' «·„ÊŸ› „” À‰Ï —”„Ì«
@@ -37,58 +37,67 @@ On Error Resume Next
         Exit Sub
     Else
 
-'==========================================================================
 
 
-If UserForm1.TextBox23.Text = "«·«⁄“»" Or UserForm1.TextBox23.Text = "«·„ÿ·ﬁ Ê·Ì” ·œÌÂ Õ÷«‰… ··√Ê·«œ" Or _
-   UserForm1.TextBox23.Text = "«·„ÊŸ›Â «·„›’Ê· œŒ·Â« ⁄‰ œŒ· “ÊÃÂ«" Or _
-   UserForm1.TextBox23.Text = "«·„ÊŸ› «·„ “ÊÃ Ê “ÊÃ Â —»… »Ì " Or _
-   UserForm1.TextBox23.Text = "«·„ÊŸ›Â «·„ “ÊÃÂ Ê“ÊÃÂ« ⁄«ÿ· ⁄„‰ «·⁄„·" Then
 
-    Dim rang1 As Range, rang2 As Range
-    Dim taxCode As Long
-    Dim salaryVal As Long
-    Dim childVal As Long
-    
-    Set rang1 = Sheets(1).Range("zwjea4")
-    Set rang2 = Sheets(2).Range("astktaat")
-    
-    ' Ã·» «·—„“
-    taxCode = CLng(Application.WorksheetFunction.VLookup(UserForm1.TextBox23.Text, rang1, 2, 0))
-    salaryVal = val(UserForm1.TextBox10.Text)
-    childVal = val(UserForm1.TextBox22.Text)
-    
-    ' ---  ﬁ”Ì„ «·„”«—«  Õ”» «· —„Ì“ ---
-    
-    Select Case taxCode
-        
-        Case 5
-            ' «· —„Ì“ 5: «·ﬁ—«¡… „‰ «·⁄„Êœ 3 (D) Õ’—« (»€÷ «·‰Ÿ— ⁄‰ «·√ÿ›«·)
-            UserForm1.TextBox24.value = Application.WorksheetFunction.VLookup(salaryVal, rang2, 3, 1)
-            
-        Case 4
-            ' «· —„Ì“ 4: «·ﬁ—«¡… „‰ «·⁄„Êœ 4 (E) „⁄ ≈÷«›… ⁄œœ «·√ÿ›«·
-            UserForm1.TextBox24.value = Application.WorksheetFunction.VLookup(salaryVal, rang2, 4 + childVal, 1)
-            
-        Case 3
-            ' «· —„Ì“ 3: «·ﬁ—«¡… „‰ «·⁄„Êœ 3 (D) „⁄  ’›Ì— TextBox22 Ê TextBox20
-            UserForm1.TextBox22.value = 0
-            UserForm1.TextBox20.value = 0
-            UserForm1.TextBox24.value = Application.WorksheetFunction.VLookup(salaryVal, rang2, 3, 1)
-            
-        Case Is < 3
-            ' «·Õ«·«  «·√Œ—Ï (√ﬁ· „‰ 3): Ì„ﬂ‰ﬂ Ê÷⁄ „‰ÿﬁ Œ«’ »Â« Â‰«
-            UserForm1.TextBox24.value = Application.WorksheetFunction.VLookup(salaryVal, rang2, taxCode + childVal, 1)
-            
-        Case Else
-            ' «› —«÷Ì
-            UserForm1.TextBox24.value = Application.WorksheetFunction.VLookup(salaryVal, rang2, taxCode, 1)
-            
-    End Select
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'===================================================
+'     ...... «·Õ«·… «·—«»⁄… ··÷—Ì»Â
+'  «·«⁄“»
+'  «·„ÿ·ﬁ Ê·Ì” ·œÌÂ Õ÷«‰… ··√Ê·«œ
+'  «·„ÊŸ›Â «·„›’Ê· œŒ·Â« ⁄‰ œŒ· “ÊÃÂ«
+'   «·„ÊŸ› «·„ “ÊÃ Ê “ÊÃ Â —»… »Ì 
+'  «·„ÊŸ›Â «·„ “ÊÃÂ Ê“ÊÃÂ« ⁄«ÿ· ⁄„‰ «·⁄„·
+
+
+If UserForm1.TextBox23.Text = "«·«⁄“»" Or UserForm1.TextBox23.Text = "«·„ÿ·ﬁ Ê·Ì” ·œÌÂ Õ÷«‰… ··√Ê·«œ" Or UserForm1.TextBox23.Text = "«·„ÊŸ›Â «·„›’Ê· œŒ·Â« ⁄‰ œŒ· “ÊÃÂ«" Or UserForm1.TextBox23.Text = "«·„ÊŸ› «·„ “ÊÃ Ê “ÊÃ Â —»… »Ì " Or UserForm1.TextBox23.Text = "«·„ÊŸ›Â «·„ “ÊÃÂ Ê“ÊÃÂ« ⁄«ÿ· ⁄„‰ «·⁄„·" Then
+Dim textvlue1 As Long
+Dim textvlue2 As Long
+Dim rang1 As Range
+
+Dim rang2 As Range
+Set rang1 = Sheets(1).Range("zwjea4")
+Set rang2 = Sheets(2).Range("astktaat")
+
+textvlue1 = UserForm1.TextBox22.Text
+textvlue2 = UserForm1.TextBox10.Text
+
+
+vlookup1 = Application.WorksheetFunction.VLookup(UserForm1.TextBox23.Text, rang1, 2, 0) < 4 And UserForm1.TextBox22.value > 0
+'userform1.textbox27.Value = vlookup1
+
+
+If vlookup1 = -1 Then
+UserForm1.TextBox22.value = 0
+MsgBox "Õ”» «· ﬁ« ÿ⁄ «·ÃœÊ· «·÷—Ì»Ì «‰ ÌﬂÊ‰ «·⁄œœ ’›—", vbOKCancel, "—”«·…  ÊÃÌÂ"
+Exit Sub
+Else
+UserForm1.TextBox24.value = Application.WorksheetFunction.VLookup(textvlue2, rang2, Application.WorksheetFunction.VLookup(UserForm1.TextBox23.Text, rang1, 2, 0) + textvlue1, 1)
 End If
-
-
-
+End If
 
 
 
