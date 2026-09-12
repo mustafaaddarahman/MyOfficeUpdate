@@ -13,10 +13,9 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
+Dim Zoomer As New clsZoomManager
 
 Option Explicit
-Dim Zoomer As New clsZoomManager
 
 Private Sub CommandButton1_Click()
     Label1.Caption = "Ã«—Ú  ‰›Ì– «·ŒÊ«—“„Ì…..."
@@ -34,8 +33,8 @@ Sub Generate_EmplMove_Final9()
     Dim lastRowCur As Long, lastRowPrev As Long, maxCol As Long, outRow As Long
     Dim empDictCur As Object, empDictPrev As Object
     Dim r As Long, c As Variant
-    Dim empID As Variant, empName As String
-    Dim valCur As Double, valPrev As Double, Diff As Double
+    Dim EmpID As Variant, EmpName As String
+    Dim valCur As Double, valPrev As Double, diff As Double
     Dim colName As String, empType As String
     Dim empIDCol As Long, empNameCol As Long, headerRow As Long, dataStartRow As Long
     Dim colTotalAllowance As Long, colTotalDeduction As Long
@@ -46,12 +45,12 @@ Sub Generate_EmplMove_Final9()
     dataStartRow = 9
 
     Set wsCur = ThisWorkbook.Sheets("Sheet1")
-    Set wsPrev = ThisWorkbook.Sheets("past_month76")
+    Set wsPrev = ThisWorkbook.Sheets("past_month55")
     maxCol = wsCur.Range("CE8").Column
 
     ' √⁄„œ… «·«” Õﬁ«ﬁ Ê«·«” ﬁÿ«⁄ «·ﬂ·Ì
-    colTotalAllowance = Application.match("„Ã„Ê⁄ «·«” Õﬁ«ﬁ« ", wsCur.rowS(headerRow), 0)
-    colTotalDeduction = Application.match("„Ã„Ê⁄ «·«” ﬁÿ«⁄« ", wsCur.rowS(headerRow), 0)
+    colTotalAllowance = Application.Match("„Ã„Ê⁄ «·«” Õﬁ«ﬁ« ", wsCur.Rows(headerRow), 0)
+    colTotalDeduction = Application.Match("„Ã„Ê⁄ «·«” ﬁÿ«⁄« ", wsCur.Rows(headerRow), 0)
 
     ' ≈‰‘«¡ √Ê  ›—Ì€ ‘Ì  «·‰ «∆Ã
     On Error Resume Next
@@ -71,8 +70,8 @@ Sub Generate_EmplMove_Final9()
         "‰Ê⁄ «·Õ—ﬂ…", "«·Õ«·… «·ÊŸÌ›Ì…", "«·⁄„Êœ «·„ √À—")
     outRow = 2
 
-    lastRowCur = wsCur.Cells(wsCur.rowS.count, empIDCol).End(xlUp).row
-    lastRowPrev = wsPrev.Cells(wsPrev.rowS.count, empIDCol).End(xlUp).row
+    lastRowCur = wsCur.Cells(wsCur.Rows.count, empIDCol).End(xlUp).row
+    lastRowPrev = wsPrev.Cells(wsPrev.Rows.count, empIDCol).End(xlUp).row
 
     Set empDictCur = CreateObject("Scripting.Dictionary")
     Set empDictPrev = CreateObject("Scripting.Dictionary")
@@ -86,10 +85,10 @@ Sub Generate_EmplMove_Final9()
     Next r
 
     ' ======== «·„ÊŸ›Ê‰ «·„” „—Ê‰ ========
-    For Each empID In empDictCur.Keys
-        r = empDictCur(empID)
-        empName = wsCur.Cells(r, empNameCol).value
-        If empDictPrev.exists(empID) Then
+    For Each EmpID In empDictCur.Keys
+        r = empDictCur(EmpID)
+        EmpName = wsCur.Cells(r, empNameCol).value
+        If empDictPrev.exists(EmpID) Then
             empType = "„” „—"
             For c = 1 To maxCol
                 colName = wsCur.Cells(headerRow, c).value
@@ -103,18 +102,18 @@ Sub Generate_EmplMove_Final9()
                    Or colName = "‰”»… «·Â‰œ”Ì…" Then GoTo NextCol
 
                 valCur = NzSafe(wsCur.Cells(r, c).value)
-                valPrev = NzSafe(wsPrev.Cells(empDictPrev(empID), c).value)
-                Diff = valCur - valPrev
-                If Diff <> 0 Then
+                valPrev = NzSafe(wsPrev.Cells(empDictPrev(EmpID), c).value)
+                diff = valCur - valPrev
+                If diff <> 0 Then
                     If Not colName Like "*«” ﬁÿ«⁄*" Then
-                        WriteMove wsOut, outRow, empID, empName, Diff, "Allowance", empType, colName
+                        WriteMove wsOut, outRow, EmpID, EmpName, diff, "Allowance", empType, colName
                     Else
-                        wsOut.Cells(outRow, 1).value = empID
-                        wsOut.Cells(outRow, 2).value = empName
-                        If Diff > 0 Then
-                            wsOut.Cells(outRow, 5).value = CLng(Diff)
+                        wsOut.Cells(outRow, 1).value = EmpID
+                        wsOut.Cells(outRow, 2).value = EmpName
+                        If diff > 0 Then
+                            wsOut.Cells(outRow, 5).value = CLng(diff)
                         Else
-                            wsOut.Cells(outRow, 6).value = CLng(-Abs(Diff))
+                            wsOut.Cells(outRow, 6).value = CLng(-Abs(diff))
                         End If
                         wsOut.Cells(outRow, 7).value = empType
                         wsOut.Cells(outRow, 8).value = empType
@@ -125,15 +124,15 @@ Sub Generate_EmplMove_Final9()
 NextCol:
             Next c
         End If
-    Next empID
+    Next EmpID
 
     ' ======== «·„ÊŸ›Ê‰ «·Ãœœ ========
-    For Each empID In empDictCur.Keys
-        If Not empDictPrev.exists(empID) Then
-            r = empDictCur(empID)
-            empName = wsCur.Cells(r, empNameCol).value
-            wsOut.Cells(outRow, 1).value = empID
-            wsOut.Cells(outRow, 2).value = empName
+    For Each EmpID In empDictCur.Keys
+        If Not empDictPrev.exists(EmpID) Then
+            r = empDictCur(EmpID)
+            EmpName = wsCur.Cells(r, empNameCol).value
+            wsOut.Cells(outRow, 1).value = EmpID
+            wsOut.Cells(outRow, 2).value = EmpName
             wsOut.Cells(outRow, 3).value = NzSafe(wsCur.Cells(r, colTotalAllowance).value)
             wsOut.Cells(outRow, 5).value = CLng(NzSafe(wsCur.Cells(r, colTotalDeduction).value))
             wsOut.Cells(outRow, 7).value = "«÷«›… „ÊŸ›"
@@ -141,15 +140,15 @@ NextCol:
             wsOut.Cells(outRow, 9).value = "«·„ÊŸ› „÷«› «·Ï «·‰Ÿ«„"
             outRow = outRow + 1
         End If
-    Next empID
+    Next EmpID
 
     ' ======== «·„ÊŸ›Ê‰ «·„Õ–Ê›Ê‰ / «·„‰ﬁÊ·Ê‰ ========
-    For Each empID In empDictPrev.Keys
-        If Not empDictCur.exists(empID) Then
-            r = empDictPrev(empID)
-            empName = wsPrev.Cells(r, empNameCol).value
-            wsOut.Cells(outRow, 1).value = empID
-            wsOut.Cells(outRow, 2).value = empName
+    For Each EmpID In empDictPrev.Keys
+        If Not empDictCur.exists(EmpID) Then
+            r = empDictPrev(EmpID)
+            EmpName = wsPrev.Cells(r, empNameCol).value
+            wsOut.Cells(outRow, 1).value = EmpID
+            wsOut.Cells(outRow, 2).value = EmpName
             wsOut.Cells(outRow, 4).value = -Abs(NzSafe(wsPrev.Cells(r, colTotalAllowance).value))
             wsOut.Cells(outRow, 6).value = -Abs(CLng(NzSafe(wsPrev.Cells(r, colTotalDeduction).value)))
             wsOut.Cells(outRow, 7).value = "«·„ÊŸ› „Õ–Ê›"
@@ -157,11 +156,11 @@ NextCol:
             wsOut.Cells(outRow, 9).value = "«·„ÊŸ› „‰ﬁÊ· √Ê  „ ≈Õ«· Â ≈·Ï «· ﬁ«⁄œ"
             outRow = outRow + 1
         End If
-    Next empID
+    Next EmpID
 
     ' ======== Õ–› «·”Ã·«  «·€Ì— „—€Ê»… ========
     Dim lastRow As Long, i As Long
-    lastRow = wsOut.Cells(wsOut.rowS.count, 1).End(xlUp).row
+    lastRow = wsOut.Cells(wsOut.Rows.count, 1).End(xlUp).row
     For i = lastRow To 2 Step -1
         Dim cellVal As String
         cellVal = wsOut.Cells(i, 9).value
@@ -175,14 +174,14 @@ NextCol:
            Or cellVal Like "*„Ã„Ê⁄ «·«” Õﬁ«ﬁ« *" _
            Or cellVal Like "*„Ã„Ê⁄ «·«” ﬁÿ«⁄« *" Then
            
- wsOut.rowS(i).Delete
+ wsOut.Rows(i).Delete
           
            
         End If
     Next i
 
     ' ========  ÕœÌÀ ‰Ê⁄ «·Õ—ﬂ… ··„ €Ì—«  ========
-    lastRow = wsOut.Cells(wsOut.rowS.count, 1).End(xlUp).row
+    lastRow = wsOut.Cells(wsOut.Rows.count, 1).End(xlUp).row
     For i = 2 To lastRow
         ' ·« ‰⁄œ· «·„ÊŸ›Ì‰ «·„÷«›Ì‰ √Ê «·„Õ–Ê›Ì‰
         If wsOut.Cells(i, 8).value <> "≈÷«›… „ÊŸ›" And wsOut.Cells(i, 8).value <> "«·„ÊŸ› „Õ–Ê›" Then
@@ -198,7 +197,7 @@ NextCol:
     Next i
     ' ========  ÕœÌÀ ‰Ê⁄ «·Õ—ﬂ… ··„ €Ì—«  ========
     Dim i3, lastRow3 As Integer
-    lastRow3 = wsOut.Cells(wsOut.rowS.count, 1).End(xlUp).row
+    lastRow3 = wsOut.Cells(wsOut.Rows.count, 1).End(xlUp).row
     For i3 = 2 To lastRow3
         ' ·« ‰⁄œ· «·„ÊŸ›Ì‰ «·„÷«›Ì‰ √Ê «·„Õ–Ê›Ì‰
         If wsOut.Cells(i3, 8).value = "«÷«›… „ÊŸ›" Or wsOut.Cells(i3, 8).value = "«·„ÊŸ› „Õ–Ê›" Then
@@ -226,28 +225,29 @@ Function NzSafe(v As Variant) As Double
     If IsNumeric(v) Then NzSafe = CDbl(v) Else NzSafe = 0
 End Function
 
-Sub WriteMove(ws As Worksheet, ByRef r As Long, empID As Variant, empName As String, _
-              Diff As Double, moveType As String, empType As String, colName As String)
+Sub WriteMove(ws As Worksheet, ByRef r As Long, EmpID As Variant, EmpName As String, _
+              diff As Double, moveType As String, empType As String, colName As String)
 
-    ws.Cells(r, 1).value = empID
-    ws.Cells(r, 2).value = empName
+    ws.Cells(r, 1).value = EmpID
+    ws.Cells(r, 2).value = EmpName
 
     If moveType = "Allowance" Then
-        If Diff > 0 Then
-            ws.Cells(r, 3).value = Diff
+        If diff > 0 Then
+            ws.Cells(r, 3).value = diff
             ws.Cells(r, 7).value = IIf(empType = "≈÷«›… „ÊŸ›", "≈÷«›… „ÊŸ›", "„” „—")
         Else
-            ws.Cells(r, 4).value = -Abs(Diff)
+            ws.Cells(r, 4).value = -Abs(diff)
             ws.Cells(r, 7).value = "„” „—"
         End If
     End If
 
     If moveType = "Deduction" Then
-        If Diff > 0 Then
-            ws.Cells(r, 5).value = CLng(Diff)
+    Zoomer.Bind Me, Me.SpinButton1, Me.az
+        If diff > 0 Then
+            ws.Cells(r, 5).value = CLng(diff)
             ws.Cells(r, 7).value = IIf(empType = "≈÷«›… „ÊŸ›", "≈÷«›… „ÊŸ›", "„” „—")
         Else
-            ws.Cells(r, 6).value = CLng(-Abs(Diff))
+            ws.Cells(r, 6).value = CLng(-Abs(diff))
             ws.Cells(r, 7).value = "„” „—"
         End If
     End If
@@ -268,15 +268,3 @@ Unload Me
 UserForm60.Show
 End Sub
 
-Private Sub CommandButton3_Click()
-Unload Me
-UserForm1.Show
-End Sub
-
-Private Sub UserForm_Click()
-
-End Sub
-
-Private Sub UserForm_Initialize()
-Zoomer.Bind Me, Me.SpinButton1, Me.az
-End Sub
