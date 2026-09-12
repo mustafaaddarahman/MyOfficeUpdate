@@ -77,7 +77,7 @@ End If
 Dim sumastktaa As Double
 sumastktaa = val(.TextBox24) + val(.TextBox32) + val(.TextBox33) + val(.TextBox34) + val(.TextBox35) + val(.TextBox36) _
 + val(.TextBox38) + val(.TextBox40) + val(.TextBox42) + val(.TextBox44) + val(.TextBox46) _
- + val(.TextBox50) + val(.TextBox62) + val(.TextBox83) + val(.TextBox85 + val(.TextBox111))
+ + val(.TextBox50) + val(.TextBox62) + val(.TextBox83) + val(.TextBox85)
  .TextBox48.value = sumastktaa
 
 '=======================«·—« » «·’«›Ì
