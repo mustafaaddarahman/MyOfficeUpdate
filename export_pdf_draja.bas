@@ -3,7 +3,7 @@ Sub export_pdf_draja_1()
 On Error Resume Next
 On Error GoTo emad
 Dim lstr As Integer
-lstr = Sheets(18).Cells(Rows.count, "a").End(xlUp).row
+lstr = Sheets(18).Cells(rowS.count, "a").End(xlUp).row
     Dim filePath As String
     Dim ws As Worksheet
     filePath = Application.ActiveWorkbook.path
