@@ -7,7 +7,7 @@ Application.Calculation = xlCalculationManual
 Application.EnableEvents = False
 
 Dim lastR As Long ' ÇÓÊÎÏÇã Long ÃÓÑÚ ãä Integer æÃÖãä ááÃÚÏÇÏ ÇáßÈíÑÉ
-lastR = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
+lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
 
 ' ÇáÈÍË Úä ÇáÕÝ ÇáãØáæÈ ÈäÇÁð Úáì ÔÑæØß (ÇáÚãæÏ 5 æÇáÚãæÏ 2)
 For Y = 9 To lastR
@@ -103,7 +103,7 @@ With Sheets(1)
     .Cells(Y, "BU") = UserForm1.TextBox99.Text
     .Cells(Y, "CE") = UserForm1.TextBox105.Text
     .Cells(Y, "CA") = UserForm1.TextBox100.Text
-.Cells(Y, "Ck") = UserForm1.TextBox111.Text
+
     ' 3. ÊãííÒ ÇáÊßÑÇÑ Ýí ÇáÚãæÏ 5 (E) ÈÇááæä ÇáÃÕÝÑ ÝæÑÇð
     If WorksheetFunction.CountIf(.Range("E9:E" & lastR + 1), UserForm1.TextBox5.Text) > 1 Then
         .Cells(Y, 5).Interior.Color = vbYellow
