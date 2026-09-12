@@ -2,7 +2,7 @@ Attribute VB_Name = "sum_report_form53"
 Sub sum_report_form53_1()
 Sheets(53).Activate
 Dim lastr13 As Integer
-lastr13 = Sheets(53).Cells(Rows.count, "b").End(xlUp).row
+lastr13 = Sheets(53).Cells(rowS.count, "b").End(xlUp).row
 Sheets(53).Cells(lastr13 + 1, "a") = "«·„Ã„Ê⁄ «·ﬂ·Ì"
 Sheets(53).Cells(lastr13 + 1, "j") = Application.WorksheetFunction.Sum(Sheets(53).Range("j9 : j" & lastr13))
 Sheets(53).Cells(lastr13 + 1, "x") = Application.WorksheetFunction.Sum(Sheets(53).Range("x9 : x" & lastr13))
