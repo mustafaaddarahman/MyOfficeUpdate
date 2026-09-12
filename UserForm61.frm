@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm61 
    Caption         =   "UserForm61"
-   ClientHeight    =   10635
+   ClientHeight    =   9132.001
    ClientLeft      =   120
    ClientTop       =   468
-   ClientWidth     =   16608
+   ClientWidth     =   14160
    OleObjectBlob   =   "UserForm61.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -13,13 +13,15 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim Zoomer As New clsZoomManager
+
 Private Sub CommandButton1_Click()
 
     Dim wsSrc As Worksheet, wsDst As Worksheet
     Dim deductionCols As Variant
     Dim lastRowSrc As Long, lastRowDst As Long
     Dim i As Long, c As Long
-    Dim empID As Variant, empName As String
+    Dim EmpID As Variant, EmpName As String
     Dim DeductionCategory As String
     Dim DeductionValue As Double
     Dim duration As Long
@@ -54,7 +56,7 @@ Private Sub CommandButton1_Click()
         "‰Ê⁄ «·«” ﬁÿ«⁄", "ﬁÌ„… «·«” ﬁÿ«⁄", " «—ÌŒ «·»œ¡", "„œ… «·«” ﬁÿ«⁄ (‘Â—)", _
         " «—ÌŒ «·«‰ Â«¡", "«·√‘Â— «·„Õ ”»…", "ﬁÌ„… ‘Â—Ì…", "«·Õ«·…", _
         "«·„»·€ «· —«ﬂ„Ì", "«·„·«ÕŸ« ", "„” ÊÏ «·„Œ«ÿ—", "«·«‘Â— «·„ »ﬁÌ…")
-    wsDst.rowS(1).Font.Bold = True
+    wsDst.Rows(1).Font.Bold = True
 
     newID = 1
 
@@ -70,19 +72,19 @@ Private Sub CommandButton1_Click()
         "«” ﬁÿ«⁄ ⁄«„", _
         "«” ﬁÿ«⁄ „»·€ Õ”» «·‰”»…")
 
-    lastRowSrc = wsSrc.Cells(wsSrc.rowS.count, "B").End(xlUp).row
+    lastRowSrc = wsSrc.Cells(wsSrc.Rows.count, "B").End(xlUp).row
 
     ' «·„—Ê— ⁄·Ï «·„ÊŸ›Ì‰
     For i = 9 To lastRowSrc
 
-        empID = wsSrc.Cells(i, "B").value     ' «·—ﬁ„ «·ÊŸÌ›Ì
-        empName = Trim(wsSrc.Cells(i, "E").value) ' «·«”„
+        EmpID = wsSrc.Cells(i, "B").value     ' «·—ﬁ„ «·ÊŸÌ›Ì
+        EmpName = Trim(wsSrc.Cells(i, "E").value) ' «·«”„
 
-        If empID = "" Or empName = "" Then GoTo NextEmployee
+        If EmpID = "" Or EmpName = "" Then GoTo NextEmployee
 
         For c = LBound(deductionCols) To UBound(deductionCols)
 
-            Set colFound = wsSrc.rowS(8).Find( _
+            Set colFound = wsSrc.Rows(8).Find( _
                 What:=deductionCols(c), LookIn:=xlValues, LookAt:=xlWhole)
 
             If colFound Is Nothing Then GoTo NextDeduction
@@ -133,11 +135,11 @@ Private Sub CommandButton1_Click()
                 RiskLevel = "„‰Œ›÷"
             End If
 
-            lastRowDst = wsDst.Cells(wsDst.rowS.count, "A").End(xlUp).row + 1
+            lastRowDst = wsDst.Cells(wsDst.Rows.count, "A").End(xlUp).row + 1
 
             wsDst.Cells(lastRowDst, "A").value = newID
-            wsDst.Cells(lastRowDst, "B").value = empID
-            wsDst.Cells(lastRowDst, "C").value = empName
+            wsDst.Cells(lastRowDst, "B").value = EmpID
+            wsDst.Cells(lastRowDst, "C").value = EmpName
             wsDst.Cells(lastRowDst, "D").value = DeductionCategory
             wsDst.Cells(lastRowDst, "E").value = deductionType
             wsDst.Cells(lastRowDst, "F").value = DeductionValue
@@ -161,7 +163,7 @@ NextEmployee:
     '  ·ÊÌ‰ «·Õ«·…
     hasExpired = False
     hasNearExpire = False
-    For r = 2 To wsDst.Cells(wsDst.rowS.count, "L").End(xlUp).row
+    For r = 2 To wsDst.Cells(wsDst.Rows.count, "L").End(xlUp).row
         Select Case wsDst.Cells(r, "L").value
             Case "‰‘ÿ"
                 wsDst.Cells(r, "L").Interior.Color = RGB(198, 239, 206)
@@ -189,21 +191,21 @@ End Sub
 
 Private Sub CommandButton2_Click()
  Dim ws As Worksheet
-    Dim empID As String
+    Dim EmpID As String
     Dim lastRow As Long, r As Long
     
     Set ws = ThisWorkbook.Sheets("Financialsector")
-    empID = Trim(Me.TextBox1.value)
+    EmpID = Trim(Me.TextBox1.value)
     
-    If empID = "" Then
+    If EmpID = "" Then
         MsgBox "«·—Ã«¡ ≈œŒ«· «·—ﬁ„ «·ÊŸÌ›Ì.", vbExclamation
         Exit Sub
     End If
     
-    lastRow = ws.Cells(ws.rowS.count, "B").End(xlUp).row
+    lastRow = ws.Cells(ws.Rows.count, "B").End(xlUp).row
     
     For r = 2 To lastRow
-        If ws.Cells(r, "B").Text = empID Then
+        If ws.Cells(r, "B").Text = EmpID Then
             ws.Cells(r, "C").value = Me.TextBox2.value
             ws.Cells(r, "D").value = Me.TextBox3.value
             ws.Cells(r, "E").value = Me.TextBox4.value
@@ -250,7 +252,7 @@ Private Sub CommandButton4_Click()
     
     Application.ScreenUpdating = False
     
-    lastRow = ws.Cells(ws.rowS.count, "D").End(xlUp).row
+    lastRow = ws.Cells(ws.Rows.count, "D").End(xlUp).row
     
     For r = lastRow To 2 Step -1
         
@@ -260,7 +262,7 @@ Private Sub CommandButton4_Click()
         
         ' ===== Õ–› „»·€ «·€Ì«» =====
         If Category = "„»·€ «·€Ì«»" Then
-            ws.rowS(r).Delete
+            ws.Rows(r).Delete
             GoTo NextRow
         End If
         
@@ -462,7 +464,9 @@ Private Sub UserForm_Click()
 
 End Sub
 
+   
 Private Sub UserForm_Initialize()
+ Zoomer.Bind Me, Me.SpinButton1, Me.az
 ComboBox1.List = Array( _
         "«· ÊﬁÌ›«  «· ﬁ«⁄œÌ… 15%", _
         "«·‰›ﬁ…", _
@@ -479,7 +483,7 @@ ComboBox1.List = Array( _
     Dim lvwItem As ListItem
 
     Set ws = ThisWorkbook.Sheets("Financialsector")
-    lastRow = ws.Cells(ws.rowS.count, "A").End(xlUp).row
+    lastRow = ws.Cells(ws.Rows.count, "A").End(xlUp).row
 
     '  ÂÌ∆… ListView
     With ListView1
@@ -597,20 +601,20 @@ End Sub
 Private Sub LoadEmployeeData()
     ' ﬂÊœ Ã·» «·»Ì«‰«  „‰ «·‘Ì  »‰«¡ ⁄·Ï TextBox1 («·—ﬁ„ «·ÊŸÌ›Ì)
     Dim ws As Worksheet
-    Dim empID As String
+    Dim EmpID As String
     Dim lastRow As Long, r As Long
     Dim found As Boolean
     
     Set ws = ThisWorkbook.Sheets("Financialsector")
-    empID = Trim(Me.TextBox1.Text)
+    EmpID = Trim(Me.TextBox1.Text)
     found = False
     
-    If empID = "" Then Exit Sub
+    If EmpID = "" Then Exit Sub
     
-    lastRow = ws.Cells(ws.rowS.count, "B").End(xlUp).row
+    lastRow = ws.Cells(ws.Rows.count, "B").End(xlUp).row
     
     For r = 2 To lastRow
-        If ws.Cells(r, "B").Text = empID Then
+        If ws.Cells(r, "B").Text = EmpID Then
             found = True
             
             '  Õ„Ì· »Ì«‰«  «·„ÊŸ› ≈·Ï TextBoxes
@@ -642,10 +646,10 @@ Private Sub LoadEmployeeByPartialSearch(ByVal txt As String)
     Dim ws As Worksheet
     Dim lastRow As Long, r As Long
     Dim found As Boolean
-    Dim empID As String
+    Dim EmpID As String
     
     Set ws = ThisWorkbook.Sheets("Financialsector")
-    lastRow = ws.Cells(ws.rowS.count, "B").End(xlUp).row
+    lastRow = ws.Cells(ws.Rows.count, "B").End(xlUp).row
     found = False
     
     For r = 2 To lastRow
@@ -653,10 +657,10 @@ Private Sub LoadEmployeeByPartialSearch(ByVal txt As String)
         If ws.Cells(r, "C").Text Like "*" & TextBox13.Text & "*" And ws.Cells(r, "d") = ComboBox1.value Then
            
             found = True
-            empID = ws.Cells(r, "B").Text
+            EmpID = ws.Cells(r, "B").Text
             
             '  Õ„Ì· «·»Ì«‰«  ›Ì TextBoxes «·√Œ—Ï ›ﬁÿ° œÊ‰  €ÌÌ— TextBox13
-            Me.TextBox1.value = empID
+            Me.TextBox1.value = EmpID
             Me.TextBox2.value = ws.Cells(r, "C").Text
             Me.TextBox3.value = ws.Cells(r, "D").Text
             Me.TextBox4.value = ws.Cells(r, "E").Text
