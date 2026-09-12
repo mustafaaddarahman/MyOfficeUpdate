@@ -3,7 +3,7 @@ Attribute VB_Name = "klasaat_astktaat_daraga"
 Sub ExportDeductionsDataFinal()
     Dim wbSource As Workbook, wbNew As Workbook
     Dim ws26 As Worksheet, ws31 As Worksheet, wsNew As Worksheet
-    Dim folderPath As String, fileName As String, currentMonthName As String
+    Dim folderPath As String, fileName As String, CurrentMonthName As String
     
     ' 1. ≈⁄œ«œ «·„”«— ›Ì «·»«— ‘‰ D
     folderPath = "D:\export1\"
@@ -13,7 +13,7 @@ Sub ExportDeductionsDataFinal()
     Set ws26 = wbSource.Sheets(26)
     Set ws31 = wbSource.Sheets(31)
     
-    currentMonthName = Format(Date, "mmmm")
+    CurrentMonthName = Format(Date, "mmmm")
 
     ' 2. ≈‰‘«¡ «·„·› «·ÃœÌœ
     Set wbNew = Workbooks.Add
@@ -23,7 +23,7 @@ Sub ExportDeductionsDataFinal()
     ' 3. «· —ÊÌ”…
     With wsNew.Range("A1:Q2")
         .Merge
-        .value = "Œ·«’… «·«” ﬁÿ«⁄«  ·‘Â— " & currentMonthName & " - " & ws31.Range("A2").value
+        .value = "Œ·«’… «·«” ﬁÿ«⁄«  ·‘Â— " & CurrentMonthName & " - " & ws31.Range("A2").value
         .Font.Size = 24: .Font.Bold = True: .HorizontalAlignment = xlCenter
     End With
 
@@ -52,7 +52,7 @@ Sub ExportDeductionsDataFinal()
 
     ' 6. «·Õ›Ÿ Ê«·≈€·«ﬁ
     Application.CutCopyMode = False
-    fileName = "Œ·«’…_" & currentMonthName & "_" & Format(Now, "hhmm") & ".xlsx"
+    fileName = "Œ·«’…_" & CurrentMonthName & "_" & Format(Now, "hhmm") & ".xlsx"
     
     wbNew.SaveAs fileName:=folderPath & fileName
     wbNew.Close SaveChanges:=False
