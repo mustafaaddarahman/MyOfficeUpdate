@@ -13,8 +13,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim Zoomer As New clsZoomManager
-
 
 Private Declare PtrSafe Function FindWindow Lib "user32" Alias "FindWindowA" (ByVal lpClassName As String, ByVal lpWindowName As String) As Long
 Private Declare PtrSafe Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hwnd As Long, ByVal nIndex As Long) As Long
@@ -125,7 +123,7 @@ Font.Name = "Calibri"
 With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
-last1 = Sheets(6).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(6).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 2 To last1
 If TextBox17.value = Application.WorksheetFunction.CountIfs(Sheets(6).Range("$l$2:$l$10000"), ">=" & Me.TextBox11, Sheets(6).Range("$b$2:$b$10000"), _
   Me.TextBox2, Sheets(6).Range("$e$2:$e$10000"), Me.TextBox5.Text) And Sheets(6).Cells(frw1, "e") Like "*" & TextBox5.Text & "*" _
@@ -472,7 +470,7 @@ Font.Name = "Calibri"
 With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
-last1 = Sheets(6).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(6).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 2 To last1
 If Sheets(6).Cells(frw1, "b").value = Me.TextBox2.Text Or Sheets(6).Cells(frw1, "e") Like "*" & TextBox5.Text & "*" Then
 Set item1 = ListView1.ListItems.Add(, , Sheets(6).Cells(frw1, "A"))
@@ -842,7 +840,7 @@ Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
 Sheets(6).Activate
-last1 = Sheets(6).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(6).Range("A" & rowS.count).End(xlUp).row
      For frw1 = 2 To last1
  If Sheets(6).Cells(frw1, "e") Like "*" & TextBox22.Text & "*" Then
  TextBox21.Text = Sheets(6).Cells(frw1, "b")
@@ -863,11 +861,11 @@ Call AddToForm(MAX_BOX)
 ComboBox1.List = Sheets(7).Range("a1:a571").value
 
 Dim last1, frw1 As Integer
-Dim Sh As Worksheet
-Set Sh = ThisWorkbook.Sheets(10)
+Dim sh As Worksheet
+Set sh = ThisWorkbook.Sheets(10)
 ComboBox2.Clear
 
-last1 = Sheets(10).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(10).Range("A" & rowS.count).End(xlUp).row
 For i = 2 To last1
 
 ComboBox2.AddItem Sheets(10).Cells(i, 1).value
@@ -879,5 +877,6 @@ Next i
 
 
 End Sub
+
 
 
