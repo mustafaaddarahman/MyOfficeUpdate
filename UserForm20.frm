@@ -95,68 +95,43 @@ End Sub
 Private Sub CheckBox2_Click()
 Call Hideit
 If UserForm20.CheckBox2.value = True Then
-UserForm20.CheckBox1.value = False
-Unload Me
-ThisWorkbook.Application.Visible = False
-Sheets(13).Range("a1:ce10000").ClearContents
-Application.ScreenUpdating = False
-'Sheets(5).Range("a8").CurrentRegion.Delete
-Sheets(1).Select
+    UserForm20.CheckBox1.value = False
+    Unload Me
+    
+    ' ≈Ìﬁ«›  ÕœÌÀ «·‘«‘…° «·Õ”«»«  «· ·ﬁ«∆Ì…° Ê«·√Õœ«À · ”—Ì⁄ «·ﬂÊœ
+    With Application
+        .ScreenUpdating = False
+        .Calculation = xlCalculationManual
+        .EnableEvents = False
+        .Visible = False
+    End With
 
-Range("a8").CurrentRegion.Select
+    '  ‰ŸÌ› «·»Ì«‰«  «·ﬁœÌ„…
+    Sheets(13).Range("A1:CE10000").ClearContents
+    Sheets(30).Range("A1:CE10000").ClearContents
 
-Selection.Copy Sheets(30).Range("A1")
+    '  ‰›Ì– ⁄„·Ì… «·‰”Œ „»«‘—… œÊ‰ «·Õ«Ã… ·‹ Select
+    ' Ì „ ‰”Œ «·‰ÿ«ﬁ „‰ Sheet1 ≈·Ï Sheet30 „»«‘—…
+    Sheets(1).Range("A8").CurrentRegion.Copy Destination:=Sheets(30).Range("A1")
 
-Application.ScreenUpdating = True
+    ' „”Õ «·—ƒÊ” √Ê «·‰ÿ«ﬁ«  «·„Õœœ… (ﬂ„« ÿ·»  ›Ì ‰Â«Ì… «·ﬂÊœ «·Œ«’ »ﬂ)
+    Sheets(13).Range("A1:CE7").ClearContents
+    Sheets(30).Range("A1:CE7").ClearContents
 
-Sheets(13).Select
-[a8].Select
-Sheets(13).Activate
-Application.ScreenUpdating = True
-'=======================================
+    ' ≈⁄«œ…  ‘€Ì· «·Œ’«∆’ «· Ì  „ ≈Ìﬁ«›Â«
+    With Application
+        .ScreenUpdating = True
+        .Calculation = xlCalculationAutomatic
+        .EnableEvents = True
+    End With
 
-Sheets(30).Range("a1:ce10000").ClearContents
-Application.ScreenUpdating = False
-'Sheets(5).Range("a8").CurrentRegion.Delete
-Sheets(1).Select
-
-Range("a8").CurrentRegion.Select
-
-Selection.Copy Sheets(30).Range("A1")
-
-Application.ScreenUpdating = True
-
-Sheets(30).Select
-[a8].Select
-Sheets(30).Activate
-Application.ScreenUpdating = True
-
-
-'============================================ ⁄„Ì„ œ«·… «·÷—Ì»Â ⁄·Ï‘Ì  30
-'Sheets(30).Range("x9").Formula = "=IF(AND(VLOOKUP(W9,zwjea4,2,0)<4,V9>0),""Õ”» «· ﬁ« ÿ⁄ «·ÃœÊ· «·÷—Ì»Ì «‰ ÌﬂÊ‰ «·⁄œœ ’›—"",VLOOKUP(J9,astktaat,VLOOKUP(W9,zwjea4,2,0)+V9,1))"
-'Sheets(30).Range("x9:x3000").FillDown
-
-'============================================
-'============================================ ⁄„Ì„ œ«·… «·÷—Ì»Â ⁄·Ï‘Ì  1
-'Sheets(1).Range("x9").Formula = "=IF(AND(VLOOKUP(W9,zwjea4,2,0)<4,V9>0),""Õ”» «· ﬁ« ÿ⁄ «·ÃœÊ· «·÷—Ì»Ì «‰ ÌﬂÊ‰ «·⁄œœ ’›—"",VLOOKUP(J9,astktaat,VLOOKUP(W9,zwjea4,2,0)+V9,1))"
-'Sheets(1).Range("x9:x3000").FillDown
-
-'============================================
-'============================================ ⁄„Ì„ œ«·… «·÷—Ì»Â ⁄·Ï‘Ì  13
-
-'============================================
-
-
-
-UserForm7.Show
-
-Sheets(13).Range("a1:ce7").ClearContents
-Sheets(30).Range("a1:ce7").ClearContents
-
+    ' ≈ŸÂ«— «·‰„Ê–Ã
+    UserForm7.Show
 End If
 End Sub
 
 Private Sub UserForm_Activate()
+ThisWorkbook.Application.Visible = False
 Sheets("sheet25").Range("a1:bm1000").ClearContents
 End Sub
 
