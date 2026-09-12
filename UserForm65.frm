@@ -13,6 +13,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim Zoomer As New clsZoomManager
+
 Private Sub CommandButton1_Click()
 Unload Me
 UserForm1.Show
@@ -45,8 +47,8 @@ Private Sub CommandButton2_Click()
         Next j
         '  „ÌÌ“ ’› «·⁄‰Ê«‰ »«··Ê‰ Ê«·Œÿ «·⁄—Ì÷
         If i = 0 Then
-            wsPrint.rowS(1).Font.Bold = True
-            wsPrint.rowS(1).Interior.Color = RGB(220, 220, 220)
+            wsPrint.Rows(1).Font.Bold = True
+            wsPrint.Rows(1).Interior.Color = RGB(220, 220, 220)
         End If
     Next i
     
@@ -89,7 +91,7 @@ Private Sub CommandButton3_Click()
     
     If IDToFind = "" Then MsgBox "Ì—ÃÏ «Œ Ì«— ”Ã·": Exit Sub
     
-    lastRow = ws.Cells(ws.rowS.count, 1).End(xlUp).row
+    lastRow = ws.Cells(ws.Rows.count, 1).End(xlUp).row
     For i = 2 To lastRow
         If CStr(ws.Cells(i, 1).value) = IDToFind Then
             For j = 1 To 13
@@ -130,12 +132,12 @@ Private Sub CommandButton4_Click()
     confirm = MsgBox("Â· √‰  „ √ﬂœ „‰ Õ–› Â–« «·”Ã· ‰Â«∆Ì«ø", vbCritical + vbYesNo, " √ﬂÌœ «·Õ–›")
     
     If confirm = vbYes Then
-        lastRow = ws.Cells(ws.rowS.count, 1).End(xlUp).row
+        lastRow = ws.Cells(ws.Rows.count, 1).End(xlUp).row
         
         ' 3. «·»ÕÀ ⁄‰ «·’› ÊÕ–›Â
         For i = 2 To lastRow
             If CStr(ws.Cells(i, 1).value) = IDToFind Then
-                ws.rowS(i).Delete
+                ws.Rows(i).Delete
                 
                 MsgBox " „ Õ–› «·”Ã· »‰Ã«Õ", vbInformation, " „"
                 
@@ -175,8 +177,9 @@ Private Sub ListBox1_Click()
     On Error GoTo 0
 End Sub
 
+    
 Private Sub UserForm_Initialize()
-
+Zoomer.Bind Me, Me.SpinButton1, Me.az
  Dim ws As Worksheet: Set ws = ThisWorkbook.Sheets(37)
     Dim i As Integer
 
@@ -202,7 +205,7 @@ End Sub
 
 Private Sub TextBox14_Change()
     Dim ws As Worksheet: Set ws = ThisWorkbook.Sheets(37)
-    Dim lastRow As Long: lastRow = ws.Cells(ws.rowS.count, 1).End(xlUp).row
+    Dim lastRow As Long: lastRow = ws.Cells(ws.Rows.count, 1).End(xlUp).row
     Dim filterVal As String: filterVal = Trim(Me.TextBox14.Text)
     Dim i As Long, j As Long, k As Long, r As Long
     Dim outArr() As Variant
@@ -265,7 +268,7 @@ End Sub
 
 Sub RefreshMyListBox(Optional filterVal As String = "")
     Dim ws As Worksheet: Set ws = ThisWorkbook.Sheets(37)
-    Dim lastRow As Long: lastRow = ws.Cells(ws.rowS.count, 1).End(xlUp).row
+    Dim lastRow As Long: lastRow = ws.Cells(ws.Rows.count, 1).End(xlUp).row
     Dim outArr() As Variant
     Dim i As Long, j As Long, k As Long, r As Long
     
