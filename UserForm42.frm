@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm42 
    Caption         =   "UserForm42"
-   ClientHeight    =   2190
+   ClientHeight    =   2196
    ClientLeft      =   120
    ClientTop       =   468
    ClientWidth     =   7692
@@ -13,6 +13,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim Zoomer As New clsZoomManager
+
 Private Sub CommandButton1_Click()
 Call whatsapp_trans_one_tape_1
 End Sub
@@ -33,7 +35,7 @@ TextBox3.value = ""
 
 Call arb
 Dim last2, frw2 As Integer
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "cc").value = TextBox1.Text And Sheets(1).Cells(frw2, "e").value Like "*" & TextBox2.Text & "*" Then
 'TextBox1.Text = "+964" & TextBox4.Text
@@ -59,3 +61,4 @@ End Sub
 Private Sub UserForm_Click()
 
 End Sub
+   
