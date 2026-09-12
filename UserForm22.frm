@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm22 
    Caption         =   "UserForm22"
-   ClientHeight    =   6768
+   ClientHeight    =   6765
    ClientLeft      =   120
    ClientTop       =   468
    ClientWidth     =   9252.001
@@ -13,8 +13,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim Zoomer As New clsZoomManager
-
 Private Sub CommandButton1_Click()
 'Sheets(1).Cells(9, "bp").Value = TextBox1.Text
 'Ê—ﬁ…1.Range("bp9").Formula = Sheets(1).Cells(9, "bp").Value
@@ -31,7 +29,7 @@ Private Sub CommandButton1_Click()
 
 Dim lastR As Integer
 Dim n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11 As Integer
-lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
 
 
 
@@ -195,4 +193,3 @@ End Sub
 Private Sub UserForm_Click()
 
 End Sub
-  
