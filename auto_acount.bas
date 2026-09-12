@@ -3,7 +3,7 @@ Sub auto_acount_1()
 
 Dim lr, nrow As Integer
 
-lr = Sheets(1).Cells(rowS.count, 2).End(xlUp).row
+lr = Sheets(1).Cells(Rows.count, 2).End(xlUp).row
 For nrow = 9 To lr
 If Sheets(1).Cells(nrow, "b").value = UserForm48.TextBox2.Text And Sheets(1).Cells(nrow, "e").value = UserForm48.TextBox5.Text Then
 
@@ -16,7 +16,7 @@ Select Case UserForm48.TextBox100.value
 '==================================================ãÓÊãÑ ÈÇáÎÏãÉ
 Case 1
 Dim lr1, nrow1 As Integer
-lr1 = Sheets(1).Cells(rowS.count, 2).End(xlUp).row
+lr1 = Sheets(1).Cells(Rows.count, 2).End(xlUp).row
 For nrow1 = 9 To lr1
 If UserForm48.TextBox8.value >= 8 And UserForm48.CheckBox4.value = True _
 And Sheets(1).Cells(nrow1, "b").value = UserForm48.TextBox2.Text And Sheets(1).Cells(nrow1, "e").value = UserForm48.TextBox5.Text Then
@@ -139,13 +139,13 @@ UserForm48.TextBox76.value = Format(UserForm48.TextBox76.value, "#,## IQD")
 Sheets(46).Activate
 Dim iRow3 As Long
 Dim i3 As Long
-Dim lastR3 As Long
+Dim lastr3 As Long
 Dim y3 As Long
 If UserForm48.TextBox11.value > 0 And UserForm48.TextBox12 < 30 Then
        
 
- lastR3 = Sheets(46).Cells(rowS.count, 1).End(xlUp).row
-    For y3 = 2 To lastR3
+ lastr3 = Sheets(46).Cells(Rows.count, 1).End(xlUp).row
+    For y3 = 2 To lastr3
     
     If Sheets(46).Cells(y3, 1) = UserForm48.TextBox2.Text And Sheets(46).Cells(y3, 2) = UserForm48.TextBox5.Text Then
    Cells(y3, 1).Select
@@ -154,14 +154,14 @@ ActiveCell.EntireRow.Delete
     End If
     Next y3
      
-    lastR3 = Sheets(46).Cells(rowS.count, 1).End(xlUp).row
-    For y3 = 2 To lastR3
+    lastr3 = Sheets(46).Cells(Rows.count, 1).End(xlUp).row
+    For y3 = 2 To lastr3
       If Sheets(46).Cells(y3, 1) <> UserForm48.TextBox2.Text And Sheets(46).Cells(y3, 2) <> UserForm48.TextBox5.Text Then
     
     Exit For
     End If
      Next
-    iRow = Range("A" & rowS.count).End(xlUp).row
+    iRow = Range("A" & Rows.count).End(xlUp).row
     Range("A" & iRow + 1).Offset(0, 0).value = UserForm48.TextBox2.value
     Range("A" & iRow + 1).Offset(0, 1).value = UserForm48.TextBox5.value
     Range("A" & iRow + 1).Offset(0, 2).value = UserForm48.TextBox10.value
