@@ -1,7 +1,7 @@
 Attribute VB_Name = "bdoon_ratb"
 Sub bdoon_ratb1_22()
 
-If UserForm1.TextBox58.Text = "  «Ã«“… »œÊ‰ —« »" Then
+If UserForm1.TextBox58.Text = "«Ã«“… »œÊ‰ —« »" Then
 MsgBox " «Ã«“… »œÊ‰ —« »", vbDefaultButton2, "—”«·…  ÊÃÌÂ"
 
 
@@ -13,10 +13,10 @@ UserForm1.TextBox24.value = 0
 
 UserForm1.TextBox34.value = 0
 UserForm1.TextBox35.value = 0
-'userform1.textbox36.value = 0
+UserForm1.TextBox8.value = 0
 UserForm1.TextBox38.value = 0
-'userform1.textbox39.value = 0
-'userform1.textbox40.value = 0
+UserForm1.TextBox9.value = 0
+UserForm1.TextBox30.value = 0
 UserForm1.TextBox42.value = 0
 UserForm1.TextBox44.value = 0
 UserForm1.TextBox46.value = 0
@@ -28,6 +28,7 @@ UserForm1.TextBox16.value = 0
 UserForm1.TextBox18.value = 0
 UserForm1.TextBox19.value = 0
 UserForm1.TextBox21.value = 0
+UserForm1.TextBox22.value = 0
 UserForm1.TextBox20.value = 0
 UserForm1.TextBox25.value = 0
 UserForm1.TextBox27.value = 0
@@ -37,7 +38,7 @@ UserForm1.TextBox29.value = 0
 
 'userform1.textbox49.Text = userform1.textbox49.Text - userform1.textbox48.Text
 '=============================== «·«” ﬁÿ«⁄« 
-'userform1.textbox32.Text =
+
 'userform1.textbox33.Text =
 'userform1.textbox34.Text
 'userform1.textbox35.Text
@@ -57,7 +58,7 @@ UserForm1.TextBox31.value = 0
 UserForm1.TextBox30.value = 0
 UserForm1.ComboBox6.value = 0
 UserForm1.ComboBox7.value = 0
-'UserForm1.ComboBox8.Value = 0
+UserForm1.ComboBox8.value = 0
 UserForm1.ComboBox10.value = 0
 UserForm1.ComboBox11.value = 0
 
@@ -82,7 +83,7 @@ UserForm1.TextBox32.value = 0
 UserForm1.TextBox33.value = 0
 '============================„Ã„Ê⁄ «·«” Õﬁ«ﬁ« 
 
-UserForm1.TextBox31.value = val(UserForm1.TextBox10.value) + UserForm1.TextBox30.value
+UserForm1.TextBox31.value = 0
 
 '===============«·«” ﬁÿ«⁄« 
 UserForm1.TextBox48.Text = 0
