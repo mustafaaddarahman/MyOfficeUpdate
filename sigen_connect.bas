@@ -7,31 +7,41 @@ Attribute VB_Name = "sigen_connect"
 
 Public Sigen_NextPulse As Date
 
-' «·„Õ—ﬂ «·√”«”Ì ··‰Ÿ«„ - «·—«»ÿ „À»  œ«∆„Ì« Ê·« Ì €Ì— √»œ«
 Public Sub Sigen_Main_Engine()
     On Error Resume Next
-   Dim frm9 As Object: Set frm9 = UserForm9
+    Dim frm9 As Object: Set frm9 = UserForm9
     
-    ' --- «·≈÷«›… «·ÃœÌœ… Â‰« ---
-    ' ≈–« ﬂ«‰ Â–« ÂÊ «· ‘€Ì· «·√Ê· ⁄‰œ › Õ «·›Ê—„° «ÿ·» «· ÕœÌÀ »⁄œ 5 ÀÊ«‰Ì Ê«Œ—Ã ›Ê—«
+    ' --- ≈÷«›… «· Õﬁﬁ „‰ CheckBox3 ---
+    ' ≈–« ﬂ«‰ «·‹ CheckBox3 €Ì— „›⁄· (False)° ‰Êﬁ› «·—«œ«— Ê‰Œ—Ã
+    If frm9.CheckBox3.value = False Then
+        '  ‰ŸÌ› «·⁄‰«’— «·„ÊÃÊœ… Õ«·Ì«
+        Dim iCtrl As Integer
+        For iCtrl = frm9.Controls.count - 1 To 0 Step -1
+            If Left(frm9.Controls(iCtrl).Name, 7) = "SigInd_" Or Left(frm9.Controls(iCtrl).Name, 7) = "SigTxt_" Then
+                frm9.Controls.Remove frm9.Controls(iCtrl).Name
+            End If
+        Next iCtrl
+        
+        ' ≈·€«¡ «·ÃœÊ·… «·ﬁ«œ„… ·„‰⁄ ≈⁄«œ…  ‘€Ì· «·—«œ«—
+        On Error Resume Next
+        Application.OnTime Sigen_NextPulse, "sigen_connect.Sigen_Trigger", , False
+        Exit Sub
+    End If
+    ' ----------------------------------
+
+    ' ≈–« ﬂ«‰ «· ‘€Ì· «·√Ê·
     Static FirstRun As Boolean
     If FirstRun = False Then
         FirstRun = True
-        Sigen_NextPulse = Now + TimeValue("00:00:05") ' ”Ì»œ√ «·⁄„· «·›⁄·Ì »⁄œ 5 ÀÊ«‰Ì „‰ «·› Õ
+        Sigen_NextPulse = Now + TimeValue("00:00:05")
         Application.OnTime Sigen_NextPulse, "sigen_connect.Sigen_Trigger"
         Exit Sub
     End If
-  '====================================================================
     
-    ' «·—«»ÿ «·ﬂ«„· «·„À»  (·« Ì €Ì—)
-    Dim Sigen_URL As String
-    Sigen_URL = "https://script.google.com/macros/s/AKfycbz8aNEkZQ6TOHRkrQgXVBweTe21dT3C0FN4n2kOfnckdSR2QY1oVPm31CafK-1YSQUK/exec"
+    ' (»ﬁÌ… «·ﬂÊœ «·Œ«’ »ﬂ Ì»ﬁÏ ﬂ„« ÂÊ...)
+    Dim Sigen_URL As String: Sigen_URL = "https://script.google.com/macros/s/AKfycbz8aNEkZQ6TOHRkrQgXVBweTe21dT3C0FN4n2kOfnckdSR2QY1oVPm31CafK-1YSQUK/exec"
+    Dim Sigen_MyName As String: Sigen_MyName = Trim(ThisWorkbook.Sheets("title_factory").Range("A2").value)
     
-    ' 1. ﬁ—«¡… «”„ „Õÿ ﬂ «·Õ«·Ì „‰ «·‘Ì  (title_factory «·Œ·Ì… A2)
-    Dim Sigen_MyName As String
-    Sigen_MyName = Trim(ThisWorkbook.Sheets("title_factory").Range("A2").value)
-    
-    ' 2. ≈—”«· ‰»÷… «·Õ«·… (POST) · ”ÃÌ· ÊÃÊœﬂ ›Ì «·”Õ«»
     Dim Sigen_Http As Object: Set Sigen_Http = CreateObject("MSXML2.ServerXMLHTTP.6.0")
     If Sigen_MyName <> "" Then
         Sigen_Http.Open "POST", Sigen_URL, False
@@ -39,58 +49,56 @@ Public Sub Sigen_Main_Engine()
         Sigen_Http.Send "station=" & Application.WorksheetFunction.EncodeURL(Sigen_MyName) & "&status=Active&t=" & Timer
     End If
     
-    ' 3. Ã·» »Ì«‰«  «·—«œ«— (GET) „⁄ ﬂ”— «·ﬂ«‘ ·÷„«‰ «·„’œ«ﬁÌ…
     Sigen_Http.Open "GET", Sigen_URL & "?action=GET_ACTIVE&t=" & Timer & "&rnd=" & Int((1000 * Rnd) + 1), False
     Sigen_Http.Send
     Dim Sigen_Response As String: Sigen_Response = Sigen_Http.responseText
     
-    ' 4. „’›Ê›… «·„Õÿ«  «·—”„Ì… «·‹ 14 ( ‘„· «·ﬁ⁄ﬁ«⁄)
+    Dim lastRow As Long
+    lastRow = Sheets(5).Cells(rowS.count, "B").End(xlUp).row
     Dim Sigen_List As Variant
-    Sigen_List = Array("„ﬁ— «·ÂÌ∆…", "„ﬁ— ‘—ﬂ… «·’‰«⁄«  «·Õ—»ÌÂ", "„’‰⁄ «·ﬂ—«„… Ê«·Õ«—À", "„’‰⁄ «·—»Ì⁄", "„’‰⁄ «·‰Â—Ê«‰", "„’‰⁄ Õ„Ê—«»Ì", "„’‰⁄ «·Ì—„Êﬂ", "„’‰⁄ ⁄ﬁ»… Ê»œ—", "„’‰⁄ «·ﬁ«œ”ÌÂ", "„’‰⁄ «·—‘Ìœ", "„’‰⁄ ÕÿÌ‰", "„’‰⁄ Ã«»— »‰ ÕÌ«‰", "„’‰⁄  »Êﬂ", "„’‰⁄ «·ﬁ⁄ﬁ«⁄")
+    Sigen_List = Application.Transpose(Sheets(5).Range("B1:B" & lastRow).value)
     
-    ' 5.  ‰ŸÌ› «·⁄·«„«  «·”«»ﬁ… »—„ÃÌ« (Õ–› ⁄ﬂ”Ì ·÷„«‰ «·œﬁ…)
-    Dim iCtrl As Integer
+    '  ‰ŸÌ› «·⁄‰«’— ﬁ»· ≈⁄«œ… «·—”„
     For iCtrl = frm9.Controls.count - 1 To 0 Step -1
         If Left(frm9.Controls(iCtrl).Name, 7) = "SigInd_" Or Left(frm9.Controls(iCtrl).Name, 7) = "SigTxt_" Then
             frm9.Controls.Remove frm9.Controls(iCtrl).Name
         End If
     Next iCtrl
     
-    ' 6. »‰«¡ «·—«œ«— «·‘«„· (⁄—÷ «·‹ 14 „Õÿ… œ«∆„«)
+    ' —”„ «·⁄‰«’—
     Dim j As Integer
-    Dim Sigen_TopPos As Single: Sigen_TopPos = 142 ' ≈“«Õ… 5 ”„ ·√”›·
-
+    Dim Sigen_TopPos As Single: Sigen_TopPos = 142
     For j = 0 To UBound(Sigen_List)
         Dim SName As String: SName = Sigen_List(j)
-        
-        ' »‰«¡ «·œ«∆—… (Indicator)
         Dim SInd As Object: Set SInd = frm9.Controls.Add("Forms.Label.1", "SigInd_" & j, True)
-        SInd.Left = 10: SInd.Width = 10: SInd.Height = 10
-        SInd.Top = Sigen_TopPos + (j * 18)
-        SInd.BorderStyle = 1: SInd.Caption = ""
-        
-        ' »‰«¡ «·‰’ (Station Name)
+        SInd.Left = 10: SInd.Width = 10: SInd.Height = 10: SInd.Top = Sigen_TopPos + (j * 18): SInd.BorderStyle = 1: SInd.Caption = ""
         Dim STxt As Object: Set STxt = frm9.Controls.Add("Forms.Label.1", "SigTxt_" & j, True)
-        STxt.Left = 25: STxt.Width = 180: STxt.Height = 15
-        STxt.Top = SInd.Top - 1
-        STxt.Caption = SName: STxt.BackStyle = 0: STxt.Font.Size = 9
+        STxt.Left = 25: STxt.Width = 180: STxt.Height = 15: STxt.Top = SInd.Top - 1: STxt.Caption = SName: STxt.BackStyle = 0: STxt.Font.Size = 9
         
-        ' --- „‰ÿﬁ «·√·Ê«‰ «·’«—„ («·„’œ«ﬁÌ…) ---
-        ' ·‰ Ì ·Ê‰ »«·√’›— ≈·« ≈–« ﬂ«‰ «·«”„ „ÊÃÊœ« ›Ì "—œ «·”Õ«»" «·›⁄·Ì
-        If InStr(1, Sigen_Response, Chr(34) & SName & Chr(34), vbTextCompare) > 0 Then
-            SInd.BackColor = vbYellow ' √’›— („ ’· ”Õ«»Ì«)
-            STxt.Font.Bold = True: STxt.ForeColor = vbBlack
+       If InStr(1, Sigen_Response, Chr(34) & SName & Chr(34), vbTextCompare) > 0 Then
+            ' «·„Õÿ… „ ’·…
+            SInd.BackColor = vbYellow ' √’›—
+            STxt.Font.Bold = True
+            STxt.Font.Size = 12
+            STxt.ForeColor = RGB(255, 255, 255)
+            STxt.Font.Name = "Times New Roman"
+            ' ≈÷«›… ﬂ·„… „ ’· Õ«·Ì«
+            STxt.Caption = SName & " („ ’· Õ«·Ì«)"
         Else
-            SInd.BackColor = vbRed    ' √Õ„— (€Ì— „ ’· √Ê „ÿ›Ì)
-            STxt.Font.Bold = False: STxt.ForeColor = RGB(170, 170, 170)
+            ' «·„Õÿ… €Ì— „ ’·…
+            SInd.BackColor = vbRed    ' √Õ„—
+             STxt.Font.Size = 11
+            STxt.Font.Bold = True
+            STxt.ForeColor = RGB(255, 255, 255)
+            ' «·≈»ﬁ«¡ ⁄·Ï «”„ «·„Õÿ… ›ﬁÿ
+            STxt.Caption = SName
         End If
-        
         SInd.ZOrder 0: STxt.ZOrder 0
     Next j
     
     frm9.Repaint
     
-    ' 7. ≈⁄«œ… «·ÃœÊ·… «· ·ﬁ«∆Ì… ﬂ· 40 À«‰Ì…
+    ' ≈⁄«œ… «·ÃœÊ·…
     Sigen_NextPulse = Now + TimeValue("00:00:40")
     Application.OnTime Sigen_NextPulse, "sigen_connect.Sigen_Trigger"
 End Sub
