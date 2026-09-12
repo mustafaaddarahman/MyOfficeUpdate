@@ -14,13 +14,15 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
-
 Dim Zoomer As New clsZoomManager
 
 
 Private Sub CommandButton25_Click()
-Call Push_Update_To_GitHub
+Unload UserForm72
+    Unload UserForm9
+    
+    ' ÿ·»  ‘€Ì· «· ÕœÌÀ »⁄œ ·ÕŸ… Ê«Õœ… (Â–« Ìﬂ”— «·‹ Break Mode)
+    Application.OnTime Now + TimeValue("00:00:01"), "Execute_Full_Cloud_Sync"
 
 End Sub
 
