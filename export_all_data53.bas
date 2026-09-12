@@ -4,7 +4,7 @@ On Error Resume Next
 Sheets(53).Range("bw8:ci10000").EntireColumn.Hidden = True
 Dim PASS As Variant
 Dim lastR, i As Integer
-lastR = Sheets(45).Cells(Rows.count, 2).End(xlUp).row
+lastR = Sheets(45).Cells(rowS.count, 2).End(xlUp).row
 For i = 1 To lastR
 PASS = Sheets(45).Cells(i, 2).value
 
