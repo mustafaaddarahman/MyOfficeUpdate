@@ -13,6 +13,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim Zoomer As New clsZoomManager
+
 Private Sub CheckBox1_Click()
 If CheckBox1.value = True Then
 CheckBox2.value = False
@@ -31,7 +33,7 @@ Private Sub CommandButton1_Click()
 '==============================
 Dim lastR As Integer
 Dim n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12 As Integer
-lastR = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
+lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
 '=============================================================
 
 For n1 = 9 To lastR
@@ -276,7 +278,7 @@ TextBox1.value = 0
 End If
 Dim lastR As Integer
 Dim n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12 As Integer
-lastR = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
+lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
 '=============================================================
 
 For n1 = 9 To lastR
@@ -434,3 +436,4 @@ Private Sub UserForm_Click()
 End Sub
 
 
+   
