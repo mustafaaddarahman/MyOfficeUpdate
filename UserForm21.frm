@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm21 
    Caption         =   "UserForm21"
-   ClientHeight    =   6696
+   ClientHeight    =   6690
    ClientLeft      =   6912
    ClientTop       =   468
    ClientWidth     =   8928.001
@@ -13,8 +13,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim Zoomer As New clsZoomManager
-
 
 
 
@@ -50,7 +48,7 @@ Private Sub CommandButton1_Click()
 'MsgBox "·ﬁœ  „  «” ﬁÿ«⁄ «·„»«·€ „‰ ﬂ«›… «·„ÊŸ›Ì‰", vbDefaultButton1, "—”«·…  ÊÃÌÂ"
 Dim lastR As Integer
 Dim n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11 As Integer
-lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
 
 
 
@@ -209,4 +207,3 @@ TextBox3.value = Sheets(1).Cells(9, "bo").value
 End Sub
 
 
-   
