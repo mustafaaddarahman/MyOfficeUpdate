@@ -311,7 +311,7 @@ On Error GoTo emad
 
     Sheets(19).Activate
 
-    iRow = Range("A" & Rows.count).End(xlUp).row
+    iRow = Range("A" & rowS.count).End(xlUp).row
 '=======================================================
   ' Format(textbox81.Text, "dd/mm/yyyy") = 0                                              '
   ' TextBox16.Text = 0
@@ -592,7 +592,7 @@ On Error GoTo emad
 
 '=======================================================
 Dim lastR As Integer
-lastR = Sheets(19).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(19).Cells(rowS.count, 1).End(xlUp).row
     For Y = 2 To lastR
     
     If Sheets(19).Cells(Y, 1) = TextBox1.Text And Sheets(19).Cells(Y, 2) = TextBox2.Text Then
@@ -844,7 +844,7 @@ End Sub
 Private Sub CommandButton26_Click()
 Sheets(19).Activate
 Dim lastR, r As Integer
-lastR = Sheets(19).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(19).Cells(rowS.count, 1).End(xlUp).row
 For r = 2 To lastR
 If TextBox1.Text = Sheets(19).Cells(r, 1).value And TextBox2.Text = Sheets(19).Cells(r, 2).value Then
 
@@ -872,7 +872,7 @@ Private Sub CommandButton4_Click()
 
     Sheets(24).Activate
 
-    iRow = Range("A" & Rows.count).End(xlUp).row
+    iRow = Range("A" & rowS.count).End(xlUp).row
 '=======================================================
   ' Format(textbox81.Text, "dd/mm/yyyy") = 0                                              '
   ' TextBox16.Text = 0
@@ -921,7 +921,7 @@ Private Sub CommandButton4_Click()
 
 Sheets(19).Activate
 Dim lastR, r As Integer
-lastR = Sheets(19).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(19).Cells(rowS.count, 1).End(xlUp).row
 For r = 2 To lastR
 If TextBox1.Text = Sheets(19).Cells(r, 1).value And TextBox2.Text = Sheets(19).Cells(r, 2).value Then
 
@@ -971,7 +971,7 @@ Private Sub CommandButton6_Click()
   Dim iRow As Long
 
     Sheets(19).Activate
-    iRow = Sheets(19).Cells(Rows.count, 2).End(xlUp).row
+    iRow = Sheets(19).Cells(rowS.count, 2).End(xlUp).row
     TextBox1.value = iRow
    
 'emad:
@@ -999,7 +999,7 @@ Dim last1, frw1 As Integer
 
 '====================================
 Sheets(19).Activate
-last1 = Sheets(19).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(19).Range("A" & rowS.count).End(xlUp).row
 
 
 
@@ -1078,7 +1078,7 @@ Next i
 ComboBox1.Visible = False
 '===================================
 Dim last1, frw1 As Integer
-last1 = Sheets(19).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(19).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 If Sheets(19).Cells(frw1, "b") = TextBox2.Text And Sheets(19).Cells(frw1, "c") = TextBox3.Text Then
 Image1.Picture = LoadPicture(Sheets(19).Cells(frw1, 64))
@@ -1167,7 +1167,7 @@ Sheets(19).Activate
     If TextBox72 = "" Then Exit Sub
     Sheets(19).Activate
 
-    ss = Sheets(19).Cells(Rows.count, 3).End(xlUp).row
+    ss = Sheets(19).Cells(rowS.count, 3).End(xlUp).row
      k = 0
      
      
@@ -1186,7 +1186,7 @@ Private Sub TextBox72_DblClick(ByVal Cancel As MSForms.ReturnBoolean)
 Sheets(19).Activate
 TextBox72.Text = ""
 'TextBox50.SetFocus
-For i = 2 To Sheets(19).Cells(Rows.count, 1).End(xlUp).row
+For i = 2 To Sheets(19).Cells(rowS.count, 1).End(xlUp).row
 ListBox1.AddItem
  ListBox1.List(i - 2, 0) = Cells(i, 3).value
   ListBox1.List(i - 2, 1) = i
@@ -1268,7 +1268,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(19).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(19).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 Set item1 = ListView1.ListItems.Add(, , Sheets(19).Cells(frw1, "A"))
 item1.SubItems(1) = Sheets(19).Cells(frw1, "b")
