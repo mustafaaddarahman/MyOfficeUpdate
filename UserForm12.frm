@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm12 
    Caption         =   "UserForm12"
-   ClientHeight    =   11685
+   ClientHeight    =   11688
    ClientLeft      =   120
    ClientTop       =   468
    ClientWidth     =   7512
@@ -13,6 +13,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim Zoomer As New clsZoomManager
+
 
 Private Declare PtrSafe Function FindWindow Lib "user32" Alias "FindWindowA" (ByVal lpClassName As String, ByVal lpWindowName As String) As Long
 Private Declare PtrSafe Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hwnd As Long, ByVal nIndex As Long) As Long
@@ -60,7 +62,7 @@ Private Sub CommandButton15_Click()
 
     Sheets(6).Activate
 
-    iRow = Range("A" & rowS.count).End(xlUp).row
+    iRow = Range("A" & Rows.count).End(xlUp).row
     
 '=======================================================
   
@@ -106,7 +108,7 @@ End If
 Next X
 
 Dim lastR As Integer
-lastR = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
+lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
     For Y = 9 To lastR
     
     If Sheets(1).Cells(Y, 5) = TextBox5.Text And Sheets(1).Cells(Y, 2) = TextBox2.Text Then
@@ -249,3 +251,8 @@ Call AddToForm(MAX_BOX)
 
 End Sub
 
+   
+
+Private Sub UserForm_Initialize()
+ Zoomer.Bind Me, Me.SpinButton1, Me.az
+End Sub
