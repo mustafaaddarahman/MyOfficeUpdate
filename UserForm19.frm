@@ -23,7 +23,7 @@ Dim fd As FileDialog
     Set fd = Application.FileDialog(msoFileDialogFilePicker)
 
     With fd
-        .title = "«Œ Ì«— „·› Excel"
+        .Title = "«Œ Ì«— „·› Excel"
         .AllowMultiSelect = False
         .Filters.Clear
         .Filters.Add "Excel Files", "*.xlsx; *.xlsm; *.xls; *.xlsb"
@@ -89,12 +89,12 @@ MsgBox "ﬁœ  „  ‰ﬁ· «·»Ì«‰«  »‰Ã«Õ ⁄»— «·„·› «·Œ«—ÃÌ ÊÌ„ﬂ‰ﬂ„ «·„ «»⁄Â ›Ì  ÕœÌÀÂ«"
     Set srcWB = Workbooks.Open(filePath)
 
     ' --- 3. ‰”Œ «·»Ì«‰«  ≈·Ï „·› «·‰Ÿ«„ ---
-    Set srcRange = srcWB.Sheets(1).Rows(2) ' Ì„ﬂ‰  €ÌÌ—Â Õ”» «·Õ«Ã…
+    Set srcRange = srcWB.Sheets(1).rowS(2) ' Ì„ﬂ‰  €ÌÌ—Â Õ”» «·Õ«Ã…
     Set dstWS = Workbooks("Financial and administrative system.xlsm").Sheets("Clipboard")
-    NextRow = dstWS.Cells(dstWS.Rows.count, 1).End(xlUp).row + 1
+    NextRow = dstWS.Cells(dstWS.rowS.count, 1).End(xlUp).row + 1
 
     srcRange.Copy
-    dstWS.Rows(NextRow).PasteSpecial Paste:=xlPasteAll
+    dstWS.rowS(NextRow).PasteSpecial Paste:=xlPasteAll
     Application.CutCopyMode = False
 
     ' --- 4. ≈€·«ﬁ «·„·› «·„’œ— ---
@@ -131,7 +131,7 @@ Dim ws100 As Worksheet
     Set ws100 = ActiveSheet
     
     ' ≈ÌÃ«œ ¬Œ— ’› ÌÕ ÊÌ ⁄·Ï »Ì«‰«  ›Ì «·⁄„Êœ B
-    lastRow100 = ws.Cells(ws.Rows.count, "B").End(xlUp).row
+    lastRow100 = ws.Cells(ws.rowS.count, "B").End(xlUp).row
     
     '  ⁄»∆… «·⁄„Êœ A «» œ«¡ „‰ «·’› 9 »«” Œœ«„ ›ﬂ—… COUNTA
     For i = 9 To lastRow100
