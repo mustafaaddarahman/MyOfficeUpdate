@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm29 
    Caption         =   "UserForm29"
-   ClientHeight    =   10410
+   ClientHeight    =   10800
    ClientLeft      =   120
    ClientTop       =   468
    ClientWidth     =   6816
@@ -13,6 +13,18 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -29,14 +41,34 @@ If ComboBox1.value = "«·„Êﬁ› «·Õ«·Ì" Then
 Label25.Visible = False
 '=======================================================
 Dim lastR As Integer
-lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
     For Y = 9 To lastR
     
     If Sheets(1).Cells(Y, 2) = TextBox68.Text And Sheets(1).Cells(Y, 5) = TextBox60.Text Then
    
     
      ComboBox1.Text = Sheets(1).Cells(Y, 58)
-     TextBox67.Text = Sheets(1).Cells(Y, 49)
+     TextBox67.value = Sheets(1).Cells(Y, 49)
+    
+    TextBox4.value = val(TextBox65) + val(TextBox66)
+    
+TextBox70.value = Int(TextBox4.value) - Int(TextBox67.value)
+
+If TextBox70.value > 0 Then
+Label26.Caption = "Ì÷«› Â–« «·„»·€ ﬂ«÷«›… „ƒﬁ Â "
+UserForm1.TextBox60.value = TextBox70.value
+UserForm1.TextBox40.value = 0
+ElseIf TextBox70.value < 0 Then
+Label26.Caption = "Ì⁄«œ Â–« «·„»·€ «·Ï «·’‰œÊﬁ "
+
+UserForm1.TextBox40.value = TextBox70.value * (-1)
+UserForm1.TextBox41.Text = "«” ﬁÿ«⁄ Ì⁄«œ ··’‰œÊﬁ"
+
+  End If
+    
+    
+    
+    
     
 
 
@@ -48,14 +80,20 @@ Dim num As Long
 num = val(TextBox67.value / 30) * val(TextBox3.value)
 TextBox66.value = num
 
-  TextBox4.value = val(TextBox65) + val(TextBox66)
+  
+  
 ElseIf ComboBox1.value = "„Õ«· ⁄·Ï «· ﬁ«⁄œ" Then
 Label25.Visible = True
+Label26.Caption = "Ì⁄«œ Â–« «·„»·€ «·Ï «·’‰œÊﬁ "
+
 TextBox4.value = val(TextBox65)
+TextBox70.value = Int(TextBox61.value) - Int(TextBox65.value)
+UserForm1.TextBox40.value = TextBox70.value
+UserForm1.TextBox41.Text = "«” ﬁÿ«⁄ Ì⁄«œ ··’‰œÊﬁ"
 End If
-Dim lastr1 As Integer
-lastr1 = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
-    For y1 = 9 To lastr1
+Dim lastR1 As Integer
+lastR1 = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
+    For y1 = 9 To lastR1
     
     If Sheets(1).Cells(y1, 2) = TextBox68.Text And Sheets(1).Cells(y1, 5) = TextBox60.Text Then
         TextBox67.Text = Sheets(1).Cells(y1, 49)
@@ -104,7 +142,7 @@ Dim iRow As Long, i As Long
 '============================================================================
 
 '=======================================================
- lastR = Sheets(37).Cells(Rows.count, 1).End(xlUp).row
+ lastR = Sheets(37).Cells(rowS.count, 1).End(xlUp).row
     For Y = 2 To lastR
     
     If Sheets(37).Cells(Y, 1) = TextBox68.Text And Sheets(37).Cells(Y, 2) = TextBox60.Text Then
@@ -123,14 +161,14 @@ ActiveCell.EntireRow.Delete
    
    
    
-    lastr1 = Sheets(37).Cells(Rows.count, 1).End(xlUp).row
-    For y1 = 2 To lastr1
+    lastR1 = Sheets(37).Cells(rowS.count, 1).End(xlUp).row
+    For y1 = 2 To lastR1
       If Sheets(37).Cells(y1, 1) <> TextBox68.Text And Sheets(37).Cells(y1, 2) <> TextBox60.Text Then
     
     Exit For
     End If
      Next
-    iRow = Range("A" & Rows.count).End(xlUp).row
+    iRow = Range("A" & rowS.count).End(xlUp).row
     Range("A" & iRow + 1).Offset(0, 0).value = TextBox68.value
     Range("A" & iRow + 1).Offset(0, 1).value = TextBox60.value
     Range("A" & iRow + 1).Offset(0, 2).value = TextBox1.value
@@ -146,11 +184,11 @@ ActiveCell.EntireRow.Delete
     Range("A" & iRow + 1).Offset(0, 11).value = Format(TextBox5.Text, "yyyy/mm/dd")
     Range("A" & iRow + 1).Offset(0, 12).value = Format(TextBox64.Text, "yyyy/mm/dd")
         UserForm1.TextBox49.Text = TextBox4.value
-    UserForm1.TextBox58.Text = "—« » Ã“∆Ì"
- UserForm1.ComboBox3.value = "—« » Ã“∆Ì"
+    UserForm1.TextBox58.Text = "„Ã„Ê⁄ «·—« » ·› — Ì‰"
+ UserForm1.ComboBox3.value = "„Ã„Ê⁄ «·—« » ·› — Ì‰"
  
 
- lastr2 = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
+ lastr2 = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
     For y2 = 9 To lastr2
       If Sheets(1).Cells(y2, 2) = TextBox68.Text And Sheets(1).Cells(y2, 5) = TextBox60.Text Then
     Sheets(1).Cells(y2, 49) = TextBox4.Text
@@ -162,13 +200,13 @@ ActiveCell.EntireRow.Delete
  Sheets(46).Activate
 Dim iRow3 As Long
 Dim i3 As Long
-Dim lastr3 As Long
+Dim lastR3 As Long
 Dim y3 As Long
 
        
 
- lastr3 = Sheets(46).Cells(Rows.count, 1).End(xlUp).row
-    For y3 = 2 To lastr3
+ lastR3 = Sheets(46).Cells(rowS.count, 1).End(xlUp).row
+    For y3 = 2 To lastR3
     
     If Sheets(46).Cells(y3, 1) = TextBox68.Text And Sheets(46).Cells(y3, 2) = TextBox60.Text Then
    Cells(y3, 1).Select
@@ -177,14 +215,14 @@ ActiveCell.EntireRow.Delete
     End If
     Next y3
     
-    lastr3 = Sheets(46).Cells(Rows.count, 1).End(xlUp).row
-    For y3 = 2 To lastr3
+    lastR3 = Sheets(46).Cells(rowS.count, 1).End(xlUp).row
+    For y3 = 2 To lastR3
       If Sheets(46).Cells(y3, 1) <> TextBox68.Text And Sheets(46).Cells(y3, 2) <> TextBox60.Text Then
     
     Exit For
     End If
      Next
-    iRow = Range("A" & Rows.count).End(xlUp).row
+    iRow = Range("A" & rowS.count).End(xlUp).row
     Range("A" & iRow + 1).Offset(0, 0).value = TextBox68.value
     Range("A" & iRow + 1).Offset(0, 1).value = TextBox60.value
     Range("A" & iRow + 1).Offset(0, 2).value = TextBox1.value
@@ -210,6 +248,22 @@ name_month = monthName(month_date)
 
 
 
+'==================================== ÕœÌÀ «”«”Ì
+
+
+
+
+UserForm1.CommandButton20.value = True
+
+
+
+
+
+
+
+
+
+
 
 End Sub
 
@@ -220,14 +274,14 @@ End Sub
 
 
 Private Sub TextBox2_AfterUpdate()
-TextBox65.value = val(TextBox61.value) / 30 * val(TextBox2.value)
+TextBox65.value = Int(val(TextBox61.value) / 30 * val(TextBox2.value))
  TextBox3.value = 30 - val(TextBox2.value)
 
 End Sub
 
 Private Sub TextBox2_Change()
-'On Error Resume Next
-TextBox65.value = val(TextBox61.value) / 30 * val(TextBox2.value)
+On Error Resume Next
+TextBox65.value = Int(val(TextBox61.value) / 30 * val(TextBox2.value))
  TextBox3.value = 30 - val(TextBox2.value)
 
 End Sub
@@ -236,13 +290,17 @@ Private Sub TextBox3_AfterUpdate()
 On Error Resume Next
 
 
-TextBox66.value = val(TextBox67.value) / 30 * val(TextBox3.value)
+TextBox66.value = Int(val(TextBox67.value) / 30 * val(TextBox3.value))
 End Sub
 
 Private Sub TextBox3_Change()
 On Error Resume Next
 
-TextBox66.value = val(TextBox67.value) / 30 * val(TextBox3.value)
+TextBox66.value = Int(val(TextBox67.value) / 30 * val(TextBox3.value))
+
+End Sub
+
+Private Sub TextBox4_Change()
 
 End Sub
 
@@ -259,7 +317,7 @@ End Sub
 Private Sub TextBox62_Change()
 
 Dim lastR, r As Integer
-lastR = Sheets(38).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(38).Cells(rowS.count, 1).End(xlUp).row
 For r = 2 To lastR
 If Sheets(38).Cells(r, 2).value Like "*" & TextBox62.Text & "*" Then
 TextBox68.Text = Sheets(38).Cells(r, 1)
@@ -307,3 +365,7 @@ TextBox62.Text = UserForm1.TextBox5.Text
 End Sub
 
 
+   
+Private Sub UserForm_Click()
+
+End Sub
