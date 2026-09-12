@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm3 
    Caption         =   "ãÌÇãíÚ ÍÓÈ ÇáÝÆÇÊ"
-   ClientHeight    =   12285
+   ClientHeight    =   12288
    ClientLeft      =   48
    ClientTop       =   396
    ClientWidth     =   18324
@@ -13,6 +13,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim Zoomer As New clsZoomManager
+
 
 Private Declare PtrSafe Function FindWindow Lib "user32" Alias "FindWindowA" (ByVal lpClassName As String, ByVal lpWindowName As String) As Long
 Private Declare PtrSafe Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hwnd As Long, ByVal nIndex As Long) As Long
@@ -52,7 +54,7 @@ Font.Name = "Calibri"
 With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
-last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw1 = 9 To last1
 Set item1 = ListView1.ListItems.Add(, , Sheets(1).Cells(frw1, "A"))
 item1.SubItems(1) = Sheets(1).Cells(frw1, "b")
@@ -164,7 +166,7 @@ Me.TextBox11.Text = ""
  With Me.ListView1
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f").value = Me.ComboBox1.value And Sheets(1).Cells(frw2, "n") >= TextBox1.Text And Sheets(1).Cells(frw2, "p") >= TextBox2.Text Then
 Set item2 = ListView1.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -220,7 +222,7 @@ Dim last2, frw2 As Integer
  With Me.ListView2
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f") = Me.ComboBox3.value Then
 Set item2 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -271,7 +273,7 @@ Private Sub CommandButton4_Click()
 With Me.ListView2
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
-last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw1 = 9 To last1
 Set item1 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw1, "A"))
 item1.SubItems(1) = Sheets(1).Cells(frw1, "b")
@@ -389,7 +391,7 @@ Dim last2, frw2 As Integer
  With Me.ListView2
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f") = Me.ComboBox3.value And Sheets(1).Cells(frw2, "at") >= val(TextBox29.Text) Then
 Set item2 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -443,7 +445,7 @@ Me.TextBox11.Text = ""
  With Me.ListView1
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f").value = Me.ComboBox1.value And Sheets(1).Cells(frw2, "n") >= TextBox1.Text Then
 Set item2 = ListView1.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -491,7 +493,7 @@ Dim last2, frw2 As Integer
  With Me.ListView1
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f").value = Me.ComboBox1.value And Sheets(1).Cells(frw2, "y") >= TextBox10.Text Then
 Set item2 = ListView1.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -543,7 +545,7 @@ Me.TextBox11.Text = ""
  With Me.ListView1
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f").value = Me.ComboBox1.value And Sheets(1).Cells(frw2, "p") >= TextBox2.Text Then
 Set item2 = ListView1.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -590,7 +592,7 @@ Dim last2, frw2 As Integer
  With Me.ListView2
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f") = Me.ComboBox3.value And Sheets(1).Cells(frw2, "af") >= val(TextBox20.Text) Then
 Set item2 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -644,7 +646,7 @@ Dim last2, frw2 As Integer
  With Me.ListView2
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f") = Me.ComboBox3.value And Sheets(1).Cells(frw2, "ag") >= val(TextBox21.Text) Then
 Set item2 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -698,7 +700,7 @@ Dim last2, frw2 As Integer
  With Me.ListView2
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f") = Me.ComboBox3.value And Sheets(1).Cells(frw2, "ah") >= val(TextBox22.Text) Then
 Set item2 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -752,7 +754,7 @@ Dim last2, frw2 As Integer
  With Me.ListView2
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f") = Me.ComboBox3.value And Sheets(1).Cells(frw2, "ai") >= val(TextBox23.Text) Then
 Set item2 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -805,7 +807,7 @@ Dim last2, frw2 As Integer
  With Me.ListView2
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f") = Me.ComboBox3.value And Sheets(1).Cells(frw2, "aj") >= val(TextBox24.Text) Then
 Set item2 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -859,7 +861,7 @@ Dim last2, frw2 As Integer
  With Me.ListView2
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f") = Me.ComboBox3.value And Sheets(1).Cells(frw2, "al") >= val(TextBox25.Text) Then
 Set item2 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -911,7 +913,7 @@ Dim last2, frw2 As Integer
  With Me.ListView2
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f") = Me.ComboBox3.value And Sheets(1).Cells(frw2, "an") >= val(TextBox26.Text) Then
 Set item2 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -965,7 +967,7 @@ Dim last2, frw2 As Integer
  With Me.ListView2
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f") = Me.ComboBox3.value And Sheets(1).Cells(frw2, "ap") >= val(TextBox27.Text) Then
 Set item2 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -1019,7 +1021,7 @@ Dim last2, frw2 As Integer
  With Me.ListView2
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f") = Me.ComboBox3.value And Sheets(1).Cells(frw2, "ar") >= val(TextBox28.Text) Then
 Set item2 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -1072,7 +1074,7 @@ Me.TextBox11.Text = ""
  With Me.ListView1
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f").value = Me.ComboBox1.value And Sheets(1).Cells(frw2, "r") >= TextBox3.Text Then
 Set item2 = ListView1.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -1121,7 +1123,7 @@ Me.TextBox11.Text = ""
  With Me.ListView1
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f").value = Me.ComboBox1.value And Sheets(1).Cells(frw2, "s") >= TextBox4.Text Then
 Set item2 = ListView1.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -1167,7 +1169,7 @@ Me.TextBox11.Text = ""
  With Me.ListView1
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f").value = Me.ComboBox1.value And Sheets(1).Cells(frw2, "t") >= TextBox5.Text Then
 Set item2 = ListView1.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -1215,7 +1217,7 @@ Me.TextBox11.Text = ""
  With Me.ListView1
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f").value = Me.ComboBox1.value And Sheets(1).Cells(frw2, "u") >= TextBox6.Text Then
 Set item2 = ListView1.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -1262,7 +1264,7 @@ Me.TextBox11.Text = ""
  With Me.ListView1
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f").value = Me.ComboBox1.value And Sheets(1).Cells(frw2, "y") >= TextBox10.Text Then
 Set item2 = ListView1.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -1317,7 +1319,7 @@ Dim last2, frw2 As Integer
  With Me.ListView2
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f") = Me.ComboBox3.value And Sheets(1).Cells(frw2, "x") >= val(TextBox68.Text) Then
 Set item2 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -1370,7 +1372,7 @@ Me.TextBox11.Text = ""
  With Me.ListView1
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f").value = Me.ComboBox1.value And Sheets(1).Cells(frw2, "j") >= TextBox7.Text Then
 Set item2 = ListView1.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -1417,7 +1419,7 @@ Dim last2, frw2 As Integer
  With Me.ListView2
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f") = Me.ComboBox3.value And Sheets(1).Cells(frw2, "au") >= val(TextBox70.Text) Then
 Set item2 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -1471,7 +1473,7 @@ Me.TextBox11.Text = ""
  With Me.ListView1
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f").value = Me.ComboBox1.value And Sheets(1).Cells(frw2, "aa") >= TextBox8.Text Then
 Set item2 = ListView1.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -1517,7 +1519,7 @@ Me.TextBox11.Text = ""
  With Me.ListView1
 .ListItems.Clear
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "f").value = Me.ComboBox1.value And Sheets(1).Cells(frw2, "ac") >= TextBox9.Text Then
 Set item2 = ListView1.ListItems.Add(, , Sheets(1).Cells(frw2, "A"))
@@ -1641,7 +1643,7 @@ Font.Name = "Calibri"
 With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
-last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw1 = 9 To last1
 Set item1 = ListView1.ListItems.Add(, , Sheets(1).Cells(frw1, "A"))
 item1.SubItems(1) = Sheets(1).Cells(frw1, "b")
@@ -1740,6 +1742,7 @@ ListView1.Font.Size = 14
 ListView1.Font.Name = "PT hrading"
 End Sub
 
+   
 Private Sub UserForm_Initialize()
 On Error Resume Next
 Sheets(5).Activate
@@ -1815,7 +1818,7 @@ Font.Name = "Calibri"
 With Me.ListView2
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
-last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
 For frw1 = 9 To last1
 Set item1 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw1, "A"))
 item1.SubItems(1) = Sheets(1).Cells(frw1, "b")
