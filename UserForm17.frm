@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm17 
    Caption         =   "UserForm17"
-   ClientHeight    =   9720.001
+   ClientHeight    =   10740
    ClientLeft      =   120
    ClientTop       =   468
    ClientWidth     =   19152
@@ -13,6 +13,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim Zoomer As New clsZoomManager
+
 Private Sub ComboBox1_AfterUpdate()
 
 End Sub
@@ -361,7 +363,7 @@ Unload Me
 ThisWorkbook.Application.Visible = True
 Application.ExecuteExcel4Macro "SHOW.TOOLBAR(""Ribbon"",True)"
 Dim lastR As Long
-lastR = Sheets(28).Cells(rowS.count, 1).End(xlUp).row + 10
+lastR = Sheets(28).Cells(Rows.count, 1).End(xlUp).row + 10
 
 Sheets(28).Range("a8:bv" & lastR).PrintPreview
 ThisWorkbook.Application.Visible = False
@@ -371,7 +373,7 @@ End Sub
 Private Sub CommandButton10_Click()
 Call all_data_userform17
 
-TextBox3.value = Sheets(28).Cells(rowS.count, 2).End(xlUp).row + 2
+TextBox3.value = Sheets(28).Cells(Rows.count, 2).End(xlUp).row + 2
 
 Sheets(28).Cells(TextBox3.Text, "a") = "«·„Ã„Ê⁄ «·ﬂ·Ì"
 Sheets(28).Cells(TextBox3.value, "j") = Application.WorksheetFunction.Sum(Sheets(28).Range("j9" & " : " & "j" & TextBox3.value))
@@ -395,10 +397,10 @@ Unload Me
 ThisWorkbook.Application.Visible = True
 Application.ExecuteExcel4Macro "SHOW.TOOLBAR(""Ribbon"",True)"
 Dim lastR As Long
-lastR = Sheets(28).Cells(rowS.count, 2).End(xlUp).row
+lastR = Sheets(28).Cells(Rows.count, 2).End(xlUp).row
 
 '==================================================== «·€«¡ œ„Ã «·Œ·«Ì«
-TextBox3.value = Sheets(28).Cells(rowS.count, 2).End(xlUp).row + 2
+TextBox3.value = Sheets(28).Cells(Rows.count, 2).End(xlUp).row + 2
 
 Sheets(28).Cells(TextBox3.Text, "a") = "«·„Ã„Ê⁄ «·ﬂ·Ì"
 Sheets(28).Cells(TextBox3.value, "j") = Application.WorksheetFunction.Sum(Sheets(28).Range("j9" & " : " & "j" & TextBox3.value))
@@ -606,8 +608,8 @@ TextBox28.Text = Now
 'Call start_time
 
 
-TextBox3.Text = Sheets(28).Cells(rowS.count, 1).End(xlUp).row + 2
-TextBox4.Text = Sheets(28).Cells(rowS.count, 1).End(xlUp).row - 8
+TextBox3.Text = Sheets(28).Cells(Rows.count, 1).End(xlUp).row + 2
+TextBox4.Text = Sheets(28).Cells(Rows.count, 1).End(xlUp).row - 8
 Sheets(28).Activate
 Range("a:bz").EntireColumn.Hidden = False
 
@@ -1394,8 +1396,8 @@ Private Sub UserForm_Activate()
 On Error Resume Next
 Call copy_from_to_t002
 Call sum_report_fotm17_1
-TextBox3.Text = Sheets(13).Cells(rowS.count, 2).End(xlUp).row + 2
-TextBox4.Text = Sheets(13).Cells(rowS.count, 2).End(xlUp).row - 8
+TextBox3.Text = Sheets(13).Cells(Rows.count, 2).End(xlUp).row + 2
+TextBox4.Text = Sheets(13).Cells(Rows.count, 2).End(xlUp).row - 8
 'Sheets(29).Activate
 'ListBox1.RowSource = "a8:c30"
 TextBox26.value = ListBox1.ListCount
@@ -1519,7 +1521,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(13).Range("b" & rowS.count).End(xlUp).row
+last1 = Sheets(13).Range("b" & Rows.count).End(xlUp).row
 For frw1 = 9 To last1
 Set item1 = ListView1.ListItems.Add(, , Sheets(13).Cells(frw1, "A"))
 item1.SubItems(1) = Sheets(13).Cells(frw1, "b")
@@ -1751,7 +1753,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(13).Range("b" & rowS.count).End(xlUp).row
+last1 = Sheets(13).Range("b" & Rows.count).End(xlUp).row
 For frw1 = 9 To last1
 Set item1 = ListView1.ListItems.Add(, , Sheets(13).Cells(frw1, "A"))
 item1.SubItems(1) = Sheets(13).Cells(frw1, "b")
@@ -1851,9 +1853,10 @@ ListView1.Font.Name = "PT hrading"
 End With
 End Sub
 
+   
 Private Sub UserForm_Initialize()
 On Error GoTo emad
-
+ Zoomer.Bind Me, Me.SpinButton1, Me.az
  TextBox5.Text = Sheets(29).Cells(1, 1)
 TextBox6.Text = Sheets(29).Cells(2, 1)
 TextBox7.Text = Sheets(29).Cells(3, 1)
