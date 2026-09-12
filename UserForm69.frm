@@ -4,7 +4,7 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm69
    ClientHeight    =   15624
    ClientLeft      =   108
    ClientTop       =   456
-   ClientWidth     =   9564.001
+   ClientWidth     =   12312
    OleObjectBlob   =   "UserForm69.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -13,6 +13,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim Zoomer As New clsZoomManager
+
 Dim dictCount As Object, dictSum As Object
 Public WithEvents btnPrint As MSForms.CommandButton
 Attribute btnPrint.VB_VarHelpID = -1
@@ -28,9 +30,11 @@ Unload Me
 UserForm9.Show
 End Sub
 
+   
 Private Sub UserForm_Initialize()
+ Zoomer.Bind Me, Me.SpinButton1, Me.az
     Dim ws As Worksheet: Dim lastRow As Long: Dim i As Integer: Dim topPos As Double
-    Dim lblHeader As Object, lbl As Object, txtCount As Object, txtSum As Object, chk As Object
+    Dim lblHeader As Object, Lbl As Object, txtCount As Object, txtSum As Object, chk As Object
     Dim totalAllSalaries As Double: Dim key As Variant
 
     ' 1. ≈Œ›«¡ Ê«ÃÂ… «·≈ﬂ”Ì·
@@ -43,16 +47,16 @@ Private Sub UserForm_Initialize()
     Set ws = ThisWorkbook.Sheets(1)
     Set dictCount = CreateObject("Scripting.Dictionary")
     Set dictSum = CreateObject("Scripting.Dictionary")
-    lastRow = ws.Cells(ws.rowS.count, "CF").End(xlUp).row
+    lastRow = ws.Cells(ws.Rows.count, "CF").End(xlUp).row
     
     totalAllSalaries = 0
     For i = 9 To lastRow
         Dim job As String: job = Trim(ws.Cells(i, "CF").value)
-        Dim Sal As Double: Sal = val(ws.Cells(i, "AW").value)
+        Dim sal As Double: sal = val(ws.Cells(i, "AW").value)
         If job <> "" Then
             dictCount(job) = dictCount(job) + 1
-            dictSum(job) = dictSum(job) + Sal
-            totalAllSalaries = totalAllSalaries + Sal
+            dictSum(job) = dictSum(job) + sal
+            totalAllSalaries = totalAllSalaries + sal
         End If
     Next i
 
@@ -66,8 +70,8 @@ Private Sub UserForm_Initialize()
         .BackColor = &H8080FF: .Font.Name = "Times New Roman": .Font.Size = 14: .Font.Bold = True: End With
 
     ' 4. «·≈Ã„«·Ì «·⁄«„
-    Set lbl = Me.Controls.Add("Forms.Label.1", "lblGrandTotal", True)
-    With lbl: .Caption = "«·≈Ã„«·Ì: " & Format(totalAllSalaries, "#,##0.00"): .Left = 280: .Top = 10: .Width = 340: .Height = 35
+    Set Lbl = Me.Controls.Add("Forms.Label.1", "lblGrandTotal", True)
+    With Lbl: .Caption = "«·≈Ã„«·Ì: " & Format(totalAllSalaries, "#,##0.00"): .Left = 280: .Top = 10: .Width = 340: .Height = 35
         .Font.Name = "Times New Roman": .Font.Size = 16: .Font.Bold = True: .TextAlign = 2: .SpecialEffect = 1: End With
 
     ' 5. ≈‰‘«¡ ⁄‰«ÊÌ‰ «·√⁄„œ… ( Ê”Ì⁄ ⁄„Êœ ÿ»«⁄… ·ÌŸÂ— «·‰’ ﬂ«„·«)
@@ -86,8 +90,8 @@ Private Sub UserForm_Initialize()
     topPos = 90: i = 1
     For Each key In dictCount.Keys
         Set chk = Me.Controls.Add("Forms.CheckBox.1", "chkPrint_" & i, True): chk.Left = 25: chk.Top = topPos + 5: chk.value = True: chk.Width = 20
-        Set lbl = Me.Controls.Add("Forms.Label.1", "lblJob_" & i, True)
-        With lbl: .Caption = key: .Left = 70: .Top = topPos: .Width = 180: .Height = 30: .Font.Name = "Times New Roman": .Font.Size = 16: .Font.Bold = True: .TextAlign = 2: .SpecialEffect = 1: End With
+        Set Lbl = Me.Controls.Add("Forms.Label.1", "lblJob_" & i, True)
+        With Lbl: .Caption = key: .Left = 70: .Top = topPos: .Width = 180: .Height = 30: .Font.Name = "Times New Roman": .Font.Size = 16: .Font.Bold = True: .TextAlign = 2: .SpecialEffect = 1: End With
         Set txtCount = Me.Controls.Add("Forms.TextBox.1", "txtCount_" & i, True)
         With txtCount: .value = dictCount(key): .Left = 260: .Top = topPos: .Width = 70: .Height = 30: .Font.Name = "Times New Roman": .Font.Size = 12: .Font.Bold = True: .TextAlign = 2: .SpecialEffect = 1: End With
         Set txtSum = Me.Controls.Add("Forms.TextBox.1", "txtSum_" & i, True)
