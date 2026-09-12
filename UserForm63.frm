@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm63 
    Caption         =   "UserForm63"
-   ClientHeight    =   9255.001
+   ClientHeight    =   8232.001
    ClientLeft      =   120
    ClientTop       =   468
-   ClientWidth     =   9996.001
+   ClientWidth     =   8808.001
    OleObjectBlob   =   "UserForm63.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -13,23 +13,28 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim Zoomer As New clsZoomManager
+
 
 
 Option Explicit
 
 Dim ws As Worksheet
 Dim lastRow As Long
-Dim lastCol As Long
+Dim LastCol As Long
 
 '========================
 ' Initialize UserForm
 '========================
+   
+   
 Private Sub UserForm_Initialize()
 On Error Resume Next
+ 
     Set ws = ThisWorkbook.Sheets("Sheet1")
     
-    lastRow = ws.Cells(ws.rowS.count, "E").End(xlUp).row
-    lastCol = ws.Cells(8, ws.Columns.count).End(xlToLeft).Column
+    lastRow = ws.Cells(ws.Rows.count, "E").End(xlUp).row
+    LastCol = ws.Cells(8, ws.Columns.count).End(xlToLeft).Column
     
     LoadEmployees ""
 End Sub
@@ -40,17 +45,17 @@ End Sub
 Private Sub LoadEmployees(filterText As String)
 On Error Resume Next
     Dim r As Long
-    Dim empName As String
+    Dim EmpName As String
     
     ListBox1.Clear
     ListBox1.ColumnCount = 2
     ListBox1.ColumnWidths = "200 pt;0 pt"
     
     For r = 9 To lastRow
-        empName = Trim(ws.Cells(r, "E").value)
-        If empName <> "" Then
-            If filterText = "" Or InStr(LCase(empName), LCase(filterText)) > 0 Then
-                ListBox1.AddItem empName
+        EmpName = Trim(ws.Cells(r, "E").value)
+        If EmpName <> "" Then
+            If filterText = "" Or InStr(LCase(EmpName), LCase(filterText)) > 0 Then
+                ListBox1.AddItem EmpName
                 ListBox1.List(ListBox1.ListCount - 1, 1) = r
             End If
         End If
@@ -96,12 +101,12 @@ On Error Resume Next
     End If
     
     words = Split(question, " ")
-    ReDim matchScore(1 To lastCol)
+    ReDim matchScore(1 To LastCol)
     
     '========================
     '  Õ·Ì· «·√⁄„œ…
     '========================
-    For col = 1 To lastCol
+    For col = 1 To LastCol
         colName = LCase(ws.Cells(8, col).value)
         value = LCase(ws.Cells(selectedRow, col).Text)
         matchScore(col) = 0
@@ -116,12 +121,12 @@ On Error Resume Next
     ' ≈ÌÃ«œ √›÷· «·√⁄„œ…
     '========================
     maxScore = 0
-    For col = 1 To lastCol
+    For col = 1 To LastCol
         If matchScore(col) > maxScore Then maxScore = matchScore(col)
     Next col
     
     ReDim bestCols(0)
-    For col = 1 To lastCol
+    For col = 1 To LastCol
         If matchScore(col) >= maxScore * tolerance Then
             ReDim Preserve bestCols(UBound(bestCols) + 1)
             bestCols(UBound(bestCols)) = col
@@ -145,7 +150,7 @@ On Error Resume Next
         Next j
     Else
         ans = "«·”ƒ«· €«„÷° ≈·Ìﬂ ﬂ· »Ì«‰«  «·„ÊŸ›:" & vbCrLf
-        For col = 1 To lastCol
+        For col = 1 To LastCol
             ans = ans & "ï " & ws.Cells(8, col).value & ": " & ws.Cells(selectedRow, col).Text & vbCrLf
         Next col
     End If
