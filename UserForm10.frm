@@ -287,96 +287,80 @@ End Sub
 
 Private Sub CommandButton34_Click()
 Unload Me
-UserForm57.Show
+UserForm79.Show
 End Sub
 
 Private Sub CommandButton35_Click()
-Call ExportSalaryTapesToSpecificFolder
+Dim xlApp As Object
+    Dim xlBook As Object
+    Dim xlSheet As Object
+    Application.DisplayAlerts = True
+    Application.Visible = True
+    Application.ExecuteExcel4Macro "SHOW.TOOLBAR(""Ribbon"",true)"
+    
+    
+    
+    ' ≈Ìﬁ«› «· ‰»ÌÂ«  ·„‰⁄ ŸÂÊ— —”«∆· «·«” »œ«· «·„“⁄Ã…
+    
+    
+    ' 1.  ÂÌ∆… «·‘—Ìÿ: Ã⁄· ⁄—÷ Label3 Ì”«ÊÌ ’›—« ﬁ»· «·»œ¡
+    Me.Label3.Width = 0
+    Me.Repaint
+    DoEvents
+    
+    On Error GoTo Cleanup
+    
+    ' 2. »œ¡ «·⁄„·Ì…:  ﬁœ„ »”Ìÿ ··»œ«Ì… („À·« 10%)
+    UpdateProgress 0.1
+    
+    Set xlApp = CreateObject("Excel.Application")
+    xlApp.DisplayAlerts = False ' „‰⁄ «· ‰»ÌÂ«  ›Ì «· ÿ»Ìﬁ «·Œ›Ì
+    
+    ' 3.  ‰›Ì– «· ’œÌ— (‰’· ≈·Ï 50%)
+    UpdateProgress 0.5
+    Call ExportSalaryTapesToSpecificFolder
+    
+    ' 4. ≈ﬂ„«· «·⁄„·Ì«  (‰’· ≈·Ï 80%)
+    UpdateProgress 0.8
+    Set xlBook = xlApp.Workbooks.Add
+    Set xlSheet = xlBook.Worksheets(1)
+    xlSheet.Cells(1, 1).value = "»Ì«‰«  „’œ—…"
+    
+    ' 5. Õ›Ÿ «·„·› (‰’· ≈·Ï 100%)
+    xlBook.SaveAs "C:\Users\Public\ExportResult.xlsx"
+    UpdateProgress 1
+    
+    ' «· ‰ŸÌ›
+    xlBook.Close SaveChanges:=False
+    xlApp.Quit
+    
+    MsgBox " „ «· ’œÌ— »‰Ã«Õ!", vbInformation
+    GoTo FinalExit
+
+Cleanup:
+    On Error Resume Next
+    If Not xlBook Is Nothing Then xlBook.Close False
+    If Not xlApp Is Nothing Then xlApp.Quit
+    MsgBox "ÕœÀ Œÿ√: " & Err.Description, vbCritical
+Application.DisplayAlerts = False
+    
+    Application.Visible = False
+    Application.ExecuteExcel4Macro "SHOW.TOOLBAR(""Ribbon"",False)"
+FinalExit:
+    
+End Sub
+
+' ≈Ã—«¡ ›—⁄Ì ÌﬁÊ„ »“Ì«œ… ⁄—÷ Label3 («·√Õ„—) »‰«¡ ⁄·Ï «·‰”»… «·„∆ÊÌ…
+Private Sub UpdateProgress(Percent As Double)
+    ' ‰” Œœ„ ⁄—÷ Frame1 ﬂ„—Ã⁄ √ﬁ’Ï
+    ' ‰ÿ—Õ 4 ·÷„«‰ »ﬁ«¡ «·‘—Ìÿ œ«Œ· ÕœÊœ «·≈ÿ«—
+    Me.Label3.Width = (Me.Frame1.Width - 4) * Percent
+    Me.Repaint
+    DoEvents
 End Sub
 
 Private Sub CommandButton36_Click()
- Dim maxWidth As Double, totalEntries As Long, currentEntry As Long, pctDone As Single
-    Dim Counter As Long, EndRowData As Long, targetRow As Long
-    Dim wsTarget As Worksheet, wsSource As Worksheet
-    Dim startTime As Double, secondsElapsed As Double, estRemaining As Double
-    
-    Set wsTarget = Sheets(15)
-    Set wsSource = Sheets(30)
-
-    With UserForm10.Label3
-        .Width = 0
-        .Caption = ""
-        .Font.Size = 11
-        .Font.Bold = True
-        .ForeColor = vbWhite
-        .TextAlign = 2
-    End With
-    
-    maxWidth = UserForm10.Label2.Width
-    EndRowData = wsSource.Cells(wsSource.Rows.count, 2).End(xlUp).row
-    totalEntries = EndRowData - 8
-    
-    If totalEntries <= 0 Then Exit Sub
-
-    ' --- ≈⁄œ«œ«  «·”—⁄… «·ﬁ’ÊÏ ---
-    Application.ScreenUpdating = False
-    Application.Calculation = xlCalculationManual
-    Application.EnableEvents = False ' ≈Ìﬁ«› «·√Õœ«À ·“Ì«œ… «·”—⁄…
-    Application.DisplayStatusBar = False ' ≈Ìﬁ«› ‘—Ìÿ «·Õ«·… · Ê›Ì— «·„Ê«—œ
-    Application.CutCopyMode = False
-    
-    Call UpdateSalaryTapesWithDynamicFormulas
-    wsSource.Range("B8:BP30000").Sort Key1:=wsSource.Range("G9"), Order1:=xlAscending, Header:=xlYes
-    
-    wsTarget.Rows("10:" & wsTarget.Rows.count).ClearContents
-    wsTarget.Rows("10:" & wsTarget.Rows.count).ClearFormats
-
-    startTime = Timer
-    wsTarget.Rows("1:7").Copy
-
-    targetRow = 1
-    For Counter = 9 To EndRowData
-        currentEntry = currentEntry + 1
-        
-        '  ﬁ·Ì·  ÕœÌÀ «·Ê«ÃÂ… („—… ﬂ· 10 ﬁÌÊœ) ÂÊ «·”— «·ÕﬁÌﬁÌ ··”—⁄… ›Ì Ê÷⁄ «· Œ›Ì
-        If currentEntry Mod 10 = 0 Or currentEntry = totalEntries Then
-            pctDone = currentEntry / totalEntries
-            secondsElapsed = Timer - startTime
-            If currentEntry > 1 Then
-                estRemaining = (secondsElapsed / currentEntry) * (totalEntries - currentEntry)
-            End If
-            
-            UserForm10.Label3.Width = pctDone * maxWidth
-            UserForm10.Label3.Caption = "Ã«—Ì «‰‘«¡ «‘—ÿ… «·—« ».. „ »ﬁÌ: " & Format(estRemaining / 86400, "nn:ss")
-            DoEvents
-        End If
-
-        targetRow = ((Counter - 9) * 9) + 1
-        If Counter > 9 Then
-            wsTarget.Rows(targetRow & ":" & targetRow + 6).PasteSpecial Paste:=xlPasteAll
-        End If
-        wsTarget.Cells(targetRow, 2).value = wsSource.Range("E" & Counter).value
-    Next Counter
-
-    ' --- ≈⁄«œ… «·≈⁄œ«œ«  ---
-    Application.CutCopyMode = False
-    Application.Calculation = xlCalculationAutomatic
-    Application.EnableEvents = True
-    Application.DisplayStatusBar = True
-    Application.ScreenUpdating = True
-    
-    UserForm10.Label3.Caption = "100%  „ «·«‰ Â«¡"
-    MsgBox " „ ≈‰‘«¡ «·√‘—ÿ… »‰Ã«Õ ·„’‰⁄ «·ﬂ—«„….", vbInformation
-    
-    UserForm10.Hide
-    Application.Visible = True
-    Application.ExecuteExcel4Macro "SHOW.TOOLBAR(""Ribbon"",True)"
-    
-    wsTarget.Range("A1:L" & (targetRow + 6)).PrintPreview
-    
-    Application.ExecuteExcel4Macro "SHOW.TOOLBAR(""Ribbon"",False)"
-    Application.Visible = False
-    UserForm10.Show
+    UserForm77.Show
 End Sub
 
 Private Sub OptionButton1_Click()
