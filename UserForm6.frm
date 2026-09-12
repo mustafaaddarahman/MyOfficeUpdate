@@ -118,10 +118,10 @@ Dim i1 As Integer
 Dim ss As Integer
 Dim ss1 As Integer
 
- ss = Sheets(1).Cells(Rows.count, 2).End(xlUp).row
+ ss = Sheets(1).Cells(rowS.count, 2).End(xlUp).row
     For i = 2 To ss
 ' =VLOOKUP(BG4,$B$2:$W$28,4,0)
-ss1 = Sheets(8).Cells(Rows.count, 2).End(xlUp).row
+ss1 = Sheets(8).Cells(rowS.count, 2).End(xlUp).row
    
 If ComboBox1.value = Sheets(1).Cells(i, "e") Then
 TextBox32.Text = Sheets(1).Cells(i, "b")
@@ -366,8 +366,8 @@ ElseIf TextBox38.value >= 12 Then
 
 
 TextBox9.Text = val(seler1 + 1)
-rowrng = Application.WorksheetFunction.Match(CLng(TextBox8.value), Sheets(9).Range("A2:A12"), 0)
-colrng = Application.WorksheetFunction.Match(CLng(TextBox9.value), Sheets(9).Range("A2:O2"), 0)
+rowrng = Application.WorksheetFunction.match(CLng(TextBox8.value), Sheets(9).Range("A2:A12"), 0)
+colrng = Application.WorksheetFunction.match(CLng(TextBox9.value), Sheets(9).Range("A2:O2"), 0)
 TextBox33.Text = rowrng
 TextBox34.Text = colrng
 TextBox10.Text = Application.WorksheetFunction.Index(Sheets(9).Range("A2:O12"), rowrng, colrng)
@@ -489,7 +489,7 @@ Sheets(6).Activate
 
     
    
-    ss = Sheets(6).Cells(Rows.count, 2).End(xlUp).row
+    ss = Sheets(6).Cells(rowS.count, 2).End(xlUp).row
     For i = 2 To ss
     Dim daydate As Date
     daydate = Date
@@ -538,8 +538,8 @@ Me.RightToLeft = True
 ListBox1.ColumnWidths = "50,80,80,40,140,100,30,30,100,100,100,100,100,100,100,100"
 Set rang = Sheets(6).Range("a1").CurrentRegion
 Me.ListBox1.Clear
-ReDim Data(1 To rang.Rows.count, 1 To rang.Columns.count)
-For i = 1 To rang.Rows.count
+ReDim Data(1 To rang.rowS.count, 1 To rang.Columns.count)
+For i = 1 To rang.rowS.count
 On Error Resume Next
 If Sheets(6).Cells(i, "m") >= CDate(TextBox24.Text) And Sheets(6).Cells(i, "m") <= CDate(TextBox25.Text) Then
 CNT = CNT + 1
@@ -619,14 +619,14 @@ ElseIf val(TextBox41.value) >= 5 And TextBox8.Text >= 2 Then
 
 TextBox8.Text = val(seler1 - 1)
 TextBox9.Text = 1
-rowrng = Application.WorksheetFunction.Match(CLng(TextBox8.value), Sheets(9).Range("A2:A12"), 0)
-colrng = Application.WorksheetFunction.Match(CLng(TextBox9.value), Sheets(9).Range("A2:O2"), 0)
+rowrng = Application.WorksheetFunction.match(CLng(TextBox8.value), Sheets(9).Range("A2:A12"), 0)
+colrng = Application.WorksheetFunction.match(CLng(TextBox9.value), Sheets(9).Range("A2:O2"), 0)
 
 TextBox10.Text = Application.WorksheetFunction.Index(Sheets(9).Range("A2:O12"), rowrng, colrng)
 '==========================================œ«·… «·Ê’› «·ÊŸÌ›Ì Ê  ‘€Ì· «·„’›Ê›Â
 '=INDEX($A$1:L62,MATCH(D68,$A$1:$A$62,0),MATCH(C68,$A$1:$L$1,0))
-rowrng1 = Application.WorksheetFunction.Match(TextBox18.Text, Sheets(10).Range("A1:A62"), 0)
-colrng1 = Application.WorksheetFunction.Match(CLng(TextBox8.value), Sheets(10).Range("A1:L1"), 0)
+rowrng1 = Application.WorksheetFunction.match(TextBox18.Text, Sheets(10).Range("A1:A62"), 0)
+colrng1 = Application.WorksheetFunction.match(CLng(TextBox8.value), Sheets(10).Range("A1:L1"), 0)
 TextBox6.Text = Application.WorksheetFunction.Index(Sheets(10).Range("A1:L62"), rowrng1, colrng1)
 TextBox33.Text = rowrng1
 TextBox34.Text = colrng1
@@ -804,7 +804,7 @@ Private Sub TextBox22_Change()
 Dim last1, frw1 As Integer
 
 Sheets(8).Activate
-last1 = Sheets(8).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(8).Range("A" & rowS.count).End(xlUp).row
      For frw1 = 2 To last1
  If Sheets(8).Cells(frw1, "e") Like "*" & TextBox22.Text & "*" Then
  TextBox21.Text = Sheets(8).Cells(frw1, "b")
@@ -850,7 +850,7 @@ Sheets(1).Activate
        If TextBox31 = "" Then Exit Sub
     Sheets(1).Activate
 
-    ss = Sheets(1).Cells(Rows.count, 5).End(xlUp).row
+    ss = Sheets(1).Cells(rowS.count, 5).End(xlUp).row
      k = 0
      
      
@@ -927,7 +927,7 @@ On Error GoTo emad
 
 On Error Resume Next
 Sheets(1).Activate
-last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
      For frw2 = 2 To last2
 Me.ComboBox1.List = Sheets(1).Range("e9:e" & frw2).value
 TextBox30.value = Format(Date, "yyyy/mm/dd")
@@ -1008,7 +1008,7 @@ Sheets(8).Activate
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(8).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(8).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 2 To last1
 Set item1 = ListView1.ListItems.Add(, , Sheets(8).Cells(frw1, "A"))
 item1.SubItems(1) = Sheets(8).Cells(frw1, "b")
