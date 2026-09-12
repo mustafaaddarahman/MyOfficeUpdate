@@ -101,8 +101,29 @@ Private Sub UserForm_Initialize()
     Me.ListBox2.ColumnCount = 2
     Me.ListBox2.ColumnWidths = "140;80"
     Me.ListBox1.ColumnWidths = "100;80"
-    ' √”„«¡ «·„’«‰⁄
-    Me.ComboBox1.List = Array("„ﬁ— «·ÂÌ∆…", "„ﬁ— ‘—ﬂ… «·’‰«⁄«  «·Õ—»ÌÂ", "„’‰⁄ «·ﬂ—«„… Ê«·Õ«—À", "„’‰⁄ «·—»Ì⁄", "„’‰⁄ «·‰Â—Ê«‰", "„’‰⁄ Õ„Ê—«»Ì", "„’‰⁄ «·Ì—„Êﬂ", "„’‰⁄ ⁄ﬁ»… Ê»œ—", "„’‰⁄ «·ﬁ«œ”ÌÂ", "„’‰⁄ «·—‘Ìœ", "„’‰⁄ ÕÿÌ‰", "„’‰⁄ Ã«»— »‰ ÕÌ«‰", "„’‰⁄  »Êﬂ")
+    '
+    
+    
+   ' √”„«¡ «·„’«‰⁄
+    
+    
+    Dim lastRow As Long
+Dim ws1 As Worksheet
+
+'  ⁄ÌÌ‰ «·Ê—ﬁ… «·Œ«„”… ··„ €Ì— ws1
+Set ws1 = Sheets(5)
+
+'  ÕœÌœ —ﬁ„ ¬Œ— ’› ÌÕ ÊÌ ⁄·Ï »Ì«‰«  ›Ì «·⁄„Êœ B
+' «·ﬂÊœ Ì»œ√ „‰ ¬Œ— ’› ›Ì «·≈ﬂ”Ì· ÊÌ’⁄œ ··√⁄·Ï Õ Ï ÌÃœ √Ê· Œ·Ì… »Â« ﬁÌ„…
+lastRow = ws1.Cells(ws1.rowS.count, "B").End(xlUp).row
+
+'  ⁄»∆… ComboBox4 »«·‰ÿ«ﬁ „‰ «·Œ·Ì… B1 ≈·Ï ¬Œ— ’› ÊÃœ‰«Â
+If lastRow >= 1 Then
+    ComboBox1.List = ws1.Range("B1:B" & lastRow).value
+End If
+    
+    
+    
     
     Call Refresh_Employee_List
     Call StartTimer ' ≈ÿ·«ﬁ √Ê· ‰»÷… „ƒﬁ 
@@ -126,7 +147,7 @@ End Sub
 Sub Refresh_Employee_List()
     On Error Resume Next
     Dim ws As Worksheet: Set ws = ThisWorkbook.Sheets("Sheet1")
-    Dim i As Long, lastRow As Long: lastRow = ws.Cells(ws.Rows.count, "E").End(xlUp).row
+    Dim i As Long, lastRow As Long: lastRow = ws.Cells(ws.rowS.count, "E").End(xlUp).row
     Me.ListBox2.Clear
     If lastRow < 9 Then Exit Sub
     For i = 9 To lastRow
@@ -151,7 +172,7 @@ Private Sub ListBox2_Click()
     
      TextBox2.Text = "":  TextBox2.ForeColor = vbBlue:  TextBox2.Font.Bold = True
     Dim ws As Worksheet: Set ws = ThisWorkbook.Sheets("Sheet1")
-    Dim r As Range: Set r = ws.Range("E9:E" & ws.Rows.count).Find(What:=Me.ListBox2.value, LookAt:=xlWhole)
+    Dim r As Range: Set r = ws.Range("E9:E" & ws.rowS.count).Find(What:=Me.ListBox2.value, LookAt:=xlWhole)
     If Not r Is Nothing Then
         Dim Pack As String, c As Integer: Pack = "[RECORD_TRANSFER]|"
         For c = 1 To ws.Cells(r.row, ws.Columns.count).End(xlToLeft).Column: Pack = Pack & ws.Cells(r.row, c).value & "|": Next c
@@ -238,7 +259,7 @@ Sub Inject_Data(RawData As String)
     End If
     
     Dim ws As Worksheet: Set ws = ThisWorkbook.Sheets("Sheet1")
-    Dim NextRow As Long: NextRow = ws.Cells(ws.Rows.count, "E").End(xlUp).row + 1
+    Dim NextRow As Long: NextRow = ws.Cells(ws.rowS.count, "E").End(xlUp).row + 1
     If NextRow < 9 Then NextRow = 9
     Dim arr() As String: arr = Split(Mid(RawData, InStr(RawData, "|") + 1), "|")
     Dim j As Integer: For j = 0 To UBound(arr) - 1: ws.Cells(NextRow, j + 1).value = arr(j): Next j
