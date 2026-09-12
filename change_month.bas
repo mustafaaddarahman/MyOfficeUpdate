@@ -6,10 +6,10 @@ Dim iRow As Long, i As Long
 
    Sheets(35).Activate
 
-    iRow = Range("A" & Rows.count).End(xlUp).row
+    iRow = Range("A" & rowS.count).End(xlUp).row
 '=======================================================
 Dim lasr, Y As Integer
-lasr = Sheets(55).Range("A" & Rows.count).End(xlUp).row
+lasr = Sheets(55).Range("A" & rowS.count).End(xlUp).row
  For Y = 9 To lasr
  If Sheets(55).Cells(Y, 2).value = UserForm1.TextBox2.Text And Sheets(55).Cells(Y, 5).value = UserForm1.TextBox5 Then
 '==============================================
