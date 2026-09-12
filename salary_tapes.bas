@@ -58,7 +58,7 @@ Sub UpdateSalaryTapesWithDynamicFormulas()
         .Range("F6").Formula = "=XLOOKUP(B1,sheet1!$E:$E,sheet1!$AF:$AF,,0)+ XLOOKUP(B1,sheet1!$E:$E,sheet1!$Ag:$Ag,,0)"
         .Range("H6").Formula = "=XLOOKUP(B1,sheet1!$E:$E,sheet1!$AP:$AP,,0)"
         .Range("J6").Formula = "=XLOOKUP(B1,sheet1!$E:$E,sheet1!$AH:$AH,,0)"
-        .Range("L6").Formula = "=XLOOKUP(B1,sheet1!$E:$E,sheet1!$y:$y,,0)"
+        .Range("L6").Formula = "=XLOOKUP(B1,sheet1!$E:$E,sheet1!$BH:$BH,,0)"
         .Range("E6").Formula = "=IF(XLOOKUP(B1,sheet1!$E:$E,sheet1!$BF:$BF,"""")=""Ì „ ⁄ »«Ã«“Â Œ„” ”‰Ê« "",""«· Êﬁ›«  «· ﬁ«⁄œÌ… 25 %"",""«· Êﬁ›«  «· ﬁ«⁄œÌ… 10 %"")"
         
         ' «·”ÿ— «·”«»⁄
