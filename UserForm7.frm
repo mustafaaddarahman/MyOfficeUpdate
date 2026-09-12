@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm7 
    Caption         =   "UserForm7"
-   ClientHeight    =   7680
+   ClientHeight    =   3288
    ClientLeft      =   120
    ClientTop       =   468
-   ClientWidth     =   12000
+   ClientWidth     =   5676
    OleObjectBlob   =   "UserForm7.frx":0000
    StartUpPosition =   2  'CenterScreen
 End
@@ -13,6 +13,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim Zoomer As New clsZoomManager
+
 
 
 
@@ -25,7 +27,6 @@ Const MIN_BOX As Long = &H20000
 Const MAX_BOX As Long = &H10000
 Private Declare PtrSafe Function DrawMenuBar Lib "user32.dll" (ByVal hwnd As Long) As Long
 Private Declare PtrSafe Function GetForegroundWindow Lib "user32.dll" () As Long
-
 
 Public Sub AddToForm(ByVal Box_Type As Long)
 Dim BisMask As Long
@@ -115,10 +116,6 @@ Private Sub Image1_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal D
 
 End Sub
 
-Private Sub Label4_Click()
-
-End Sub
-
 Private Sub TextBox2_AfterUpdate()
 On Error GoTo emad
 
@@ -191,18 +188,14 @@ End Sub
 
 Private Sub UserForm_Activate()
 On Error GoTo emad
-
-
-
-
 ComboBox1.SetFocus
-
+ComboBox1.DropDown
 Call AddToForm(MIN_BOX)
 Call AddToForm(MAX_BOX)
 
 Dim lrow As Integer
 
-lrow = Sheets(12).Range("a" & rowS.count).End(xlUp).row
+lrow = Sheets(12).Range("a" & Rows.count).End(xlUp).row
 
 ComboBox1.List = Sheets(12).Range("a2:a" & lrow).value
 
@@ -212,51 +205,10 @@ End Sub
 
 
 
+   
+  
 Private Sub UserForm_Initialize()
-
-
-
-
-
-
-' ---  ÕœÌÀ Label2 ---
-With Me.Label4
-    .BackStyle = fmBackStyleTransparent
-    
-    ' «··Ê‰ «·√»Ì÷ «·‰«—Ì (‰«’⁄ «·”ÿÊ⁄)
-    .ForeColor = RGB(255, 255, 255)
-    
-    .Font.Name = "Shurooq 03"
-    .Font.Size = 20
-    .Font.Bold = True
-    .TextAlign = fmTextAlignCenter
-    .ZOrder (0)
-    
-    ' Ã·» «·‰’
-    On Error Resume Next
-    .Caption = ThisWorkbook.Worksheets("title_factory").Range("A2").value
-    On Error GoTo 0
-End With
-
-' ---  ÕœÌÀ TextBox2 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 TextBox2.Text = ""
 
 End Sub
-
-
-
