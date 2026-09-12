@@ -33,7 +33,7 @@ TextBox3.value = ""
 
 Call arb
 Dim last2, frw2 As Integer
-last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "cc").value = TextBox1.Text And Sheets(1).Cells(frw2, "e").value Like "*" & TextBox2.Text & "*" Then
 'TextBox1.Text = "+964" & TextBox4.Text
