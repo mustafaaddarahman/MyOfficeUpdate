@@ -2,7 +2,7 @@ Attribute VB_Name = "sum_filter_form17"
 Sub sum_filter_form17_1()
 On Error Resume Next
 Dim lastr13 As Integer
-lastr13 = Sheets(28).Cells(rowS.count, "b").End(xlUp).row
+lastr13 = Sheets(28).Cells(Rows.count, "b").End(xlUp).row
 Sheets(28).Cells(lastr13 + 1, "a") = "«·„Ã„Ê⁄ «·ﬂ·Ì"
 Sheets(28).Cells(lastr13 + 1, "j") = Application.WorksheetFunction.Sum(Sheets(28).Range("j9 : j" & lastr13))
 Sheets(28).Cells(lastr13 + 1, "x") = Application.WorksheetFunction.Sum(Sheets(28).Range("x9 : x" & lastr13))
