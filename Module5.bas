@@ -6,7 +6,7 @@ Dim item2 As ListItem
 Dim last2, frw2 As Integer
 Dim simadd As Double
 Dim simsubtract As Double
-last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw2 = 9 To last2
 On Error Resume Next
 With UserForm1.ListView1
@@ -84,7 +84,7 @@ Next
 
 Dim item3 As ListItem
 Dim last3, frw3 As Integer
-last3 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last3 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw3 = 9 To last3
 simadd = Application.WorksheetFunction.Sum(Sheets(1).Range("bh9:bh" & frw3))
 simsubtract = Application.WorksheetFunction.Sum(Sheets(1).Range("bj9:bj" & frw3))
