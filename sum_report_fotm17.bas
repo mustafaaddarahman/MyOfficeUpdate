@@ -2,7 +2,7 @@ Attribute VB_Name = "sum_report_fotm17"
 Sub sum_report_fotm17_1()
 Sheets(13).Activate
 Dim lastr13 As Integer
-lastr13 = Sheets(13).Cells(Rows.count, "b").End(xlUp).row
+lastr13 = Sheets(13).Cells(rowS.count, "b").End(xlUp).row
 Sheets(13).Cells(lastr13 + 1, "a") = "«·„Ã„Ê⁄ «·ﬂ·Ì"
 Sheets(13).Cells(lastr13 + 1, "j") = Application.WorksheetFunction.Sum(Sheets(13).Range("j9 : j" & lastr13))
 Sheets(13).Cells(lastr13 + 1, "x") = Application.WorksheetFunction.Sum(Sheets(13).Range("x9 : x" & lastr13))
