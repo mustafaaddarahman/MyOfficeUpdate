@@ -4,7 +4,7 @@ Sub export_pdf_form_17_1()
 On Error GoTo emad
  
 Dim lstr As Integer
-lstr = Sheets(28).Cells(rowS.count, "a").End(xlUp).row
+lstr = Sheets(28).Cells(Rows.count, "a").End(xlUp).row
     Dim filePath As String
     Dim ws As Worksheet
     filePath = Application.ActiveWorkbook.path
