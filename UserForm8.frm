@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm8 
    Caption         =   "UserForm8"
-   ClientHeight    =   3945
+   ClientHeight    =   3948
    ClientLeft      =   120
    ClientTop       =   468
    ClientWidth     =   7332
@@ -13,6 +13,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim Zoomer As New clsZoomManager
+
 
 Private Declare PtrSafe Function FindWindow Lib "user32" Alias "FindWindowA" (ByVal lpClassName As String, ByVal lpWindowName As String) As Long
 Private Declare PtrSafe Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hwnd As Long, ByVal nIndex As Long) As Long
@@ -38,11 +40,12 @@ If Box_Type = MIN_BOX Or Box_Type = MAX_BOX Then
 End If
 End Sub
 Private Sub CommandButton1_Click()
+    Zoomer.Bind Me, Me.SpinButton1, Me.az
 'On Error Resume Next
 Dim new_user, new_passwor, permation As String
 Dim rowCount As Integer
 Dim lastRow As Integer
-rowCount = Sheets(12).Cells(rowS.count, "a").End(xlUp).row + 1
+rowCount = Sheets(12).Cells(Rows.count, "a").End(xlUp).row + 1
 
 new_user = TextBox1.Text
 new_passwor = TextBox2.Text
@@ -85,4 +88,5 @@ Call AddToForm(MIN_BOX)
 Call AddToForm(MAX_BOX)
 
 End Sub
+
 
