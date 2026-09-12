@@ -48,7 +48,7 @@ Private Sub CommandButton1_Click()
 'MsgBox "·ﬁœ  „  «” ﬁÿ«⁄ «·„»«·€ „‰ ﬂ«›… «·„ÊŸ›Ì‰", vbDefaultButton1, "—”«·…  ÊÃÌÂ"
 Dim lastR As Integer
 Dim n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11 As Integer
-lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
 
 
 
