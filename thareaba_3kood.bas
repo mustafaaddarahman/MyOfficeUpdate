@@ -5,7 +5,7 @@ On Error Resume Next
 
 '«” À‰«¡ «Õ ”«» «·”„«Õ«  «·÷—Ì»ÌÂ
  Dim ws As Worksheet: Set ws = ThisWorkbook.Sheets(1)
-    Dim EmpID As String: EmpID = UserForm1.TextBox2.value
+    Dim empID As String: empID = UserForm1.TextBox2.value
     Dim i As Long, lastRow As Long
     Dim IsExcluded As Boolean: IsExcluded = False
 
@@ -13,10 +13,10 @@ On Error Resume Next
     If UserForm1.CheckBox5.value = True Then
         
         ' 2. «·»ÕÀ ›Ì «·‘Ì  ·· √ﬂœ „‰ ÊÃÊœ True ›Ì «·⁄„Êœ CG ·‰›” «·„ÊŸ›
-        lastRow = ws.Cells(ws.Rows.count, "B").End(xlUp).row
+        lastRow = ws.Cells(ws.rowS.count, "B").End(xlUp).row
         
         For i = 9 To lastRow
-            If Trim(ws.Cells(i, "B").value) = EmpID Then
+            If Trim(ws.Cells(i, "B").value) = empID Then
                 ' «· Õﬁﬁ ≈–« ﬂ«‰ «·⁄„Êœ CG ÌÕ ÊÌ ⁄·Ï «·ﬁÌ„… True
                 If ws.Cells(i, "CG").value = True Or ws.Cells(i, "CG").value = "True" Then
                     IsExcluded = True ' «·„ÊŸ› „” À‰Ï —”„Ì«
