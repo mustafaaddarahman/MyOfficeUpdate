@@ -42,7 +42,25 @@ End Sub
 
 Private Sub UserForm_Activate()
 ComboBox1.value = Sheets(4).Cells(1, "l").value
-ComboBox2.List = Array("ãÞÑ ÇáåíÃÉ", "ãÞÑ ÔÑßÉ ÇáÕäÇÚÇÊ ÇáÍÑÈíå", "ãÕäÚ ÇáßÑÇãÉ æÇáÍÇÑË", "ãÕäÚ ÇáÑÈíÚ", "ãÕäÚ ÇáäåÑæÇä", "ãÕäÚ ÍãæÑÇÈí", "ãÕäÚ ÇáíÑãæß", "ãÕäÚ ÚÞÈÉ æÈÏÑ", "ãÕäÚ ÇáÞÇÏÓíå", "ãÕäÚ ÇáÑÔíÏ", "ãÕäÚ ÍØíä", "ãÕäÚÌÇÈÑ Èä ÍíÇä", "ãÕäÚ ÊÈæß", "", "")
+
+
+Dim lastRow As Long
+Dim ws1 As Worksheet
+
+' ÊÚííä ÇáæÑÞÉ ÇáÎÇãÓÉ ááãÊÛíÑ ws1
+Set ws1 = Sheets(5)
+
+' ÊÍÏíÏ ÑÞã ÂÎÑ ÕÝ íÍÊæí Úáì ÈíÇäÇÊ Ýí ÇáÚãæÏ B
+' ÇáßæÏ íÈÏÃ ãä ÂÎÑ ÕÝ Ýí ÇáÅßÓíá æíÕÚÏ ááÃÚáì ÍÊì íÌÏ Ãæá ÎáíÉ ÈåÇ ÞíãÉ
+lastRow = ws1.Cells(ws1.rowS.count, "B").End(xlUp).row
+
+' ÊÚÈÆÉ ComboBox4 ÈÇáäØÇÞ ãä ÇáÎáíÉ B1 Åáì ÂÎÑ ÕÝ æÌÏäÇå
+If lastRow >= 1 Then
+    ComboBox2.List = ws1.Range("B1:B" & lastRow).value
+End If
+
+
+
 ComboBox3.List = Sheets(4).Range("j2:j14").value
 ComboBox4.List = Array(Year(Date))
 
