@@ -39,7 +39,7 @@ End Sub
 Sub LoadOnlyParents()
     Dim ws As Worksheet: Set ws = ThisWorkbook.Sheets("Helper")
     Dim i As Long: ListBox1.Clear
-    For i = 2 To ws.Cells(ws.Rows.count, 1).End(xlUp).row
+    For i = 2 To ws.Cells(ws.rowS.count, 1).End(xlUp).row
         If ws.Cells(i, 2).value = 0 Then
             ListBox1.AddItem "[+] " & ws.Cells(i, 1).value
             ListBox1.List(ListBox1.ListCount - 1, 1) = i
@@ -65,7 +65,7 @@ Private Sub ListBox1_MouseUp(ByVal Button As Integer, ByVal Shift As Integer, By
         pRow = val(ListBox1.List(StartIdx, 1))
         If Left(SelectedText, 3) = "[+]" Then
             ListBox1.List(StartIdx, 0) = "[-] " & Mid(SelectedText, 5)
-            For i = pRow + 1 To ws.Cells(ws.Rows.count, 1).End(xlUp).row
+            For i = pRow + 1 To ws.Cells(ws.rowS.count, 1).End(xlUp).row
                 If ws.Cells(i, 2).value = 1 Then
                     ListBox1.AddItem "  > " & ws.Cells(i, 1).value, StartIdx + 1
                     ListBox1.List(StartIdx + 1, 1) = "Child"
