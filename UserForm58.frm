@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm58 
    Caption         =   "UserForm58"
-   ClientHeight    =   7920
+   ClientHeight    =   7452
    ClientLeft      =   120
    ClientTop       =   468
    ClientWidth     =   15288
@@ -13,8 +13,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim Zoomer As New clsZoomManager
-
 Private Sub CommandButton1_Click()
 
  Dim ws As Worksheet
@@ -39,7 +37,7 @@ Private Sub CommandButton1_Click()
     Set ws = ThisWorkbook.Sheets("Sheet1")
 
     ' ¬Œ— ’› „” Œœ„ ›Ì «·⁄„Êœ 2
-    lastRow = ws.Cells(ws.Rows.count, 2).End(xlUp).row
+    lastRow = ws.Cells(ws.rowS.count, 2).End(xlUp).row
 
     ' «·„—Ê— ⁄·Ï ﬂ· «·Œ·«Ì« „‰ «·’› 8 Õ Ï ¬Œ— ’› „” Œœ„
     For Each cell In ws.Range(ws.Cells(rowStart, 1), ws.Cells(lastRow, ws.UsedRange.Columns.count))
@@ -73,7 +71,7 @@ Private Sub CommandButton1_Click()
             ListBox1.List(ListBox1.ListCount - 1, 4) = errType & " - " & details   ' ‰Ê⁄/ ›«’Ì· «·Œÿ√
 
             '  ·ÊÌ‰ «·’› »«·ﬂ«„· ›Ì «·‘Ì 
-            ws.Rows(cell.row).Interior.Color = RGB(255, 200, 200)
+            ws.rowS(cell.row).Interior.Color = RGB(255, 200, 200)
 
             ' ’Ì«‰… «·Œ·Ì…
             If cell.HasFormula Then
@@ -100,13 +98,4 @@ End Sub
 Private Sub CommandButton2_Click()
 Unload Me
 UserForm9.Show
-End Sub
-  
-
-Private Sub UserForm_Click()
-
-End Sub
-
-Private Sub UserForm_Initialize()
-  Zoomer.Bind Me, Me.SpinButton1, Me.az
 End Sub
