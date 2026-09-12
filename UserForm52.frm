@@ -62,7 +62,7 @@ UserForm1.ComboBox13.List = Array("ﬂ«‰Ê‰ «·À«‰Ì", "‘»«ÿ", "¬–«—", "‰Ì”«‰", "√Ì«—
 
 
 Dim last1 As Integer
-last1 = Sheets(1).Cells(Rows.count, "e").End(xlUp).row
+last1 = Sheets(1).Cells(rowS.count, "e").End(xlUp).row
 UserForm1.TextBox75.Text = last1 - 8
 
         Me.Frame2.Width = (i / TotalSteps) * Me.Frame1.Width
