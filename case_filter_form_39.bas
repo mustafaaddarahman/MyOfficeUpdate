@@ -290,7 +290,7 @@ Sheets("sheet44").Range("a9:n200").ClearContents
 ActiveSheet.Range("a9: n200").UnMerge
 Dim arr1, arr2, lastR As Variant, i As Long, j As Long, k As Long
 'Sheets(27).Range("a1:be200").ClearContents
-lastR = Sheets(43).Cells(rowS.count, 1).End(xlUp).row + 20
+lastR = Sheets(43).Cells(Rows.count, 1).End(xlUp).row + 20
 arr1 = Sheets(43).Range("a9:n" & lastR)
 j = 8
 ReDim arr2(9 To UBound(arr1, 1), 1 To UBound(arr1, 2))
@@ -330,7 +330,7 @@ With UserForm39.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 UserForm39.ListView1.ListItems.Clear
-last1 = Sheets(43).Range("A" & rowS.count).End(xlUp).row
+last1 = Sheets(43).Range("A" & Rows.count).End(xlUp).row
 
 For frw1 = 9 To last1
  If Sheets(44).Cells(frw1, "r").value = Sheets(43).rangr("a9:a36") Then
