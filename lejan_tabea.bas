@@ -65,21 +65,21 @@ UserForm1.TextBox32.value = val(UserForm1.TextBox10) * 0.1
 Call state_tax
 
 '===============«·«” ﬁÿ«⁄« 
-If UserForm1.TextBox8.value <= 6 Then
+If UserForm1.TextBox10.value > 500000 Then
 
  UserForm1.TextBox42.value = 1500
- ElseIf UserForm1.TextBox8.value >= 7 Then
+ Else
  UserForm1.TextBox42.value = 1000
 End If
-UserForm1.TextBox46.value = Int(val(UserForm1.TextBox10) * 0.0025)
+UserForm1.TextBox46.value = val(UserForm1.TextBox10) * 0.0025
 Dim sumastktaa As Double
-sumastktaa = Int(val(UserForm1.TextBox24) + val(UserForm1.TextBox32) + val(UserForm1.TextBox33) + val(UserForm1.TextBox34) + val(UserForm1.TextBox35) + val(UserForm1.TextBox36) _
+sumastktaa = val(UserForm1.TextBox24) + val(UserForm1.TextBox32) + val(UserForm1.TextBox33) + val(UserForm1.TextBox34) + val(UserForm1.TextBox35) + val(UserForm1.TextBox36) _
 + val(UserForm1.TextBox38) + val(UserForm1.TextBox40) + val(UserForm1.TextBox42) + val(UserForm1.TextBox44) + val(UserForm1.TextBox46) _
- + val(UserForm1.TextBox50) + val(UserForm1.TextBox62) + val(UserForm1.TextBox83) + val(UserForm1.TextBox85) + val(UserForm1.TextBox111))
- UserForm1.TextBox48.value = Int(sumastktaa)
+ + val(UserForm1.TextBox50) + val(UserForm1.TextBox62) + val(UserForm1.TextBox83) + val(UserForm1.TextBox85)
+ UserForm1.TextBox48.value = sumastktaa
 
 '=======================«·—« » «·’«›Ì
-UserForm1.TextBox49.value = Int(val(UserForm1.TextBox31) - val(UserForm1.TextBox48))
+UserForm1.TextBox49.value = val(UserForm1.TextBox31) - val(UserForm1.TextBox48)
 
 
 
