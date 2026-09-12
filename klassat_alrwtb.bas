@@ -24,7 +24,7 @@ Sub ExportSalarySummary_J27()
     wsTarget.Range("A35:J150").Clear
     wsTarget.Range("A35:J150").UnMerge
 
-    lastRowSource = wsSource.Cells(wsSource.Rows.count, "E").End(xlUp).row
+    lastRowSource = wsSource.Cells(wsSource.rowS.count, "E").End(xlUp).row
     
     ' 3. ŒÊ«—“„Ì… «· Ã„Ì⁄ (Aggregation)
     Dim colsAmt, colsAgn
