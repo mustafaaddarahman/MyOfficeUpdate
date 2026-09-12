@@ -7,7 +7,7 @@ Dim lastR As Integer
 Dim frow As Integer
 ThisWorkbook.FollowHyperlink "https://web.whatsapp.com/"
 Application.Wait (Now + TimeValue("00:00:08"))
-lastR = Sheets(1).Cells(rowS.count, "e").End(xlUp).row
+lastR = Sheets(1).Cells(Rows.count, "e").End(xlUp).row
 'lastr = 238
 For frow = 9 To lastR
 1:
