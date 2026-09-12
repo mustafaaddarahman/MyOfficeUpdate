@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm39 
    Caption         =   "UserForm39"
-   ClientHeight    =   9564.001
+   ClientHeight    =   11505
    ClientLeft      =   120
    ClientTop       =   468
-   ClientWidth     =   20256
+   ClientWidth     =   23400
    OleObjectBlob   =   "UserForm39.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -13,8 +13,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim Zoomer As New clsZoomManager
-
 Private Sub CheckBox24_Click()
 
 End Sub
@@ -374,7 +372,7 @@ Unload Me
 ThisWorkbook.Application.Visible = True
 Application.ExecuteExcel4Macro "SHOW.TOOLBAR(""Ribbon"",True)"
 Dim lastR As Long
-lastR = Sheets(43).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(43).Cells(rowS.count, 1).End(xlUp).row
 
 Sheets(43).Range("a3:m" & lastR).PrintPreview
 ThisWorkbook.Application.Visible = False
@@ -407,7 +405,7 @@ Unload Me
 ThisWorkbook.Application.Visible = True
 Application.ExecuteExcel4Macro "SHOW.TOOLBAR(""Ribbon"",True)"
 Dim lastR As Long
-lastR = Sheets(43).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(43).Cells(rowS.count, 1).End(xlUp).row
 
 Sheets(43).Range("a3:m" & lastR).PrintPreview
 ThisWorkbook.Application.Visible = False
@@ -984,8 +982,8 @@ End Sub
 
 Private Sub UserForm_Activate()
 On Error Resume Next
-TextBox3.Text = Sheets(44).Cells(Rows.count, 1).End(xlUp).row
-TextBox4.Text = Sheets(44).Cells(Rows.count, 1).End(xlUp).row - 8
+TextBox3.Text = Sheets(44).Cells(rowS.count, 1).End(xlUp).row
+TextBox4.Text = Sheets(44).Cells(rowS.count, 1).End(xlUp).row - 8
 
 'ListBox1.RowSource = "a8:c30"
 TextBox26.value = ListBox1.ListCount
@@ -1060,7 +1058,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(43).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(43).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 Set item1 = ListView1.ListItems.Add(, , Sheets(43).Cells(frw1, "A"))
 item1.SubItems(1) = Sheets(43).Cells(frw1, "b")
@@ -1170,10 +1168,9 @@ Private Sub UserForm_DblClick(ByVal Cancel As MSForms.ReturnBoolean)
 
 End Sub
 
-   
 Private Sub UserForm_Initialize()
 On Error GoTo emad
- Zoomer.Bind Me, Me.SpinButton1, Me.az
+
  TextBox5.Text = Sheets(29).Cells(1, 1)
 TextBox6.Text = Sheets(29).Cells(2, 1)
 TextBox7.Text = Sheets(29).Cells(3, 1)
