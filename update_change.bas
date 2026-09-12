@@ -2,8 +2,8 @@ Attribute VB_Name = "update_change"
 Sub update_change_salary()
 On Error Resume Next
 Dim lastR As Integer
-lastR = Sheets(35).Cells(Rows.count, 1).End(xlUp).row
-    For Y = 9 To lastR
+lastR = Sheets(35).Cells(rowS.count, 1).End(xlUp).row
+    For Y = lastR To lastR
     
     If Sheets(35).Cells(Y, 2) = UserForm1.TextBox2.Text And Sheets(35).Cells(Y, 5) = UserForm1.TextBox5.Text And Sheets(35).Cells(Y, 84) = UserForm27.TextBox9.Text Then
    
