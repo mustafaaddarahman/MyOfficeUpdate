@@ -7,7 +7,7 @@ Sub CalculateSalaryPositions()
     Set ws = ThisWorkbook.Sheets("Sheet1")
     
     ' 1. ÊÍÏíÏ ÂÎÑ Õİ íÍÊæí Úáì ÈíÇäÇÊ İí ÇáÚãæÏ BF áÖãÇä ÏíäÇãíßíÉ ÇáãÚÇÏáÇÊ
-    lastRow = ws.Cells(ws.Rows.count, "BF").End(xlUp).row
+    lastRow = ws.Cells(ws.rowS.count, "BF").End(xlUp).row
     
     ' ÇáÊÃßÏ ãä Ãä ÇáäØÇŞ íÈÏÃ ãä ÇáÕİ 9 ßÍÏ ÃÏäì
     If lastRow < 9 Then lastRow = 9
@@ -42,7 +42,7 @@ Sub CalculateSalaryPositions()
         .Range("DA10").Formula = "=int(SUMIF(BF9:BF" & lastRow & ",""ÚŞÏ"", J9:J" & lastRow & "))"
         
         ' ÇáÑÇÊÈ ÇáÇÓãí ááÑÇÊÈ ÇáÌÒÆí
-        .Range("DB10").Formula = "=int(SUMIF(BF9:BF" & lastRow & ",""ÑÇÊÈ ÌÒÆí"", J9:J" & lastRow & "))"
+        .Range("DB10").Formula = "=int(SUMIF(BF9:BF" & lastRow & ",""ãÌãæÚ ÇáÑÇÊÈ áİÊÑÊíä"", J9:J" & lastRow & "))"
         
         ' ÇáÑÇÊÈ ÇáÇÓãí áÑİÚ ÇáíÏ Ãæ ÅíŞÇİ ÇáÕÑİ
         .Range("DC10").Formula = "=int(SUMIF(BF9:BF" & lastRow & ",""ÑİÚ íÏ Çæ ÅíŞÇİ ÕÑİ"", J9:J" & lastRow & "))"
@@ -65,7 +65,7 @@ Sub UpdateLiveFormulas_Sheet1()
     Set ws = ThisWorkbook.Sheets("Sheet1")
     
     ' 1. ÊÍÏíÏ ÂÎÑ Õİ ÈäÇÁğ Úáì ÇáÚãæÏ BF (Ãæ Ãí ÚãæÏ ÈíÇäÇÊ)
-    lastRow = ws.Cells(ws.Rows.count, "BF").End(xlUp).row
+    lastRow = ws.Cells(ws.rowS.count, "BF").End(xlUp).row
     If lastRow < 9 Then lastRow = 9
     
     ' 2. ÒÑÚ ÇáãÚÇÏáÇÊ ÇáÏíäÇãíßíÉ İí ÇáÎáÇíÇ ÇáãÍÏÏÉ
@@ -119,7 +119,7 @@ Sub UpdateLiveFormulas_Sheet1()
         .Range("CV5").Formula = "=int(SUBTOTAL(9, BP9:BP" & lastRow & "))"
         .Range("CW5").Formula = "=int(SUBTOTAL(9, BR9:BR" & lastRow & "))"
         .Range("CX5").Formula = "=int(SUBTOTAL(9, CE9:CE" & lastRow & "))"
-
+        .Range("cr3").Formula = "=int(SUBTOTAL(9, Ck9:Ck" & lastRow & "))"
         ' 3. áãÓÉ ÇÍÊÑÇİíÉ: ÊäÓíŞ ÇáÃÑŞÇã ÈİÇÕáÉ ÇáÂáÇİ
         .Range("CC2:CZ5").NumberFormat = "#,##0"
     End With
@@ -128,7 +128,7 @@ End Sub
 
 Sub FillAT()
     Dim lr As Long
-    lr = Cells(Rows.count, "J").End(xlUp).row
+    lr = Cells(rowS.count, "J").End(xlUp).row
     If lr >= 9 Then Range("AT9:AT" & lr).Formula = "=int(J9*0.0025)"
 End Sub
 Sub ClearAG()
@@ -139,7 +139,7 @@ Sub ClearAG()
     Set ws = ThisWorkbook.ActiveSheet
     
     ' ÊÍÏíÏ ÂÎÑ Õİ ÈäÇÁğ Úáì ÇáÚãæÏ BF áÖãÇä Ôãæá ÌãíÚ ÇáÈíÇäÇÊ
-    lastRow = ws.Cells(ws.Rows.count, "BF").End(xlUp).row
+    lastRow = ws.Cells(ws.rowS.count, "BF").End(xlUp).row
     
     ' ÊÚØíá ÊÍÏíË ÇáÔÇÔÉ áÊÓÑíÚ ÇáßæÏ
     Application.ScreenUpdating = False
@@ -166,7 +166,7 @@ Sub CalculateAG()
     Set ws = ThisWorkbook.ActiveSheet ' Ãæ ÍÏÏ ÇÓã ÇáæÑŞÉ Sheets("Sheet1")
     
     ' ÇáÈÍË Úä ÂÎÑ Õİ íÍÊæí Úáì ÈíÇäÇÊ İí ÇáÚãæÏ J
-    lastRow = ws.Cells(ws.Rows.count, "J").End(xlUp).row
+    lastRow = ws.Cells(ws.rowS.count, "J").End(xlUp).row
     
     ' ÇáÊÃßÏ ãä æÌæÏ ÈíÇäÇÊ ááÈÏÁ ãä ÇáÕİ ÇáÊÇÓÚ
     If lastRow >= 9 Then
@@ -196,7 +196,7 @@ Sub CalculateFiveYearLeaveOnly()
     Set ws = ThisWorkbook.Sheets("Sheet1")
     
     ' ÊÍÏíÏ ÂÎÑ Õİ íÍÊæí Úáì ÈíÇäÇÊ İí ÇáÚãæÏ BF
-    lastRow = ws.Cells(ws.Rows.count, "BF").End(xlUp).row
+    lastRow = ws.Cells(ws.rowS.count, "BF").End(xlUp).row
     
     ' ÅĞÇ ßÇäÊ ÇáÈíÇäÇÊ ÊÈÏÃ ÈÚÏ ÇáÕİ 9¡ íÊã ÇáÎÑæÌ ãä ÇáÏÇáÉ
     If lastRow < 9 Then Exit Sub
@@ -238,7 +238,7 @@ Sub CalculateGradesAndStatus()
     Set ws = ThisWorkbook.Sheets("Sheet1")
     
     ' ÊÍÏíÏ ÂÎÑ Õİ ÈäÇÁğ Úáì ÇáÚãæÏ H (ÇáÏÑÌÇÊ)
-    lastRow = ws.Cells(ws.Rows.count, "H").End(xlUp).row
+    lastRow = ws.Cells(ws.rowS.count, "H").End(xlUp).row
     
     ' ÇáÊÃßÏ ãä æÌæÏ ÈíÇäÇÊ ÇÈÊÏÇÁğ ãä ÇáÕİ 9
     If lastRow < 9 Then Exit Sub
