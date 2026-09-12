@@ -11,7 +11,7 @@ Dim arr001 As Variant, i As Long, j As Long, k As Long
 Dim arr002 As Variant
 Dim lastR As Long
 'Sheets(27).Range("a1:be200").ClearContents
-lastR = Sheets(43).Cells(rowS.count, 1).End(xlUp).row
+lastR = Sheets(43).Cells(Rows.count, 1).End(xlUp).row
 arr001 = Sheets(43).Range("a8:m" & lastR)
 j = 0
 ReDim arr002(1 To UBound(arr001, 1), 1 To UBound(arr001, 2))
