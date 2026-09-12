@@ -36,10 +36,10 @@ Private Function GetColIndex(ByVal CtrlName As String) As Variant
 End Function
 
 ' 2. «· ﬁ«ÿ Õ«·… «·»Ì«‰«  «·√’·Ì… (Ìı” œ⁄Ï ⁄‰œ › Õ «·‰„Ê–Ã √Ê «Œ Ì«— „ÊŸ›)
-Public Sub CaptureSnapshot(ByRef frm As Object, ByRef dict As Object)
+Public Sub CaptureSnapshot(ByRef Frm As Object, ByRef dict As Object)
     Set dict = CreateObject("Scripting.Dictionary")
     Dim ctrl As Control
-    For Each ctrl In frm.Controls
+    For Each ctrl In Frm.Controls
         If TypeOf ctrl Is MSForms.TextBox Or TypeOf ctrl Is MSForms.ComboBox Then
             dict(ctrl.Name) = ctrl.value
         End If
@@ -47,7 +47,7 @@ Public Sub CaptureSnapshot(ByRef frm As Object, ByRef dict As Object)
 End Sub
 
 ' 3. „Õ—ﬂ  —ÕÌ· «· €ÌÌ—«  ≈·Ï BlackBox (»œÊ‰ Õ›Ÿ  ·ﬁ«∆Ì ··„·›)
-Public Sub RecordToBlackBox(ByRef frm As Object, ByRef dict As Object)
+Public Sub RecordToBlackBox(ByRef Frm As Object, ByRef dict As Object)
     Dim wsData As Worksheet: Set wsData = Sheets(1)
     Dim wsLog As Worksheet: Set wsLog = Sheets("BlackBox")
     Dim wsAdmin As Worksheet: Set wsAdmin = Sheets("title_factory")
@@ -57,7 +57,7 @@ Public Sub RecordToBlackBox(ByRef frm As Object, ByRef dict As Object)
     ' «· √ﬂœ „‰ ÊÃÊœ »Ì«‰«  √’·Ì… ··„ﬁ«—‰…
     If dict Is Nothing Then Exit Sub
 
-    For Each ctrl In frm.Controls
+    For Each ctrl In Frm.Controls
         If dict.exists(ctrl.Name) Then
             ' «· Õﬁﬁ „‰ ÊÃÊœ  €ÌÌ— ( Ã«Â· «·„”«›«  «·“«∆œ…)
             If Trim(ctrl.value) <> Trim(dict(ctrl.Name)) Then
@@ -65,10 +65,10 @@ Public Sub RecordToBlackBox(ByRef frm As Object, ByRef dict As Object)
                 
                 ' ≈–« ﬂ«‰ «·⁄‰’— „— »ÿ« »⁄„Êœ ›Ì Ê—ﬁ… «·»Ì«‰« 
                 If colIdx <> 0 Then
-                    lr = wsLog.Cells(wsLog.Rows.count, 1).End(xlUp).row + 1
+                    lr = wsLog.Cells(wsLog.rowS.count, 1).End(xlUp).row + 1
                     With wsLog
-                        .Cells(lr, 1) = frm.TextBox2.value             ' «·—ﬁ„ «·ÊŸÌ›Ì
-                        .Cells(lr, 2) = frm.TextBox5.value             ' «”„ «·„ÊŸ›
+                        .Cells(lr, 1) = Frm.TextBox2.value             ' «·—ﬁ„ «·ÊŸÌ›Ì
+                        .Cells(lr, 2) = Frm.TextBox5.value             ' «”„ «·„ÊŸ›
                         .Cells(lr, 3) = wsData.Cells(8, colIdx).value  ' «”„ «·Õﬁ· „‰ Ê—ﬁ… «·»Ì«‰« 
                         .Cells(lr, 4) = dict(ctrl.Name)                ' «·ﬁÌ„… «·ﬁœÌ„…
                         .Cells(lr, 5) = ctrl.value                     ' «·ﬁÌ„… «·ÃœÌœ…
