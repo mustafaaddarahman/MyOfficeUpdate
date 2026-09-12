@@ -13,8 +13,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim Zoomer As New clsZoomManager
-
 
 
 
@@ -58,7 +56,7 @@ TextBox6.Text = UserForm48.TextBox48.Text
 Set Me.Image1.Picture = UserForm48.Image1.Picture
             
 Dim last1, frw1 As Integer
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 If Sheets(1).Cells(frw1, "e") = Label36.Caption Then
 Image1.Picture = LoadPicture(Sheets(1).Cells(frw1, 64))
@@ -112,7 +110,7 @@ TextBox5.Text = UserForm48.TextBox24.Text
 TextBox6.Text = UserForm48.TextBox48.Text
 Set Me.Image1.Picture = UserForm48.Image1.Picture
 Dim last1, frw1 As Integer
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 If Sheets(1).Cells(frw1, "e") = Label36.Caption Then
 Image1.Picture = LoadPicture(Sheets(1).Cells(frw1, 64))
@@ -148,4 +146,3 @@ End Sub
 Private Sub UserForm_Click()
 
 End Sub
-   
