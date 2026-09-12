@@ -4,7 +4,7 @@ With UserForm17.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 UserForm17.ListView1.ListItems.Clear
-last1 = Sheets(13).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(13).Range("A" & rowS.count).End(xlUp).row
 
 For frw1 = 9 To last1
  If Sheets(13).Cells(frw1, "d").value = UserForm17.TextBox2.Text Then
