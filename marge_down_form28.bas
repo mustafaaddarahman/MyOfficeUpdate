@@ -14,7 +14,7 @@ al_mudakek = ""
 al_mudeerhesabat = ""
 al_mudeermalia = ""
 al_mudeermassnaa = ""
-UserForm28.TextBox4.value = Sheets(36).Cells(rowS.count, 1).End(xlUp).row + 4
+UserForm28.TextBox4.value = Sheets(36).Cells(Rows.count, 1).End(xlUp).row + 4
 
 '====================================================
 Sheets(36).Range("a9  : " & "ce" & UserForm28.TextBox4.value + 3).UnMerge
