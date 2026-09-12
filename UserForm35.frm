@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm35 
    Caption         =   "UserForm35"
-   ClientHeight    =   6648
+   ClientHeight    =   6645
    ClientLeft      =   120
    ClientTop       =   468
    ClientWidth     =   9492.001
@@ -13,8 +13,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim Zoomer As New clsZoomManager
-
 Private Sub CommandButton1_Click()
 Call Remove_Duplicates1
 Call delete_change_month_form33
@@ -70,7 +68,7 @@ On Error Resume Next
 '======================================================
 Dim lastr2 As Integer
 Dim y2 As Double
-lastr2 = Sheets(35).Cells(Rows.count, 1).End(xlUp).row
+lastr2 = Sheets(35).Cells(rowS.count, 1).End(xlUp).row
     For y2 = 9 To lastr2
 
  If Sheets(35).Cells(y2, 2).value = UserForm33.TextBox2.Text And Sheets(35).Cells(y2, 5).value = UserForm33.TextBox5.Text And Sheets(35).Cells(y2, "ce").value = "«Œ—  ÕœÌÀ" Then
@@ -89,10 +87,10 @@ Next
 'max_date = Sheets(35).Cells(8, "am")
 'UserForm35.TextBox2.Text = Sheets(35).Cells(8, "an") & "  " & "Ê«Œ—  ÕœÌÀ ﬂ«‰ » «—ÌŒ" & "  " & Sheets(35).Cells(8, "am")
 
-Dim lastr1 As Integer
+Dim lastR1 As Integer
 Dim y1 As Double
-lastr1 = Sheets(35).Cells(Rows.count, 1).End(xlUp).row
-    For y1 = 9 To lastr1
+lastR1 = Sheets(35).Cells(rowS.count, 1).End(xlUp).row
+    For y1 = 9 To lastR1
     
     If Sheets(35).Cells(y1, 2) = UserForm33.TextBox2.Text And Sheets(35).Cells(y1, 5) = UserForm33.TextBox5.Text And Sheets(35).Cells(y1, "ce") = "«Œ—  ÕœÌÀ" Then
  TextBox3.value = Sheets(35).Cells(y1, 31).value
@@ -134,9 +132,8 @@ End Sub
 
 
 
-    
 Private Sub UserForm_Initialize()
-Zoomer.Bind Me, Me.SpinButton1, Me.az
+
 
 End Sub
 
