@@ -15,7 +15,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Sub CommandButton1_Click()
 Dim lastR, Y As Integer
-lastR = Sheets(1).Cells(Rows.count, "b").End(xlUp).row
+lastR = Sheets(1).Cells(rowS.count, "b").End(xlUp).row
     For Y = 9 To lastR
     
     If Sheets(1).Cells(Y, "e") = TextBox4.Text And Sheets(1).Cells(Y, "b") = TextBox1.Text Then
@@ -36,7 +36,7 @@ Call arb
 Dim last2, frw2 As Integer
 
 
-last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw2 = 9 To last2
 If Sheets(1).Cells(frw2, "e").value Like "*" & TextBox2.Text & "*" Then
 TextBox1.value = Sheets(1).Cells(frw2, "b")
