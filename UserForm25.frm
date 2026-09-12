@@ -13,17 +13,11 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim Zoomer As New clsZoomManager
 
 
 
 
-Private Sub ComboBox1_AfterUpdate()
-
-End Sub
-
-Private Sub ComboBox1_Change()
-
-End Sub
 
 Private Sub CommandButton1_Click()
 
@@ -48,105 +42,8 @@ UserForm20.Show
 End If
 End Sub
 
-Private Sub CommandButton3_Click()
-If Trim(TextBox4.Text) = "" Then
-        MsgBox "íÑÌì ßÊÇÈÉ ÇáÊÔßíá ÃæáÇğ", vbExclamation, "ÊäÈíå"
-        Exit Sub
-    End If
-
-    ' 2. ÅÖÇİÉ ÇáŞíãÉ Åáì ÂÎÑ Õİ İí ÇáÚãæÏ B ÈÇáÔíÊ 5
-    lastRow = Sheets(5).Cells(rowS.count, "B").End(xlUp).row + 1
-    Sheets(5).Range("B" & lastRow).value = TextBox4.Text
-
-    ' 3. ÊÍÏíË ComboBox1 İæÑÇğ ãä ÇáÈíÇäÇÊ ÇáÌÏíÏÉ
-    ' äÚíÏ ÍÓÇÈ ÂÎÑ Õİ ÈÚÏ ÇáÅÖÇİÉ áÖãÇä Ôãæá ÇáŞíãÉ ÇáÌÏíÏÉ
-    newRow = Sheets(5).Cells(rowS.count, "B").End(xlUp).row
-    
-    If newRow > 1 Then
-        ComboBox1.List = Application.Transpose(Sheets(5).Range("B1:B" & newRow).value)
-    Else
-        ComboBox1.List = Array(Sheets(5).Range("B1").value)
-    End If
-
-    ' 4. ÊİÑíÛ ÇáÊíßÓÊ ÈæßÓ æÅÚáÇã ÇáãÓÊÎÏã ÈÇáäÌÇÍ
-    TextBox4.value = ""
-    MsgBox "ÊãÊ ÅÖÇİÉ ÇáÊÔßíá æÊÍÏíË ÇáŞÇÆãÉ ÈäÌÇÍ", vbInformation, "ÊÍÏíË"
-End Sub
-
-Private Sub CommandButton4_Click()
-' 1. ÇáÊÃßÏ ãä Ãä ÇáãÓÊÎÏã ÇÎÊÇÑ ÊÔßíáÇğ áÊÚÏíáå æÃä ÇáÊíßÓÊ ÈæßÓ áíÓ İÇÑÛÇğ
-    If ComboBox1.ListIndex = -1 Then
-        MsgBox "íÑÌì ÇÎÊíÇÑ ÇáÊÔßíá ÇáãÑÇÏ ÊÍÏíËå ãä ÇáŞÇÆãÉ ÃæáÇğ", vbExclamation
-        Exit Sub
-    End If
-    
-    If TextBox5.Text = "" Then
-        MsgBox "íÑÌì ßÊÇÈÉ ÇáÇÓã ÇáÌÏíÏ İí ÇáÊíßÓÊ ÈæßÓ", vbExclamation
-        Exit Sub
-    End If
-
-    ' 2. ÊÍÏíÏ ÑŞã ÇáÕİ ÇáãÑÇÏ ÊÚÏíáå İí ÇáÔíÊ 5
-    ' ÈãÇ Ãä ÇáŞÇÆãÉ ÊÈÏÃ ãä B1¡ İÅä ÑŞã ÇáÕİ åæ Index + 1
-    Dim TargetRow As Long
-    TargetRow = ComboBox1.ListIndex + 1
-
-    ' 3. ÊÍÏíË ÇáŞíãÉ İí ÇáÔíÊ 5 ãÈÇÔÑÉ
-    Sheets(5).Cells(TargetRow, "B").value = TextBox5.Text
-
-    ' 4. ÊÍÏíË ComboBox1 İæÑÇğ áíÚßÓ ÇáÇÓã ÇáÌÏíÏ
-    lastRow = Sheets(5).Cells(rowS.count, "B").End(xlUp).row
-    If lastRow > 1 Then
-        ComboBox1.List = Application.Transpose(Sheets(5).Range("B1:B" & lastRow).value)
-    Else
-        ComboBox1.List = Array(Sheets(5).Range("B1").value)
-    End If
-
-    ' 5. ãÓÍ ÇáÊíßÓÊ ÈæßÓ æÅÚáÇã ÇáãÓÊÎÏã
-    TextBox5.value = ""
-    MsgBox "Êã ÊÍÏíË ÇáÊÔßíá ÈäÌÇÍ", vbInformation
-End Sub
-
-Private Sub CommandButton5_Click()
-Dim TargetRow As Long
-    
-    ' 1. ÇáÊÃßÏ ãä ÇÎÊíÇÑ ÊÔßíá ãä ÇáŞÇÆãÉ
-    If ComboBox1.ListIndex = -1 Then
-        MsgBox "íÑÌì ÇÎÊíÇÑ ÇáÊÔßíá ÇáãÑÇÏ ÍĞİå ÃæáÇğ", vbExclamation
-        Exit Sub
-    End If
-
-    ' 2. ÊÍÏíÏ ÑŞã ÇáÕİ (Index + 1 áÃä ÇáÈíÇäÇÊ ÊÈÏÃ ãä B1)
-    TargetRow = ComboBox1.ListIndex + 1
-
-    ' 3. ÍĞİ ÇáÎáíÉ İí ÇáÚãæÏ B İŞØ æÅÒÇÍÉ ÇáÎáÇíÇ ÇáÊí ÊÍÊåÇ ááÃÚáì
-    ' åĞÇ ÇáÓØÑ áÇ íÍĞİ ÇáÓØÑ ÈÇáßÇãá¡ Èá íÍĞİ ÇáÎáíÉ B İŞØ
-    Sheets(5).Range("B" & TargetRow).Delete Shift:=xlUp
-
-    ' 4. ÊÍÏíË ComboBox1 İæÑÇğ áíÚßÓ ÇáŞÇÆãÉ ÇáÌÏíÏÉ
-    lastRow = Sheets(5).Cells(rowS.count, "B").End(xlUp).row
-    
-    If lastRow >= 1 And Sheets(5).Range("B1").value <> "" Then
-        ComboBox1.List = Application.Transpose(Sheets(5).Range("B1:B" & lastRow).value)
-    Else
-        ComboBox1.Clear
-    End If
-
-    MsgBox "Êã ÍĞİ ÇáŞíãÉ æÊÍÏíË ÇáŞÇÆãÉ", vbInformation
-End Sub
-
+  
 Private Sub UserForm_Initialize()
- Dim lastRow As Long
-Dim ws1 As Worksheet
-
-' ÊÚííä ÇáæÑŞÉ ÇáÎÇãÓÉ ááãÊÛíÑ ws1
-Set ws1 = Sheets(5)
-
-' ÊÍÏíÏ ÑŞã ÂÎÑ Õİ íÍÊæí Úáì ÈíÇäÇÊ İí ÇáÚãæÏ B
-' ÇáßæÏ íÈÏÃ ãä ÂÎÑ Õİ İí ÇáÅßÓíá æíÕÚÏ ááÃÚáì ÍÊì íÌÏ Ãæá ÎáíÉ ÈåÇ ŞíãÉ
-lastRow = ws1.Cells(ws1.rowS.count, "B").End(xlUp).row
-
-' ÊÚÈÆÉ ComboBox4 ÈÇáäØÇŞ ãä ÇáÎáíÉ B1 Åáì ÂÎÑ Õİ æÌÏäÇå
-If lastRow >= 1 Then
-    ComboBox1.List = ws1.Range("B1:B" & lastRow).value
-End If
+ 
+ComboBox1.List = Array("ãŞÑ ÇáåíÃÉ", "ãŞÑ ÔÑßÉ ÇáÕäÇÚÇÊ ÇáÍÑÈíå", "ãÕäÚ ÇáßÑÇãÉ æÇáÍÇÑË", "ãÕäÚ ÇáÑÈíÚ", "ãÕäÚ ÇáäåÑæÇä", "ãÕäÚ ÍãæÑÇÈí", "ãÕäÚ ÇáíÑãæß", "ãÕäÚ ÚŞÈÉ æÈÏÑ", "ãÕäÚ ÇáŞÇÏÓíå", "ãÕäÚ ÇáÑÔíÏ", "ãÕäÚ ÍØíä", "ãÕäÚ ÌÇÈÑ Èä ÍíÇä", "ãÕäÚ ÊÈæß", "", "")
 End Sub
