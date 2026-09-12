@@ -8,8 +8,7 @@ With UserForm48
 '=======================«·—« » «·’«›Ì
 
 .TextBox49.value = 0
-.TextBox35.value = 0
-.TextBox19.value = 0
+
 
 .TextBox46.value = val(.TextBox10) * 0.0025
 
