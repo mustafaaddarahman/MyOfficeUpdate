@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm9 
    Caption         =   "UserForm9"
-   ClientHeight    =   13668
+   ClientHeight    =   16800
    ClientLeft      =   120
    ClientTop       =   468
-   ClientWidth     =   28560
+   ClientWidth     =   30216
    OleObjectBlob   =   "UserForm9.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -15,6 +15,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 
+Dim Zoomer As New clsZoomManager
 
 
 #If VBA7 Then
@@ -22,6 +23,12 @@ Attribute VB_Exposed = False
 #Else
     Private Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
 #End If
+
+
+
+
+
+
 
 
 
@@ -64,6 +71,70 @@ CommandButton20.Enabled = True
 Else
 CommandButton20.Enabled = False
 End If
+End Sub
+
+Private Sub CheckBox3_Click()
+    If CheckBox3.value = True Then
+        TextBox11.Visible = False
+        Call Sigen_Trigger
+        CheckBox3.Caption = "«·—«œ«— «·‘»ﬂÌ ›⁄«·"
+    Else
+       CheckBox3.Caption = "«·—«œ«— «·‘»ﬂÌ €Ì— „ ’·"
+        
+        ' 1. ≈Œ›«¡ «·„Õÿ«  «· Ì  ŸÂ— Œ·› «·‰’
+        Me.TextBox11.Visible = False ' «” »œ· «·«”„ »«”„ «·≈ÿ«— «·–Ì ÌÕ ÊÌ «·„Õÿ« 
+        
+        ' 2. ≈ŸÂ«— «·‹ TextBox
+        Me.TextBox11.Visible = True
+        Me.TextBox11.ZOrder fmTop
+       With Me.TextBox11
+            .Visible = True
+            .Multiline = True
+            .ScrollBars = fmScrollBarsVertical
+            .Locked = True
+            .TextAlign = fmTextAlignRight
+            
+            
+         .Text = "«·„·Œ’ «· ⁄—Ì›Ì ‰Ÿ«„ ≈œ«—… «·—Ê« » «·„ ﬂ«„· (FINSECURE)" & vbCrLf & _
+                    "  --------------------------------------------" & vbCrLf & vbCrLf
+            
+            ' «· —ﬁÌ„ („”«› «‰)° «·‰’ «·„ﬂ„· (4 „”«›« )
+            .Text = .Text & "  1. «·√Âœ«› «·«” —« ÌÃÌ…:" & vbCrLf & _
+                    "    ï  ÕÊÌ· «·⁄„· „‰ «· ‰”Ìﬁ «·ÌœÊÌ ≈·Ï" & vbCrLf & "    «·√ „ … «·—ﬁ„Ì… «·ﬂ«„·…." & vbCrLf & _
+                    "    ï  ÊÕÌœ ﬁÊ«⁄œ «·»Ì«‰« " & vbCrLf & "    ·÷„«‰ „—Ã⁄Ì… —ﬁ„Ì… œﬁÌﬁ… ··ÂÌ∆…." & vbCrLf & vbCrLf
+            
+            .Text = .Text & "  2. »‰ﬂ «·»Ì«‰«  «·„—ﬂ“Ì:" & vbCrLf & _
+                    "    ï ﬁ«⁄œ… —ﬁ„Ì… ‘«„·… ·ﬂ«›… „‰ ”»Ì «·ÂÌ∆…" & vbCrLf & "    ·÷„«‰ œﬁ… «·„⁄·Ê„« ." & vbCrLf & _
+                    "    ï «·ﬁ÷«¡ «· «„ ⁄·Ï «·√Œÿ«¡ «·‰« Ã… ⁄‰ «·‰ﬁ·" & vbCrLf & "    «·Ê—ﬁÌ €Ì— «·„ﬁ’Êœ." & vbCrLf & _
+                    "    ï ≈œ«—… —ﬁ„Ì… œﬁÌﬁ… ·· ‰ﬁ·«  «·ÊŸÌ›Ì… »Ì‰" & vbCrLf & "    «·„‰ ”»Ì‰ »œﬁ… ⁄«·Ì…." & vbCrLf & vbCrLf
+            
+            .Text = .Text & "  3. «·„⁄«·Ã… «·–ﬂÌ… ··„ €Ì—« :" & vbCrLf & _
+                    "    ï  Ê“Ì⁄ «·«Õ ”«» (›—œÌ/Ã„«⁄Ì) · ÕﬁÌﬁ" & vbCrLf & "    √ﬁ’Ï ”—⁄… Ê√œ«¡." & vbCrLf & _
+                    "    ï „⁄«·Ã… ¬‰Ì… ·· ﬁ«—Ì— Ê«·«” Õﬁ«ﬁ«  (‘Â«œ…°" & vbCrLf & "    Â‰œ”Ì…° „‰’»° ŒÿÊ—…)." & vbCrLf & _
+                    "    ï ≈œ«—… œﬁÌﬁ… ··«” ﬁÿ«⁄«  ( ﬁ«⁄œ° ÷—«∆»°" & vbCrLf & "    —⁄«Ì…°  √„Ì‰)." & vbCrLf & vbCrLf
+            
+            .Text = .Text & "  4. „‰ŸÊ„… «·√ „ … «· Õ–Ì—Ì… (‰Ÿ«„ –ﬂ—‰Ì):" & vbCrLf & _
+                    "    ï «” ÿ·«⁄«  ›Ê—Ì… Ê ‰»ÌÂ« " & vbCrLf & "    «” »«ﬁÌ… ··„” Œœ„." & vbCrLf & _
+                    "    ï «· ‰»ÌÂ »«·≈Ã—«¡«  «·›«∆ … Ê ’ÕÌÕ" & vbCrLf & "    «·„”«—«  ›Ê—«." & vbCrLf & _
+                    "    ï ÃœÊ·… «· ⁄œÌ·«  «·„ÿ·Ê»… ·Ì „ „⁄«·Ã Â«" & vbCrLf & "    ··‘Â— «·„ﬁ»·." & vbCrLf & vbCrLf
+            
+            .Text = .Text & "  5. „Œ—Ã«  «· ﬁ«—Ì— Ê«·Œœ„« :" & vbCrLf & _
+                    "    ï «·«ÿ·«⁄ ⁄·Ï «· ﬁ«—Ì— «·‘Â—Ì… «·›«∆ …" & vbCrLf & "    Ê√—‘›… „Ê«ﬁ› «·Œœ„…." & vbCrLf & _
+                    "    ï  Ê·Ìœ √‘—ÿ… «·—Ê« » (Ê—ﬁÌ √Ê ≈—”«·" & vbCrLf & "    Ê« ” «» Ã„«⁄Ì/›—œÌ)." & vbCrLf & _
+                    "    ï „ﬁ«—‰«  ‘Â—Ì… œﬁÌﬁ… ··«” Õﬁ«ﬁ« " & vbCrLf & "    Ê«·«” ﬁÿ«⁄« ." & vbCrLf & _
+                    "    ï √—‘›… «· —›Ì⁄« ° «·⁄·«Ê« ° Êÿ—ﬁ «·œ›⁄" & vbCrLf & "    Ê«·¬Ì»«‰ (IBAN)." & vbCrLf & vbCrLf
+            
+            .Text = .Text & "  6. «·«· “«„ «·≈œ«—Ì Ê«·—ﬁ«»Ì:" & vbCrLf & _
+                    "    ï «·‰Ÿ«„ „»—„Ã Õ’—Ì« Ê›ﬁ «·„⁄ÿÌ« " & vbCrLf & "    «·≈œ«—Ì… «·ÕﬁÌﬁÌ…." & vbCrLf & _
+                    "    ï Õ’«‰… »—„ÃÌ…: ·« Ì ﬁ»· «·‰Ÿ«„ √Ì «· “«„" & vbCrLf & "    €Ì— ≈œ«—Ì." & vbCrLf & _
+                    "    ï ‰Ÿ«„ «” »«ﬁÌ Ì„‰⁄ ÕœÊÀ «·√Œÿ«¡ ﬁ»·" & vbCrLf & "     —ÕÌ· «·»Ì«‰« ." & vbCrLf & vbCrLf
+            
+            .Text = .Text & "  7. „·«ÕŸ«  «·‰Ÿ«„:" & vbCrLf & _
+                    "    ï ﬁœ—… ⁄«·Ì… ⁄·Ï „⁄«·Ã… «·»Ì«‰«  «·÷Œ„…" & vbCrLf & "    »œﬁ… Ê”—⁄…." & vbCrLf & _
+                    "    ï √—‘›… ‘«„·… ·ﬂ«›… «· ›«’Ì· «· Ì ·« Ì ”⁄" & vbCrLf & "    –ﬂ—Â« »”—œÌ… Ê«Õœ…."
+        End With
+
+    End If
 End Sub
 
 Private Sub CommandButton1_Click()
@@ -243,7 +314,7 @@ With Me.ListView2
 
 Dim last1, frw1 As Integer
 
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 Set item1 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw1, "A"))
 item1.SubItems(1) = Sheets(1).Cells(frw1, "b")
@@ -459,32 +530,26 @@ If user_pass = PASS Then
 Application.DisplayAlerts = False
 Dim num_day As Integer
 num_day = Day(Date)
-If num_day = 26 Or num_day = 28 Or num_day = 28 Or num_day = 29 Or num_day = 30 Or num_day = 31 Or num_day Then
-Sheets(55).Range("a9:bz8000").ClearContents
+
+Sheets("past_month76").Range("a9:bz8000").ClearContents
 Application.ScreenUpdating = False
-Sheets(55).Range("a8").CurrentRegion.Delete
+Sheets("past_month76").Range("a8").CurrentRegion.Delete
 Sheets(1).Select
 
 Range("a8").CurrentRegion.Select
-Selection.Copy Sheets(55).Range("A1:bz8000")
+Selection.Copy Sheets("past_month76").Range("A1:bz8000")
 
 Application.ScreenUpdating = True
 [a8].Select
-Sheets(55).Select
-Sheets(55).Activate
+Sheets("past_month76").Select
+Sheets("past_month76").Activate
 Application.ScreenUpdating = True
 MsgBox " „ ‰ﬁ· «·»Ì«‰«  »‰Ã«Õ", vbDefaultButton1, "—”«·…  ‰»ÌÂ"
-
-Else
-MsgBox "Â‰«ﬂ Œ„”… «Ì«„ ›ﬁÿ ·ﬂ «·’·«ÕÌÂ ›Ì ‰ﬁ· »Ì«‰«  «·‘Â— «·„«÷Ì · ﬂÊ‰ „—Ã⁄« Õ”«»Ì« ÊÂÊ ÌÊ„ 26Ê27Ê28Ê29Ê30Ê31Ê1 „‰ ﬂ· ‘Â— ", vbDefaultButton1, "—”«·…  ‰»ÌÂ"
-Exit Sub
 End If
 
-Else
-MsgBox "·ﬁœ ﬁ„  »«œŒ«· ﬂ·„… «·„—Ê— «·Œÿ√ Õ«Ê· „—Â À«‰ÌÂ «Ê « ’· »«·„»—„Ã", , "—”«·…  ‰»ÌÂ"
 
-Exit Sub
-End If
+
+
 
 
 
@@ -506,13 +571,24 @@ UserForm62.Show
 End Sub
 
 Private Sub CommandButton23_Click()
-If Sheets(4).Cells(1, "n") = 1 And Sheets(35).Cells(9, "a").value <> "" Then
-MsgBox "·ﬁœ  „ Õ–› «·»Ì«‰«  «··„ €Ì—«  «·‘Â— «·„«÷Ì »‰Ã«Õ", vbOK, "—”«·…  ‰»ÌÂ"
-Call copy_sheet35_tosheet50_1
-Sheets(35).Range("a9:ce2000").Delete
+Dim lastRow As Long
+Dim ws As Worksheet
+Set ws = Sheets(35)
 
+'  ÕœÌœ ¬Œ— ’› ÌÕ ÊÌ ⁄·Ï »Ì«‰«  ›Ì «·⁄„Êœ A
+lastRow = ws.Cells(ws.rowS.count, "A").End(xlUp).row
+
+' «· Õﬁﬁ „„« ≈–« ﬂ«‰  Â‰«ﬂ »Ì«‰«  ·Õ–›Â« (»œ¡« „‰ «·’› 9)
+If lastRow >= 9 Then
+    
+    ' Õ–› «·»Ì«‰«  „‰ «·⁄„Êœ A ÊÕ Ï «·⁄„Êœ CF »‰«¡ ⁄·Ï ¬Œ— ’›
+    ws.Range("A9:CF" & lastRow).ClearContents
+    
+    MsgBox "·ﬁœ  „ Õ–› »Ì«‰«  «·„ €Ì—«  ··‘Â— «·„«÷Ì »‰Ã«Õ", vbOKOnly + vbInformation, "—”«·…  ‰»ÌÂ"
+    
 Else
-Exit Sub
+    ' «·—”«·… ›Ì Õ«· ⁄œ„ ÊÃÊœ »Ì«‰« 
+    MsgBox "·«  ÊÃœ „ €Ì—«  ‘Â—Ì… ·Â–« «·‘Â— ·Õ–›Â«", vbExclamation, "—”«·…  ‰»ÌÂ"
 End If
 End Sub
 
@@ -522,7 +598,8 @@ UserForm66.Show
 End Sub
 
 Private Sub CommandButton25_Click()
-Call Push_Update_To_GitHub
+UserForm74.Show
+
 End Sub
 
 Private Sub CommandButton3_Click()
@@ -596,7 +673,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(3).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(3).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 2 To last1
 Set item1 = ListView1.ListItems.Add(, , Sheets(3).Cells(frw1, "A"))
 item1.SubItems(1) = Sheets(3).Cells(frw1, "b")
@@ -803,7 +880,7 @@ Dim wksSource As Worksheet
  With Me.ListView2
 .ListItems.Clear
 Sheets(1).Activate
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 
 
 
@@ -902,6 +979,10 @@ End With
 End Sub
 
 Private Sub Frame2_Click()
+
+End Sub
+
+Private Sub SpinButton1_Change()
 
 End Sub
 
@@ -1126,7 +1207,7 @@ With Me.ListView2
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 If Sheets(1).Cells(frw1, "e") Like "*" & TextBox1.Text & "*" Then
 Set item1 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw1, "A"))
@@ -1366,7 +1447,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(3).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(3).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 2 To last1
 If Sheets(3).Cells(frw1, "h") = TextBox10.Text Then
 Set item1 = ListView1.ListItems.Add(, , Sheets(3).Cells(frw1, "A"))
@@ -1606,7 +1687,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(3).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(3).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 2 To last1
 If Sheets(3).Cells(frw1, "h") = TextBox10.Text Then
 Set item1 = ListView1.ListItems.Add(, , Sheets(3).Cells(frw1, "A"))
@@ -1846,7 +1927,7 @@ With Me.ListView2
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 If Sheets(1).Cells(frw1, "f") Like "*" & TextBox2.Text & "*" Then
 Set item1 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw1, "A"))
@@ -2088,7 +2169,7 @@ With Me.ListView2
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 If Sheets(1).Cells(frw1, "f") Like "*" & TextBox2.Text & "*" Then
 Set item1 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw1, "A"))
@@ -2336,7 +2417,7 @@ With Me.ListView2
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 If Sheets(1).Cells(frw1, "g") Like "*" & TextBox3.Text & "*" Then
 Set item1 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw1, "A"))
@@ -2579,7 +2660,7 @@ With Me.ListView2
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 If Sheets(1).Cells(frw1, "g") Like "*" & TextBox3.Text & "*" Then
 Set item1 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw1, "A"))
@@ -2821,7 +2902,7 @@ With Me.ListView2
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 If Sheets(1).Cells(frw1, "j") >= TextBox4.Text Then
 Set item1 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw1, "A"))
@@ -3061,7 +3142,7 @@ With Me.ListView2
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 If Sheets(1).Cells(frw1, "j") >= TextBox4.Text Then
 Set item1 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw1, "A"))
@@ -3302,7 +3383,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(3).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(3).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 2 To last1
 If Sheets(3).Cells(frw1, "e") Like "*" & TextBox5.Text & "*" Then
 Set item1 = ListView1.ListItems.Add(, , Sheets(3).Cells(frw1, "A"))
@@ -3543,7 +3624,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(3).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(3).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 2 To last1
 If Sheets(3).Cells(frw1, "e") Like "*" & TextBox5.Text & "*" Then
 Set item1 = ListView1.ListItems.Add(, , Sheets(3).Cells(frw1, "A"))
@@ -3783,7 +3864,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(3).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(3).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 2 To last1
 If Sheets(3).Cells(frw1, "f") Like "*" & TextBox6.Text & "*" Then
 Set item1 = ListView1.ListItems.Add(, , Sheets(3).Cells(frw1, "A"))
@@ -4024,7 +4105,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(3).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(3).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 2 To last1
 If Sheets(3).Cells(frw1, "f") Like "*" & TextBox6.Text & "*" Then
 Set item1 = ListView1.ListItems.Add(, , Sheets(3).Cells(frw1, "A"))
@@ -4265,7 +4346,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(3).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(3).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 2 To last1
 If Sheets(3).Cells(frw1, "g") Like "*" & TextBox7.Text & "*" Then
 Set item1 = ListView1.ListItems.Add(, , Sheets(3).Cells(frw1, "A"))
@@ -4505,7 +4586,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(3).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(3).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 2 To last1
 If Sheets(3).Cells(frw1, "g") Like "*" & TextBox7.Text & "*" Then
 Set item1 = ListView1.ListItems.Add(, , Sheets(3).Cells(frw1, "A"))
@@ -4745,7 +4826,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(3).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(3).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 2 To last1
 If Sheets(3).Cells(frw1, "j") >= TextBox8.Text Then
 Set item1 = ListView1.ListItems.Add(, , Sheets(3).Cells(frw1, "A"))
@@ -4985,7 +5066,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(3).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(3).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 2 To last1
 If Sheets(3).Cells(frw1, "j") >= TextBox8.Text Then
 Set item1 = ListView1.ListItems.Add(, , Sheets(3).Cells(frw1, "A"))
@@ -5225,7 +5306,7 @@ With Me.ListView2
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 If Sheets(1).Cells(frw1, "h") = TextBox9.Text Then
 Set item1 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw1, "A"))
@@ -5465,7 +5546,7 @@ With Me.ListView2
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 If Sheets(1).Cells(frw1, "h") = TextBox9.Text Then
 Set item1 = ListView2.ListItems.Add(, , Sheets(1).Cells(frw1, "A"))
@@ -5675,317 +5756,156 @@ End If
 End Sub
 
 Private Sub UserForm_Activate()
-On Error Resume Next
 
-    Dim FinalW As Single, FinalH As Single
-    Dim FinalL As Single, FinalT As Single
-    Dim i As Double
+With Me.TextBox11
+            .Visible = True
+            .Multiline = True
+            .ScrollBars = fmScrollBarsVertical
+            .Locked = True
+            .TextAlign = fmTextAlignRight
+            
+            
+         .Text = " «·„·Œ’ «· ⁄—Ì›Ì ‰Ÿ«„ ≈œ«—… «·—Ê« » «·„ ﬂ«„· (FINSECURE)" & vbCrLf & _
+                    "  --------------------------------------------" & vbCrLf & vbCrLf
+            
+            ' «· —ﬁÌ„ („”«› «‰)° «·‰’ «·„ﬂ„· (4 „”«›« )
+            .Text = .Text & "  1. «·√Âœ«› «·«” —« ÌÃÌ…:" & vbCrLf & _
+                    "    ï  ÕÊÌ· «·⁄„· „‰ «· ‰”Ìﬁ «·ÌœÊÌ ≈·Ï" & vbCrLf & "    «·√ „ … «·—ﬁ„Ì… «·ﬂ«„·…." & vbCrLf & _
+                    "    ï  ÊÕÌœ ﬁÊ«⁄œ «·»Ì«‰« " & vbCrLf & "    ·÷„«‰ „—Ã⁄Ì… —ﬁ„Ì… œﬁÌﬁ… ··ÂÌ∆…." & vbCrLf & vbCrLf
+            
+            .Text = .Text & "  2. »‰ﬂ «·»Ì«‰«  «·„—ﬂ“Ì:" & vbCrLf & _
+                    "    ï ﬁ«⁄œ… —ﬁ„Ì… ‘«„·… ·ﬂ«›… „‰ ”»Ì «·ÂÌ∆…" & vbCrLf & "    ·÷„«‰ œﬁ… «·„⁄·Ê„« ." & vbCrLf & _
+                    "    ï «·ﬁ÷«¡ «· «„ ⁄·Ï «·√Œÿ«¡ «·‰« Ã… ⁄‰ «·‰ﬁ·" & vbCrLf & "    «·Ê—ﬁÌ €Ì— «·„ﬁ’Êœ." & vbCrLf & _
+                    "    ï ≈œ«—… —ﬁ„Ì… œﬁÌﬁ… ·· ‰ﬁ·«  «·ÊŸÌ›Ì… »Ì‰" & vbCrLf & "    «·„‰ ”»Ì‰ »œﬁ… ⁄«·Ì…." & vbCrLf & vbCrLf
+            
+            .Text = .Text & "  3. «·„⁄«·Ã… «·–ﬂÌ… ··„ €Ì—« :" & vbCrLf & _
+                    "    ï  Ê“Ì⁄ «·«Õ ”«» (›—œÌ/Ã„«⁄Ì) · ÕﬁÌﬁ" & vbCrLf & "    √ﬁ’Ï ”—⁄… Ê√œ«¡." & vbCrLf & _
+                    "    ï „⁄«·Ã… ¬‰Ì… ·· ﬁ«—Ì— Ê«·«” Õﬁ«ﬁ«  (‘Â«œ…°" & vbCrLf & "    Â‰œ”Ì…° „‰’»° ŒÿÊ—…)." & vbCrLf & _
+                    "    ï ≈œ«—… œﬁÌﬁ… ··«” ﬁÿ«⁄«  ( ﬁ«⁄œ° ÷—«∆»°" & vbCrLf & "    —⁄«Ì…°  √„Ì‰)." & vbCrLf & vbCrLf
+            
+            .Text = .Text & "  4. „‰ŸÊ„… «·√ „ … «· Õ–Ì—Ì… (‰Ÿ«„ –ﬂ—‰Ì):" & vbCrLf & _
+                    "    ï «” ÿ·«⁄«  ›Ê—Ì… Ê ‰»ÌÂ« " & vbCrLf & "    «” »«ﬁÌ… ··„” Œœ„." & vbCrLf & _
+                    "    ï «· ‰»ÌÂ »«·≈Ã—«¡«  «·›«∆ … Ê ’ÕÌÕ" & vbCrLf & "    «·„”«—«  ›Ê—«." & vbCrLf & _
+                    "    ï ÃœÊ·… «· ⁄œÌ·«  «·„ÿ·Ê»… ·Ì „ „⁄«·Ã Â«" & vbCrLf & "    ··‘Â— «·„ﬁ»·." & vbCrLf & vbCrLf
+            
+            .Text = .Text & "  5. „Œ—Ã«  «· ﬁ«—Ì— Ê«·Œœ„« :" & vbCrLf & _
+                    "    ï «·«ÿ·«⁄ ⁄·Ï «· ﬁ«—Ì— «·‘Â—Ì… «·›«∆ …" & vbCrLf & "    Ê√—‘›… „Ê«ﬁ› «·Œœ„…." & vbCrLf & _
+                    "    ï  Ê·Ìœ √‘—ÿ… «·—Ê« » (Ê—ﬁÌ √Ê ≈—”«·" & vbCrLf & "    Ê« ” «» Ã„«⁄Ì/›—œÌ)." & vbCrLf & _
+                    "    ï „ﬁ«—‰«  ‘Â—Ì… œﬁÌﬁ… ··«” Õﬁ«ﬁ« " & vbCrLf & "    Ê«·«” ﬁÿ«⁄« ." & vbCrLf & _
+                    "    ï √—‘›… «· —›Ì⁄« ° «·⁄·«Ê« ° Êÿ—ﬁ «·œ›⁄" & vbCrLf & "    Ê«·¬Ì»«‰ (IBAN)." & vbCrLf & vbCrLf
+            
+            .Text = .Text & "  6. «·«· “«„ «·≈œ«—Ì Ê«·—ﬁ«»Ì:" & vbCrLf & _
+                    "    ï «·‰Ÿ«„ „»—„Ã Õ’—Ì« Ê›ﬁ «·„⁄ÿÌ« " & vbCrLf & "    «·≈œ«—Ì… «·ÕﬁÌﬁÌ…." & vbCrLf & _
+                    "    ï Õ’«‰… »—„ÃÌ…: ·« Ì ﬁ»· «·‰Ÿ«„ √Ì «· “«„" & vbCrLf & "    €Ì— ≈œ«—Ì." & vbCrLf & _
+                    "    ï ‰Ÿ«„ «” »«ﬁÌ Ì„‰⁄ ÕœÊÀ «·√Œÿ«¡ ﬁ»·" & vbCrLf & "     —ÕÌ· «·»Ì«‰« ." & vbCrLf & vbCrLf
+            
+            .Text = .Text & "  7. „·«ÕŸ«  «·‰Ÿ«„:" & vbCrLf & _
+                    "    ï ﬁœ—… ⁄«·Ì… ⁄·Ï „⁄«·Ã… «·»Ì«‰«  «·÷Œ„…" & vbCrLf & "    »œﬁ… Ê”—⁄…." & vbCrLf & _
+                    "    ï √—‘›… ‘«„·… ·ﬂ«›… «· ›«’Ì· «· Ì ·« Ì ”⁄" & vbCrLf & "    –ﬂ—Â« »”—œÌ… Ê«Õœ…."
+        End With
+
+
+
+Dim FinalW As Single, FinalH As Single, FinalL As Single, FinalT As Single
+
+
+    Static IsLoaded As Boolean
+    If IsLoaded Then Exit Sub
     
-    ' 1. Õ›Ÿ «·√»⁄«œ «·√’·Ì…
+    ' 1. Õ›Ÿ «·√»⁄«œ
     FinalW = Me.Width: FinalH = Me.Height
     FinalL = Me.Left: FinalT = Me.Top
-
-    ' 2. ‰ﬁÿ… «·»œ«Ì… (€Ì— „—∆Ì… ›Ì «·”‰ —)
     Me.Width = 0: Me.Height = 0
     
-    ' 3. „—Õ·… "«·«‰»À«ﬁ «·Â«œ∆" (The Grand Reveal)
-    ' Ã⁄·‰« «·ﬁ›“… 0.01 »œ·« „‰ 0.04 (Ì⁄‰Ì 100 ŒÿÊ… »œ·« „‰ 25) ·÷„«‰ «·‰⁄Ê„…
-    For i = 0.01 To 1.1 Step 0.01
-        Me.Width = FinalW * i
-        Me.Height = FinalH * i
-        
-        ' „Ê«“‰… «·„Êﬁ⁄ »œﬁ… »ﬂ”· »»ﬂ”·
+    ' 2.  √ÀÌ— «·«‰»À«ﬁ «·”—Ì⁄ (ﬁ··‰« Sleep ·‹ 5ms »œ·« „‰ 35ms)
+    Dim i As Double
+    For i = 0.01 To 1.1 Step 0.05
+        Me.Width = FinalW * i: Me.Height = FinalH * i
         Me.Left = FinalL + (FinalW - Me.Width) / 2
         Me.Top = FinalT + (FinalH - Me.Height) / 2
-        
-        ' —›⁄‰« «·«‰ Ÿ«— ·‹ 35 ·Ã⁄· «·⁄Ì‰  ” „ ⁄ »ﬂ· Õ—ﬂ…
-        Sleep 35
-        DoEvents
-    Next i
-
-    ' 4. „—Õ·… "«·«” ﬁ—«— «·„ÿ«ÿÌ" (Soft Bounce)
-    ' «·⁄Êœ… „‰ 110% ≈·Ï 100% »»ÿ¡ ‘œÌœ
-    For i = 1.1 To 1 Step -0.005
-        Me.Width = FinalW * i
-        Me.Height = FinalH * i
-        Me.Left = FinalL + (FinalW - Me.Width) / 2
-        Me.Top = FinalT + (FinalH - Me.Height) / 2
-        
-        Sleep 40
+        Sleep 5
         DoEvents
     Next i
     
-    ' «· √ﬂÌœ «·‰Â«∆Ì
+    ' 3. «” œ⁄«¡ »‰«¡ «·ﬁÊ«∆„ »”—⁄…
+    Call BuildLists
+    
     Me.Width = FinalW: Me.Height = FinalH
     Me.Left = FinalL: Me.Top = FinalT
+    IsLoaded = True
+End Sub
 
-
-
-
-
-Call AddToForm(MIN_BOX)
-Call AddToForm(MAX_BOX)
-
-'================================== listview2
-With ListView2
-  .Gridlines = True
-  .View = lvwReport
- .FullRowSelect = True
-
-.ColumnHeaders.Add , , "«·—ﬁ„", 40
-.ColumnHeaders.Add , , "«·—ﬁ„ «·ÊŸÌ›Ì", 120
-.ColumnHeaders.Add , , "—ﬁ„ «·„«” —", 120
-.ColumnHeaders.Add , , "«·Ã‰”", 40
-.ColumnHeaders.Add , , "«”„ «·„ÊŸ›", 140
-.ColumnHeaders.Add , , "«·⁄‰Ê«‰ «·ÊŸÌ›Ì", 100
-.ColumnHeaders.Add , , " «·ﬁ”„", 100
-.ColumnHeaders.Add , , " «·œ—Ã…", 50
-.ColumnHeaders.Add , , "«·„—Õ·…", 50
-.ColumnHeaders.Add , , "«·—« » «·«”„Ì ", 140
-.ColumnHeaders.Add , , " «Ì«„ «·€Ì«»"
-.ColumnHeaders.Add , , " «Ì«„ «·œÊ«„", 120
-.ColumnHeaders.Add , , " ‰”»… «·‘Â«œ…", 120
-.ColumnHeaders.Add , , "„Œ’’«  «·‘Â«œ…", 40
-.ColumnHeaders.Add , , "‰”»… «·Â‰œ”ÌÂ ", 140
-.ColumnHeaders.Add , , " „Œ’’«  «·Â‰œ”ÌÂ", 40
-.ColumnHeaders.Add , , "‰”»… «·„‰’» ", 100
-.ColumnHeaders.Add , , "„Œ’’«  «·„‰’» ", 50
-.ColumnHeaders.Add , , "„Œ’’«  „Êﬁ⁄ Ã€—«›Ì", 50
-.ColumnHeaders.Add , , "„Œ’’«  «ÿ›«·  ", 140
-.ColumnHeaders.Add , , "„Œ’’«  “ÊÃÌÂ", 40
-.ColumnHeaders.Add , , " ⁄œœ «·«ÿ›«·", 120
-.ColumnHeaders.Add , , "«·Õ«·Â «·«Ã „«⁄ÌÂ ", 120
-.ColumnHeaders.Add , , "«·«” ﬁÿ«⁄ «·÷—Ì»Ì", 40
-.ColumnHeaders.Add , , "„Œ’’«  ŒÿÊ—… „»·€ ", 140
-.ColumnHeaders.Add , , "„Œ’’«  „Â‰ÌÂ ", 40
-.ColumnHeaders.Add , , " „‰”»… „Œ’’«  „Â‰ÌÂ ", 50
-.ColumnHeaders.Add , , "‰”»… «·ŒÿÊ—Â", 50
-.ColumnHeaders.Add , , " „Œ’’«  «·ŒÿÊ—… ", 140
-.ColumnHeaders.Add , , "„Ã„Ê⁄ «·„Œ’’« ", 120
-.ColumnHeaders.Add , , "„Ã„Ê⁄ «·«” Õﬁ«ﬁ« ", 120
-.ColumnHeaders.Add , , "  Êﬁ›«   ﬁ«⁄œÌÂ 10", 100
-.ColumnHeaders.Add , , "« Êﬁ›«   ﬁ«⁄œÌÂ 15%", 40
-.ColumnHeaders.Add , , "«· «„Ì‰ «·’ÕÌ ", 50
-.ColumnHeaders.Add , , " «ÃÊ— «·‰ﬁ·", 40
-.ColumnHeaders.Add , , " —”„ «·ÿ«»⁄", 100
-.ColumnHeaders.Add , , " Ê“«—… «·„«·ÌÂ", 50
-.ColumnHeaders.Add , , "«·«” ﬁÿ«⁄1", 50
-.ColumnHeaders.Add , , " ÃÂ… «·«” ﬁÿ«⁄1  ", 140
-.ColumnHeaders.Add , , "«” ﬁÿ«⁄ „ ›—ﬁ", 40
-.ColumnHeaders.Add , , " ÃÂ… «·«” ﬁÿ«⁄ ", 120
-.ColumnHeaders.Add , , " ‰«œÌ «·ÂÌ√… «·’‰«⁄«  «·Õ—»Ì", 120
-.ColumnHeaders.Add , , "ÃÂ… «·«” ﬁÿ«⁄ ", 40
-.ColumnHeaders.Add , , "«” ﬁÿ«⁄ 2 ", 140
-.ColumnHeaders.Add , , "ÃÂ… «·«” ﬁÿ«⁄ 2 ", 40
-.ColumnHeaders.Add , , "«” ﬁÿ«⁄«  —⁄«ÌÂ", 100
-.ColumnHeaders.Add , , " „»·€ «·€Ì«»", 50
-.ColumnHeaders.Add , , " „Ã„Ê⁄ «·«” ﬁÿ«⁄« ", 50
-.ColumnHeaders.Add , , "«·—« » «·’«›Ì", 150
-.ColumnHeaders.Add , , " «·—« » «·’«›Ì „⁄ »Ì«‰ „Êﬁ› „Êﬁ› «·Œœ„… ", 140
-.ColumnHeaders.Add , , " ÿ—Ìﬁ… «·œ›⁄ ", 140
-.ColumnHeaders.Add , , " —ﬁ„ «·«Ì»«‰ ", 140
-.ColumnHeaders.Add , , "  «—ÌŒ ‰ﬁ·Â Ê«÷«› Â «·Ï «·‰Ÿ«„  ", 140
-.ColumnHeaders.Add , , "  «—ÌŒ Õ’Ê·Â ⁄·Ï «·⁄·«Ê… ", 140
-.ColumnHeaders.Add , , "  «—ÌŒ Õ’Ê·Â ⁄·Ï «· —›Ì⁄ ", 140
-.ColumnHeaders.Add , , "  «—ÌŒ Õ–›Â Ê —ÕÌ·Â ", 100
-
-
-.ColumnHeaders.Add , , " ÃÂ… «·œ›⁄ ", 140
-.ColumnHeaders.Add , , " „Êﬁ› «·Œœ„… ", 140
-.ColumnHeaders.Add , , " «—ÌŒ Õ’Ê·Â ⁄·Ï ﬂ «» ‘ﬂ— Ê ﬁœÌ— ", 140
-.ColumnHeaders.Add , , "  «—ÌŒ Õ–›Â Ê —ÕÌ·Â ", 0
-.ColumnHeaders.Add , , " «·≈÷«›… «·„«·ÌÂ «·„ƒﬁ Â", 140
-.ColumnHeaders.Add , , " «·„·«ÕŸ«  ", 140
-.ColumnHeaders.Add , , " «·«” ﬁÿ«⁄ «·„«·Ì «·„ƒﬁ  ", 140
-.ColumnHeaders.Add , , " «·„·«ÕŸ«  ", 140
-
-
-
-
-  ListView2.Font = Bold
-  ListView2.Font.Size = 16
- ListView2.Font.Name = "PT hrading"
-
-End With
-
-'==========================================================================ListView1
-
-With ListView1
- .Gridlines = True
-  .View = lvwReport
-  .FullRowSelect = True
-
-.ColumnHeaders.Add , , "«·—ﬁ„", 40
-.ColumnHeaders.Add , , "«·—ﬁ„ «·ÊŸÌ›Ì", 120
-.ColumnHeaders.Add , , "—ﬁ„ «·„«” —", 120
-.ColumnHeaders.Add , , "«·Ã‰”", 40
-.ColumnHeaders.Add , , "«”„ «·„ÊŸ›", 140
-.ColumnHeaders.Add , , "«·⁄‰Ê«‰ «·ÊŸÌ›Ì", 100
-.ColumnHeaders.Add , , " «·ﬁ”„", 100
-.ColumnHeaders.Add , , " «·œ—Ã…", 50
-.ColumnHeaders.Add , , "«·„—Õ·…", 50
-.ColumnHeaders.Add , , "«·—« » «·«”„Ì ", 140
-.ColumnHeaders.Add , , " «Ì«„ «·€Ì«»"
-.ColumnHeaders.Add , , " «Ì«„ «·œÊ«„", 120
-.ColumnHeaders.Add , , " ‰”»… «·‘Â«œ…", 120
-.ColumnHeaders.Add , , "„Œ’’«  «·‘Â«œ…", 40
-.ColumnHeaders.Add , , "‰”»… «·Â‰œ”ÌÂ ", 140
-.ColumnHeaders.Add , , " „Œ’’«  «·Â‰œ”ÌÂ", 40
-.ColumnHeaders.Add , , "‰”»… «·„‰’» ", 100
-.ColumnHeaders.Add , , "„Œ’’«  «·„‰’» ", 50
-.ColumnHeaders.Add , , "„Œ’’«  „Êﬁ⁄ Ã€—«›Ì", 50
-.ColumnHeaders.Add , , "„Œ’’«  «ÿ›«·  ", 140
-.ColumnHeaders.Add , , "„Œ’’«  “ÊÃÌÂ", 40
-.ColumnHeaders.Add , , " ⁄œœ «·«ÿ›«·", 120
-.ColumnHeaders.Add , , "«·Õ«·Â «·«Ã „«⁄ÌÂ ", 120
-.ColumnHeaders.Add , , "«·«” ﬁÿ«⁄ «·÷—Ì»Ì", 40
-.ColumnHeaders.Add , , "„Œ’’«  ŒÿÊ—… „»·€ ", 140
-.ColumnHeaders.Add , , "„Œ’’«  „Â‰ÌÂ ", 40
-.ColumnHeaders.Add , , " „‰”»… „Œ’’«  „Â‰ÌÂ ", 50
-.ColumnHeaders.Add , , "‰”»… «·ŒÿÊ—Â", 50
-.ColumnHeaders.Add , , " „Œ’’«  «·ŒÿÊ—… ", 140
-.ColumnHeaders.Add , , "„Ã„Ê⁄ «·„Œ’’« ", 120
-.ColumnHeaders.Add , , "„Ã„Ê⁄ «·«” Õﬁ«ﬁ« ", 120
-.ColumnHeaders.Add , , "  Êﬁ›«   ﬁ«⁄œÌÂ 10", 100
-.ColumnHeaders.Add , , "« Êﬁ›«   ﬁ«⁄œÌÂ 15%", 40
-.ColumnHeaders.Add , , "«· «„Ì‰ «·’ÕÌ ", 50
-.ColumnHeaders.Add , , " «ÃÊ— «·‰ﬁ·", 40
-.ColumnHeaders.Add , , " —”„ «·ÿ«»⁄", 100
-.ColumnHeaders.Add , , " Ê“«—… «·„«·ÌÂ", 50
-.ColumnHeaders.Add , , "«·«” ﬁÿ«⁄1", 50
-.ColumnHeaders.Add , , " ÃÂ… «·«” ﬁÿ«⁄1  ", 140
-.ColumnHeaders.Add , , "«” ﬁÿ«⁄ „ ›—ﬁ", 40
-.ColumnHeaders.Add , , " ÃÂ… «·«” ﬁÿ«⁄ ", 120
-.ColumnHeaders.Add , , " ‰«œÌ «·ÂÌ√… «·’‰«⁄«  «·Õ—»Ì", 120
-.ColumnHeaders.Add , , "ÃÂ… «·«” ﬁÿ«⁄ ", 40
-.ColumnHeaders.Add , , "«” ﬁÿ«⁄ 2 ", 140
-.ColumnHeaders.Add , , "ÃÂ… «·«” ﬁÿ«⁄ 2 ", 40
-.ColumnHeaders.Add , , "«” ﬁÿ«⁄«  —⁄«ÌÂ", 100
-.ColumnHeaders.Add , , " „»·€ «·€Ì«»", 50
-.ColumnHeaders.Add , , " „Ã„Ê⁄ «·«” ﬁÿ«⁄« ", 50
-.ColumnHeaders.Add , , "«·—« » «·’«›Ì", 150
-.ColumnHeaders.Add , , " «·—« » «·’«›Ì „⁄ »Ì«‰ „Êﬁ› „Êﬁ› «·Œœ„… ", 140
-.ColumnHeaders.Add , , " ÿ—Ìﬁ… «·œ›⁄ ", 140
-.ColumnHeaders.Add , , " —ﬁ„ «·«Ì»«‰ ", 140
-.ColumnHeaders.Add , , "  «—ÌŒ ‰ﬁ·Â Ê«÷«› Â «·Ï «·‰Ÿ«„  ", 140
-.ColumnHeaders.Add , , "  «—ÌŒ Õ’Ê·Â ⁄·Ï «·⁄·«Ê… ", 140
-.ColumnHeaders.Add , , "  «—ÌŒ Õ’Ê·Â ⁄·Ï «· —›Ì⁄ ", 140
-.ColumnHeaders.Add , , "  «—ÌŒ Õ–›Â Ê —ÕÌ·Â ", 100
-
-
-.ColumnHeaders.Add , , " ÃÂ… «·œ›⁄ ", 140
-.ColumnHeaders.Add , , " „Êﬁ› «·Œœ„… ", 140
-.ColumnHeaders.Add , , " «—ÌŒ Õ’Ê·Â ⁄·Ï ﬂ «» ‘ﬂ— Ê ﬁœÌ— ", 140
-.ColumnHeaders.Add , , "  «—ÌŒ Õ–›Â Ê —ÕÌ·Â ", 0
-
-
-
-
- ListView1.Font = Bold
-  ListView1.Font.Size = 16
-  ListView1.Font.Name = "PT hrading"
-
-End With
-
-'==========================================================================listview1
-With Me.ListView1
-'Setting  «⁄œ«œ«  «·„ŸÂ—
-.FullRowSelect = True '· Ÿ·Ì· ﬂ«„· «·’›
-.Gridlines = True
-.View = lvwReport  '⁄—÷ ŒÿÊÿ «·‘»ﬂ…
-.AllowColumnReorder = True
-.ForeColor = RGB(84, 53, 110)  ' ·Ê‰ «·Œÿ
-.Font.Size = 11 'ÕÃ„ «·Œÿ
-.Font.Bold = False  '€«„ﬁ
-Font.Name = "Calibri"
-
-'=================================================
-If Sheets(4).Cells(1, "n") > 1 Or Sheets(35).Cells(9, "a").value = "" Then
-Exit Sub
-End If
-
-If Sheets(4).Cells(1, "n") = 1 And Sheets(35).Cells(9, "a").value <> "" _
-And MsgBox("”Ê› Ì „ Õ–› «·»Ì«‰«  «·ﬁœÌ„… ··„ €Ì—«  «·‘ÂÊ— «·„«÷ÌÂ «÷€ÿ ﬂ‰”· «–« ·„  ﬂ‰  —Ìœ Õ–›Â« Õ«·Ì« ", vbOK, "—”«·…  ‰»Â") = vbOK Then
-MsgBox "·ﬁœ  „ Õ–› «·»Ì«‰«  «··„ €Ì—«  «·‘Â— «·„«÷Ì »‰Ã«Õ", vbOK, "—”«·…  ‰»ÌÂ"
-Call copy_sheet35_tosheet50_1
-Sheets(35).Range("a9:ce2000").Delete
-
-Else
-Exit Sub
-End If
-
-
-End With
-'======================================
-
+Sub BuildLists()
+    Application.ScreenUpdating = False
+    
+    ' „’›Ê›… «·√⁄„œ… · ﬁ·Ì· «·ﬂÊœ Ê”—⁄… «· ‰›Ì–
+    Dim Headers As Variant
+    Headers = Array("«·—ﬁ„", "«·—ﬁ„ «·ÊŸÌ›Ì", "—ﬁ„ «·„«” —", "«·Ã‰”", "«”„ «·„ÊŸ›", "«·⁄‰Ê«‰ «·ÊŸÌ›Ì", "«·ﬁ”„", "«·œ—Ã…") ' √ﬂ„· «·ﬁ«∆„… Â‰«
+    
+    ' ≈⁄œ«œ ListView2
+    With ListView2
+        .Gridlines = True: .View = lvwReport: .FullRowSelect = True
+        .ColumnHeaders.Clear
+        For Each h In Headers
+            .ColumnHeaders.Add , , h, 80
+        Next h
+        .Font.Name = "PT hrading": .Font.Size = 16
+    End With
+    
+    ' ≈⁄œ«œ ListView1
+    With ListView1
+        .Gridlines = True: .View = lvwReport: .FullRowSelect = True
+        .ColumnHeaders.Clear
+        For Each h In Headers
+            .ColumnHeaders.Add , , h, 80
+        Next h
+        .ForeColor = RGB(84, 53, 110)
+        .Font.Name = "Calibri": .Font.Size = 11
+    End With
+    
+    Call AddToForm(MIN_BOX)
+    Call AddToForm(MAX_BOX)
+    
+    Application.ScreenUpdating = True
 End Sub
 
 Private Sub UserForm_Initialize()
+On Error Resume Next
 
-  Dim ctrl As Control
-    Dim MaxW As Double, MaxH As Double, FinalZoom As Double
-    
-    ' 1.  ”—Ì⁄ «·√œ«¡ »≈Ìﬁ«› «· ÕœÌÀ «··ÕŸÌ
-    Application.ScreenUpdating = False
-    
-    ' 2. Õ”«» «·√»⁄«œ ( „ œ„Ã «·„ €Ì—«  · ﬁ·Ì· «” Â·«ﬂ «·–«ﬂ—…)
-    For Each ctrl In Me.Controls
-        If ctrl.Visible Then
-            If ctrl.Left + ctrl.Width > MaxW Then MaxW = ctrl.Left + ctrl.Width
-            If ctrl.Top + ctrl.Height > MaxH Then MaxH = ctrl.Top + ctrl.Height
-        End If
-    Next ctrl
-    
-    ' 3.  ÿ»Ìﬁ «·√»⁄«œ „»«‘—…
-    With Me
+Zoomer.Bind Me, Me.SpinButton1, Me.az
+CheckBox3.value = False
+    CheckBox3.Caption = "«·—«œ«— «·‘»ﬂÌ €Ì— „ ’·"
+    TextBox11.Visible = True
+
+
+  With Me
+        .StartUpPosition = 0
         .Top = 0
         .Left = 0
         .Width = Application.Width
         .Height = Application.Height
-        
-        ' 4. Õ”«» «·“ÊÊ„ »ŒÿÊ… —Ì«÷Ì… Ê«Õœ… (Shorthand Math)
-        FinalZoom = (Application.Width / (MaxW + 15)) * 100
-        Dim zH As Double: zH = (Application.Height / (MaxH + 30)) * 100
-        If zH < FinalZoom Then FinalZoom = zH
-        
-        ' 5. ’„«„ «·√„«‰ Ê«· ÿ»Ìﬁ
-        If FinalZoom < 10 Then FinalZoom = 10 Else If FinalZoom > 400 Then FinalZoom = 400
-        .Zoom = FinalZoom
     End With
-
-    Application.ScreenUpdating = True
-
-
-
-
-'=======================================================================
-
-
-TextBox1.Visible = False
-TextBox2.Visible = False
-TextBox3.Visible = False
-TextBox4.Visible = False
-TextBox5.Visible = False
-TextBox6.Visible = False
-TextBox7.Visible = False
-TextBox8.Visible = False
-TextBox9.Visible = False
-TextBox10.Visible = False
-Label2.Visible = False
-Label4.Visible = False
-Label5.Visible = False
-Label6.Visible = False
-Label7.Visible = False
-ListView1.Visible = False
-ListView1.Visible = False
-CommandButton9.Visible = False
-
-
-       Call sigen_connect.Sigen_Main_Engine
-
+    
+    ' ≈Œ›«¡ «·⁄‰«’— €Ì— «·÷—Ê—Ì… (»«” Œœ«„ Õ·ﬁ… ··„—Ê‰…)
+    Dim ctrl As Control
+    For Each ctrl In Me.Controls
+        If TypeOf ctrl Is MSForms.TextBox Then ctrl.Visible = False
+        If TypeOf ctrl Is MSForms.Label Then
+            ' ›ﬁÿ ≈Œ›«¡ «··Ì»·«  «· Ì Õœœ Â« ›Ì ﬂÊœﬂ «·”«»ﬁ
+            If InStr("Label2,Label4,Label5,Label6,Label7", ctrl.Name) > 0 Then ctrl.Visible = False
+        End If
+    Next ctrl
+    
+    ListView1.Visible = False
+    CommandButton9.Visible = False
+    
+    '  ‘€Ì· «·„Õ—ﬂ
+    CheckBox3.Caption = "«·—«œ«— «·‘»ﬂÌ €Ì— „ ’·"
+    Call sigen_connect.Sigen_Main_Engine
 End Sub
 
 Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
+On Error Resume Next
 If CloseMode = vbFormControlMenu Then
 Cancel = True
 End If
@@ -6016,4 +5936,14 @@ End If
      
 End Sub
 
-
+Sub ResizeControls()
+    Dim ctrl As Control
+    ' ‰€Ì— ÕÃ„ «·‹ ListView ·Ì√Œ– 90% „‰ ⁄—÷ «·‰„Ê–Ã œ«∆„«
+    With ListView1
+        .Width = Me.Width * 0.9
+        .Height = Me.Height * 0.7
+        .Left = (Me.Width - .Width) / 2 '  Ê”Ìÿ «·⁄‰’—
+    End With
+    
+    ' »‰›” «·ÿ—Ìﬁ… Ì„ﬂ‰ﬂ  ⁄œÌ· ÕÃ„ ListView2
+End Sub
