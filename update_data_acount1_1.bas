@@ -8,7 +8,7 @@ Application.Calculation = xlCalculationManual
 Application.EnableEvents = False
 
 Dim lastR As Long ' ÇÓÊÎÏÇã Long ÃÓÑÚ ãä Integer æÃÖãä ááÃÚÏÇÏ ÇáßÈíÑÉ
-lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
 
 ' ÇáÈÍË Úä ÇáÕİ ÇáãØáæÈ ÈäÇÁğ Úáì ÔÑæØß (ÇáÚãæÏ 5 æÇáÚãæÏ 2)
 For Y = 9 To lastR
