@@ -5,7 +5,7 @@ Sheets("sheet28").Range("a9:bz8000").ClearContents
 ActiveSheet.Range("a9: bz6000").UnMerge
 Dim arr1, arr2, lastR As Variant, i As Long, j As Long, k As Long
 'Sheets(27).Range("a1:be200").ClearContents
-lastR = Sheets(13).Cells(Rows.count, 1).End(xlUp).row + 1
+lastR = Sheets(13).Cells(rowS.count, 1).End(xlUp).row + 1
 arr1 = Sheets(13).Range("a9:bz" & lastR)
 j = 8
 ReDim arr2(9 To UBound(arr1, 1), 1 To UBound(arr1, 2))
@@ -32,7 +32,7 @@ With UserForm17.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 UserForm17.ListView1.ListItems.Clear
-last1 = Sheets(13).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(13).Range("A" & rowS.count).End(xlUp).row
 
 For frw1 = 9 To last1
  If Sheets(13).Cells(frw1, "bf").value Like "*" & UserForm17.TextBox2.Text & "*" Then
