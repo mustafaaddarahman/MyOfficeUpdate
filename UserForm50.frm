@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm50 
    Caption         =   "UserForm50"
-   ClientHeight    =   2472
+   ClientHeight    =   2475
    ClientLeft      =   120
    ClientTop       =   468
    ClientWidth     =   6516
@@ -13,8 +13,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim Zoomer As New clsZoomManager
-
 
 
 
@@ -87,11 +85,8 @@ Private Sub UserForm_Click()
 
 End Sub
 
-
-
 Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
 If CloseMode = 0 Then
 Cancel = True
 End If
 End Sub
-   
