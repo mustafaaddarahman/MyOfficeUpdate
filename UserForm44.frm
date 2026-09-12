@@ -13,6 +13,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim Zoomer As New clsZoomManager
+
 Private Sub CheckBox1_Click()
 If CheckBox1.value = True Then
 Sheets(49).Cells(1, "a") = "true"
@@ -80,6 +82,7 @@ End Sub
 Private Sub CheckBox17_Click()
 If CheckBox17.value = True Then
 Sheets(49).Cells(1, "q") = "true"
+    Zoomer.Bind Me, Me.SpinButton1, Me.az
 Else
 Sheets(49).Cells(1, "q") = "false"
 End If
@@ -287,6 +290,4 @@ CheckBox28.value = Sheets(49).Cells(1, "ab")
 
 End Sub
 
-Private Sub UserForm_Click()
 
-End Sub
