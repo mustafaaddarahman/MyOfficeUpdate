@@ -5,7 +5,7 @@ On Error Resume Next
 Sheets(44).Activate
 Dim lstr As Integer
 
-lstr = Sheets(44).Cells(Rows.count, "a").End(xlUp).row
+lstr = Sheets(44).Cells(rowS.count, "a").End(xlUp).row
     Dim filePath As String
     Dim ws As Worksheet
     filePath = Application.ActiveWorkbook.path
