@@ -14,6 +14,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim Zoomer As New clsZoomManager
+
 
 
 
@@ -46,7 +48,7 @@ On Error Resume Next
 Dim cell As Range
 Dim lr As Integer
 If Me.ComboBox1.value = "" Then Me.ComboBox1.Clear: Exit Sub
-lr = Sheets(13).Cells(rowS.count, 1).End(xlUp).row
+lr = Sheets(13).Cells(Rows.count, 1).End(xlUp).row
 For Each cell In Sheets(13).Range("e9:e" & lr)
   If Right(cell.value, 1) = Me.ComboBox1.Text Then
     Me.ComboBox1.AddItem cell.value
@@ -109,7 +111,7 @@ TextBox19.Text = [b5]
  TextBox18.Text = [l4]
  TextBox42.Text = [g1]
  TextBox34.Text = [H7]
-  TextBox43.Text = [k7]
+  TextBox43.Text = [j7]
   TextBox44.Text = [h1]
   
 
@@ -183,7 +185,7 @@ TextBox19.Text = [b5]
  TextBox18.Text = [l4]
  TextBox42.Text = [g1]
  TextBox34.Text = [H7]
-  TextBox43.Text = [k7]
+  TextBox43.Text = [n1]
   TextBox44.Text = [n2]
 End If
 
@@ -212,7 +214,7 @@ End Sub
 Private Sub UserForm_Activate()
 
 Dim lastR As Integer
-lastR = Sheets(13).Cells(rowS.count, 2).End(xlUp).row
+lastR = Sheets(13).Cells(Rows.count, 2).End(xlUp).row
 ComboBox1.List = Sheets(13).Range("e9:e" & lastR).value
 Call AddToForm(MIN_BOX)
 Call AddToForm(MAX_BOX)
@@ -228,4 +230,9 @@ Sheets(17).Range("a1:l7").PrintPreview
 ThisWorkbook.Application.Visible = False
 UserForm10.Show
 emad:
+End Sub
+   
+
+Private Sub UserForm_Initialize()
+
 End Sub
