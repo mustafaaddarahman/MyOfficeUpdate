@@ -30,7 +30,7 @@ Private Sub CommandButton1_Click()
 
 Dim lastR As Integer
 Dim n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12 As Integer
-lastR = Sheets(1).Cells(Rows.count, 2).End(xlUp).row
+lastR = Sheets(1).Cells(rowS.count, 2).End(xlUp).row
 '=============================================================
 
 For n1 = 9 To lastR
@@ -283,7 +283,7 @@ TextBox3.value = 0
 End If
 Dim lastR As Integer
 Dim n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12 As Integer
-lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
 '=============================================================
 
 For n1 = 9 To lastR
