@@ -5,7 +5,7 @@ On Error Resume Next
 
 
 Dim lastr13 As Integer
-lastr13 = Sheets(44).Cells(rowS.count, "a").End(xlUp).row
+lastr13 = Sheets(44).Cells(Rows.count, "a").End(xlUp).row
 Sheets(44).Cells(lastr13 + 1, "a") = "«·„Ã„Ê⁄ «·ﬂ·Ì"
 Sheets(44).Cells(lastr13 + 1, "b") = Application.WorksheetFunction.Sum(Sheets(44).Range("b9 : b" & lastr13))
 Sheets(44).Cells(lastr13 + 1, "c") = Application.WorksheetFunction.Sum(Sheets(44).Range("c9 : c" & lastr13))
