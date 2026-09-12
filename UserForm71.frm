@@ -4,7 +4,7 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm71
    ClientHeight    =   11616
    ClientLeft      =   108
    ClientTop       =   456
-   ClientWidth     =   18768
+   ClientWidth     =   17124
    OleObjectBlob   =   "UserForm71.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -13,12 +13,10 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
-
-
-
-
 Dim Zoomer As New clsZoomManager
+
+
+
 
 
 
@@ -48,21 +46,14 @@ Attribute CommandButton5.VB_VarHelpID = -1
 
 Dim TempData As New Collection
 
-Private Sub az_Click()
-
-End Sub
-
 Private Sub CommandButton3_Click()
 
 End Sub
 
-Private Sub UserForm_Activate()
-
-End Sub
-
+   
 Private Sub UserForm_Initialize()
+ Zoomer.Bind Me, Me.SpinButton1, Me.az
     On Error Resume Next
-    Zoomer.Bind Me, Me.SpinButton1, Me.az
     Dim lbls As Variant
     Dim i As Integer
     
@@ -85,7 +76,7 @@ Private Sub UserForm_Initialize()
     With ListBox1
         .Left = 15
         .Top = 55
-        .Width = 250
+        .Width = 220
         .Height = 300
         .ColumnCount = 2
         .ColumnWidths = "50;150"
@@ -104,35 +95,20 @@ Private Sub UserForm_Initialize()
         .Font.Size = 12
         .Font.Bold = True
     End With
-'========================================================
-  On Error Resume Next
-    Me.Controls.Remove "ListBox2"
-    On Error GoTo 0
-    
+
     Set ListBox2 = Me.Controls.Add("Forms.ListBox.1", "ListBox2")
-    
     With ListBox2
         .Left = 15
         .Top = 385
         .Width = 620
         .Height = 250
         .ColumnCount = 8
-        
-        '  ﬁ‰Ì… «· Ê”Ì⁄:
-        ' „Ã„Ê⁄ Â–Â «·√⁄„œ… ÂÊ 610 (√ﬁ· „‰ 620 ·÷„«‰ ⁄œ„ ŸÂÊ— ‘—Ìÿ  „—Ì— „“⁄Ã)
-        ' «·⁄„Êœ «·À«‰Ì («·«”„)  „ ≈⁄ÿ«ƒÂ „”«Õ… ÷Œ„… (350)
-        .ColumnWidths = "50 pt; 250 pt; 50 pt; 50 pt; 50 pt; 50 pt; 50 pt; 50 pt"
-        
-        .Font.Name = "Arial"
+        .ColumnWidths = "50;120;50;50;80;80;60;80"
+        .Font.Name = "Times New Roman"
         .Font.Size = 12
         .Font.Bold = True
-        
-        ' √Â„ ≈⁄œ«œ ·Õ«· ﬂ:
-        ' ⁄‰œ «” Œœ«„ «·Œÿ «·⁄—»Ì°  √ﬂœ „‰ √‰ «·‹ ListBox ·Ì” "„÷€Êÿ«"
-        .IntegralHeight = False
-        .TextAlign = fmTextAlignRight
     End With
-'=======================================================
+
     ' 4. „’›Ê›… «·⁄‰«ÊÌ‰ ÃÂ… «·Ì„Ì‰
     lbls = Array("«·—ﬁ„ «·ÊŸÌ›Ì", "«·œ—Ã… «·”«»ﬁ…", "«·œ—Ã… «·Õ«·Ì…", "«·„—Õ·… «·”«»ﬁ…", _
                  "«·„—Õ·… «·Õ«·Ì…", "«·«” Õﬁ«ﬁ «·”«»ﬁ", "«·«” Õﬁ«ﬁ «·Õ«·Ì", "«·«”„Ì «·”«»ﬁ („’ÕÕ)", _
@@ -218,7 +194,7 @@ End Sub
 ' --- “— 1: «·≈÷«›… ··„Ã„Ê⁄… («·–«ﬂ—… + «·ﬁ«∆„… «·„ƒﬁ …) ---
 Private Sub CommandButton1_Click()
     Dim arr(1 To 9) As Variant
-    Dim empName As String
+    Dim EmpName As String
     
     ' «· Õﬁﬁ „‰ «Œ Ì«— „ÊŸ›
     If ListBox1.ListIndex = -1 Then
@@ -226,11 +202,11 @@ Private Sub CommandButton1_Click()
         Exit Sub
     End If
     
-    empName = ListBox1.List(ListBox1.ListIndex, 1)
+    EmpName = ListBox1.List(ListBox1.ListIndex, 1)
     
     '  ÃÂÌ“ «·»Ì«‰«  ›Ì «·„’›Ê›…
     arr(1) = ListBox1.value ' «·—ﬁ„ «·ÊŸÌ›Ì
-    arr(2) = empName ' «·«”„
+    arr(2) = EmpName ' «·«”„
     arr(3) = TextBox4.value ' «·œ—Ã… «·ÃœÌœ…
     arr(4) = TextBox6.value ' «·„—Õ·… «·ÃœÌœ…
     arr(5) = val(Me.Controls("TextBox7").value) ' «·«” Õﬁ«ﬁ «·”«»ﬁ
@@ -262,8 +238,8 @@ Private Sub CommandButton1_Click()
             .List(0, 1) = "«”„ «·„ÊŸ›"
             .List(0, 2) = "«·œ—Ã…"
             .List(0, 3) = "«·„—Õ·…"
-            .List(0, 4) = "«·«” Õﬁ«ﬁ «·”«»ﬁ"
-            .List(0, 5) = "«·«” Õﬁ«ﬁ «·Õ«·Ì"
+            .List(0, 4) = "«·«” Õﬁ«ﬁ ”"
+            .List(0, 5) = "«·«” Õﬁ«ﬁ Õ"
             .List(0, 6) = "«·›—ﬁ"
             .List(0, 7) = "«·’«›Ì"
         End If
@@ -281,12 +257,6 @@ Private Sub CommandButton1_Click()
         ' «· „—Ì— ·√”›·  ·ﬁ«∆Ì« ·—ƒÌ… ¬Œ— ≈÷«›…
         .ListIndex = .ListCount - 1
     End With
-    
-    
-    ListBox2.ColumnCount = 8
-ListBox2.ColumnWidths = "30 pt; 200 pt; 50 pt; 50 pt; 120 pt; 120 pt; 100 pt; 100 pt"
-    
-    
 End Sub
 
 ' --- “— 5: Õ–› ﬁÌœ „‰ «·ﬁ«∆„… «·„ƒﬁ … ﬁ»· «· —ÕÌ· ---
@@ -316,7 +286,7 @@ Private Sub CommandButton2_Click()
         
         If Not r Is Nothing Then
             sRow = r.row
-            tRow = Sheets(35).Cells(Sheets(35).rowS.count, "B").End(xlUp).row + 1
+            tRow = Sheets(35).Cells(Sheets(35).Rows.count, "B").End(xlUp).row + 1
             If tRow < 9 Then
                 tRow = 9
             End If
@@ -333,7 +303,7 @@ Private Sub CommandButton2_Click()
                 .Cells(tRow, "BZ").value = Item(6) ' «·«” Õﬁ«ﬁ
                 .Cells(tRow, "CB").value = Item(8) ' «·ﬂ·Ì
                 .Cells(tRow, "CD").value = Format(Date, "mmmm", vbArabic)
-                .Cells(tRow, "CE").value = "«÷«›Â ⁄·«Ê…"
+                .Cells(tRow, "CE").value = "«÷«›Â"
                 .Cells(tRow, "CF").value = "„ €Ì—«  «÷«›… «·⁄·«Ê« "
             End With
             
@@ -354,20 +324,6 @@ Private Sub CommandButton2_Click()
 
 Sheets(34).Activate
 Sheets(35).Activate
-Sheets(55).Range("a9:bz8000").ClearContents
-Application.ScreenUpdating = False
-Sheets(55).Range("a8").CurrentRegion.Delete
-Sheets(1).Select
-
-Range("a8").CurrentRegion.Select
-Selection.Copy Sheets(55).Range("A1:bz8000")
-
-Application.ScreenUpdating = True
-[a8].Select
-Sheets(55).Select
-Sheets(55).Activate
-Application.ScreenUpdating = True
-
 
 End Sub
 
@@ -382,11 +338,11 @@ Private Sub CalculateFinances()
     Dim NewDegree As Variant
     
     ' 1. Ã·» «·—ﬁ„ «·ÊŸÌ›Ì „‰ TextBox2 ··Ê’Ê· ··ﬁÌœ
-    Dim empID As String: empID = Me.Controls("TextBox2").value
-    If empID = "" Then Exit Sub
+    Dim EmpID As String: EmpID = Me.Controls("TextBox2").value
+    If EmpID = "" Then Exit Sub
     
     '  ’ÕÌÕ «·”‰ ﬂ” Â‰«: ≈÷«›… «·‰ﬁÿ… ﬁ»· xlWhole
-    Set r = Sheets(1).Columns("B").Find(empID, LookIn:=xlValues, LookAt:=xlWhole)
+    Set r = Sheets(1).Columns("B").Find(EmpID, LookIn:=xlValues, LookAt:=xlWhole)
     
     If r Is Nothing Or r.row < 9 Then Exit Sub
     sRow = r.row
@@ -480,7 +436,7 @@ Sub UpdateList(SearchTxt As String)
     Dim i As Long
     Dim lastR As Long
     ListBox1.Clear
-    lastR = Sheets(1).Cells(Sheets(1).rowS.count, "B").End(xlUp).row
+    lastR = Sheets(1).Cells(Sheets(1).Rows.count, "B").End(xlUp).row
     For i = 9 To lastR
         If InStr(1, Sheets(1).Cells(i, "E").value, SearchTxt, vbTextCompare) > 0 Or SearchTxt = "" Then
             ListBox1.AddItem Sheets(1).Cells(i, "B").value
