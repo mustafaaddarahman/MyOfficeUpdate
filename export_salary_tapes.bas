@@ -3,7 +3,7 @@ Attribute VB_Name = "export_salary_tapes"
 Sub ExportSalaryTapesToSpecificFolder()
     Dim wsTapes As Worksheet
     Dim lastRow As Long
-    Dim folderPath As String, fileName As String, fullPath As String
+    Dim folderPath As String, fileName As String, FullPath As String
     Dim monthName As String
     Dim currentWorkbook As Workbook
     
@@ -25,7 +25,7 @@ Sub ExportSalaryTapesToSpecificFolder()
     
     monthName = Trim(wsTapes.Range("G1").Text)
     fileName = "«‘—ÿ… «·—Ê« » ·‘Â— " & monthName & ".xlsx"
-    fullPath = folderPath & fileName
+    FullPath = folderPath & fileName
 
     ' 2.  ›⁄Ì· Ê÷⁄ «·Œ›«¡ «· «„ Ê„‰⁄ ≈‰‘«¡ ‰Ê«›– ÃœÌœ…
     Application.ScreenUpdating = False
@@ -41,7 +41,7 @@ Sub ExportSalaryTapesToSpecificFolder()
         .Sheets(1).UsedRange.value = .Sheets(1).UsedRange.value
         
         ' Õ›Ÿ «·„·›
-        .SaveAs fileName:=fullPath, FileFormat:=xlOpenXMLWorkbook
+        .SaveAs fileName:=FullPath, FileFormat:=xlOpenXMLWorkbook
         
         ' ≈€·«ﬁ «·„’‰› «·ÃœÌœ  „«„«
         .Close SaveChanges:=False
@@ -55,5 +55,5 @@ Sub ExportSalaryTapesToSpecificFolder()
     Application.DisplayAlerts = True
     Application.ScreenUpdating = True
     
-    MsgBox " „  ’œÌ— «·»Ì«‰«  »‰Ã«Õ ≈·Ï: " & fullPath, vbInformation
+    MsgBox " „  ’œÌ— «·»Ì«‰«  »‰Ã«Õ ≈·Ï: " & FullPath, vbInformation
 End Sub
