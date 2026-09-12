@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm68 
    Caption         =   "UserForm68"
-   ClientHeight    =   5868
+   ClientHeight    =   5592
    ClientLeft      =   108
    ClientTop       =   456
-   ClientWidth     =   22236
+   ClientWidth     =   19068
    OleObjectBlob   =   "UserForm68.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -13,6 +13,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim Zoomer As New clsZoomManager
+
 
 
 Option Explicit
@@ -20,7 +22,7 @@ Option Explicit
 ' 1. «·Ê’› «·ÊŸÌ›Ì (CF) -> «·⁄œœ ›Ì TextBox1 Ê≈Ã„«·Ì «·‹ 50% „‰ «·—« » «·ﬂ·Ì (AW) ›Ì TextBox14
 Private Sub ComboBox1_Change()
     Dim i As Long, lr As Long, count As Long: Dim sumAmt As Double
-    lr = Sheets(1).Cells(rowS.count, "CF").End(xlUp).row
+    lr = Sheets(1).Cells(Rows.count, "CF").End(xlUp).row
     count = 0: sumAmt = 0
     For i = 9 To lr
         If Trim(CStr(Sheets(1).Cells(i, "CF").value)) = Trim(ComboBox1.value) Then
@@ -35,7 +37,7 @@ End Sub
 ' 2. «·‘Â«œ… (M) -> «·⁄œœ ›Ì TextBox2 Ê„Ã„Ê⁄ „Œ’’« Â« „‰ «·—« » «·ﬂ·Ì (AW) ›Ì TextBox10
 Private Sub ComboBox2_Change()
     Dim i As Long, lr As Long, count As Long: Dim sumAmt As Double, targetVal As Double
-    lr = Sheets(1).Cells(rowS.count, "CF").End(xlUp).row
+    lr = Sheets(1).Cells(Rows.count, "CF").End(xlUp).row
     Select Case ComboBox2.value
         Case "„ Ê”ÿÂ": targetVal = 0.15: Case "«⁄œ«œÌ…": targetVal = 0.25: Case "œ»·Ê„": targetVal = 0.35
         Case "»ﬂ·Ê—ÌÊ”": targetVal = 0.45: Case "œ»·Ê„ ⁄«·Ì": targetVal = 0.6: Case "„«Ã” Ì—": targetVal = 0.75
@@ -55,7 +57,7 @@ End Sub
 ' 3. «·„Œ’’«  «·„Â‰Ì… (Z) -> «·⁄œœ ›Ì TextBox3 Ê„Ã„Ê⁄Â« „‰ «·—« » «·ﬂ·Ì ›Ì TextBox11
 Private Sub ComboBox3_Change()
     Dim i As Long, lr As Long, count As Long: Dim sumAmt As Double
-    lr = Sheets(1).Cells(rowS.count, "Z").End(xlUp).row
+    lr = Sheets(1).Cells(Rows.count, "Z").End(xlUp).row
     count = 0: sumAmt = 0
     For i = 9 To lr
         If Trim(CStr(Sheets(1).Cells(i, "Z").value)) = Trim(ComboBox3.value) Then
@@ -70,7 +72,7 @@ End Sub
 ' 4. «·„Êﬁ› «·ÊŸÌ›Ì (BF) -> TextBox4
 Private Sub ComboBox4_Change()
     Dim i As Long, lr As Long, count As Long
-    lr = Sheets(1).Cells(rowS.count, "BF").End(xlUp).row
+    lr = Sheets(1).Cells(Rows.count, "BF").End(xlUp).row
     count = 0
     For i = 9 To lr
         If Trim(CStr(Sheets(1).Cells(i, "BF").value)) = Trim(ComboBox4.value) Then count = count + 1
@@ -81,7 +83,7 @@ End Sub
 ' 5. ÿ—Ìﬁ… «·œ›⁄ (AY) -> TextBox5
 Private Sub ComboBox5_Change()
     Dim i As Long, lr As Long, count As Long
-    lr = Sheets(1).Cells(rowS.count, "AY").End(xlUp).row
+    lr = Sheets(1).Cells(Rows.count, "AY").End(xlUp).row
     count = 0
     For i = 9 To lr
         If Trim(CStr(Sheets(1).Cells(i, "AY").value)) = Trim(ComboBox5.value) Then count = count + 1
@@ -92,7 +94,7 @@ End Sub
 ' 6. «·Õ«·… «·«Ã „«⁄Ì… (W) -> TextBox6
 Private Sub ComboBox6_Change()
     Dim i As Long, lr As Long, count As Long
-    lr = Sheets(1).Cells(rowS.count, "W").End(xlUp).row
+    lr = Sheets(1).Cells(Rows.count, "W").End(xlUp).row
     count = 0
     For i = 9 To lr
         If Trim(CStr(Sheets(1).Cells(i, "W").value)) = Trim(ComboBox6.value) Then count = count + 1
@@ -103,7 +105,7 @@ End Sub
 ' 7. «·„‰’» (Q) -> «·⁄œœ ›Ì TextBox7 Ê„Ã„Ê⁄ „»«·€ «·„‰’» „‰ «·—« » ›Ì TextBox12
 Private Sub ComboBox7_Change()
     Dim i As Long, lr As Long, count As Long: Dim sumAmt As Double
-    lr = Sheets(1).Cells(rowS.count, "Q").End(xlUp).row
+    lr = Sheets(1).Cells(Rows.count, "Q").End(xlUp).row
     count = 0: sumAmt = 0
     For i = 9 To lr
         If Trim(CStr(Sheets(1).Cells(i, "Q").value)) = Trim(ComboBox7.value) Then
@@ -117,7 +119,7 @@ End Sub
 ' 8. „Œ’’«  Â‰œ”Ì… (O) -> «·⁄œœ ›Ì TextBox8 Ê«·„Ã„Ê⁄ „‰ «·—« » ›Ì TextBox13
 Private Sub ComboBox8_Change()
     Dim i As Long, lr As Long, count As Long: Dim sumAmt As Double
-    lr = Sheets(1).Cells(rowS.count, "O").End(xlUp).row
+    lr = Sheets(1).Cells(Rows.count, "O").End(xlUp).row
     count = 0: sumAmt = 0
     For i = 9 To lr
         If Trim(CStr(Sheets(1).Cells(i, "O").value)) = Trim(ComboBox8.value) Then
@@ -134,7 +136,7 @@ Private Sub ComboBox9_Change()
     Dim sumAW As Double, cellVal As Double
     
     '  ÕœÌœ ¬Œ— ’› ›Ì «·⁄„Êœ H
-    lr = Sheets(1).Cells(rowS.count, "H").End(xlUp).row
+    lr = Sheets(1).Cells(Rows.count, "H").End(xlUp).row
     count = 0
     sumAW = 0
     
@@ -180,7 +182,7 @@ End Sub
 
 
 Private Sub CommandButton3_Click()
-  Dim wsSource As Worksheet: Set wsSource = Sheets(1)
+    Dim wsSource As Worksheet: Set wsSource = Sheets(1)
     Dim wsReport As Worksheet
     Dim i As Long, lr As Long, NextRow As Long, col As Long
     Dim targetM As Double, cellM As Double, cellH As Double
@@ -191,7 +193,7 @@ Private Sub CommandButton3_Click()
     ' 1.  ÕœÌœ «·√⁄„œ… «·√”«”Ì… («·—ﬁ„ «·ÊŸÌ›Ì B° «·„«” — C° «·«”„ E)
     selectedCols = Array("B", "C", "E")
     
-    ' ≈÷«›… √⁄„œ… «·‘—Êÿ «·„Œ «—… ›ﬁÿ
+    ' ≈÷«›… √⁄„œ… «·‘—Êÿ «·„Œ «—… ›ﬁÿ ≈·Ï „’›Ê›… «· ﬁ—Ì—
     If Me.ComboBox1.value <> "" Then selectedCols = Split(Join(selectedCols, ",") & ",CF", ",")
     If Me.ComboBox2.value <> "" Then selectedCols = Split(Join(selectedCols, ",") & ",M", ",")
     If Me.ComboBox3.value <> "" Then selectedCols = Split(Join(selectedCols, ",") & ",Z", ",")
@@ -205,23 +207,22 @@ Private Sub CommandButton3_Click()
     ' ≈÷«›… «·—« » «·’«›Ì (AW) œ«∆„« ›Ì ‰Â«Ì… «·ÃœÊ·
     selectedCols = Split(Join(selectedCols, ",") & ",AW", ",")
 
-    ' 2. ≈⁄œ«œ ‘Ì  «· ﬁ—Ì— «·„ƒﬁ 
+    ' 2. ≈⁄œ«œ ‘Ì  «· ﬁ—Ì— «·„ƒﬁ  (Ê÷⁄Â »⁄œ ‘Ì  BlackBox)
     On Error Resume Next
-    Application.DisplayAlerts = False
-    Sheets("Temp_Report").Delete
-    Application.DisplayAlerts = True
+    Application.DisplayAlerts = False: Sheets("Temp_Report").Delete: Application.DisplayAlerts = True
     On Error GoTo 0
     
+    ' «· ⁄œÌ· Â‰«:  ÕœÌœ „ﬂ«‰ «·‘Ì  «·ÃœÌœ »⁄œ BlackBox
     Set wsReport = Sheets.Add(After:=Sheets("BlackBox"))
     wsReport.Name = "Temp_Report"
     wsReport.DisplayRightToLeft = True
 
-    ' Ê÷⁄ «·⁄‰«ÊÌ‰
+    ' Ê÷⁄ «·⁄‰«ÊÌ‰ ›Ì ‘Ì  «· ﬁ—Ì— „‰ «·’› 8 ›Ì «·‘Ì  «·√’·Ì
     For col = 0 To UBound(selectedCols)
         wsReport.Cells(1, col + 1).value = wsSource.Cells(8, selectedCols(col)).value
     Next col
 
-    lr = wsSource.Cells(wsSource.rowS.count, "CF").End(xlUp).row
+    lr = wsSource.Cells(wsSource.Rows.count, "CF").End(xlUp).row
     NextRow = 2
     
     ' 3.  ÕœÌœ ﬁÌ„… «·‘Â«œ… (M)
@@ -231,11 +232,12 @@ Private Sub CommandButton3_Click()
         Case "»ﬂ·Ê—ÌÊ”": targetM = 0.45: Case "œ»·Ê„ ⁄«·Ì": targetM = 0.6: Case "„«Ã” Ì—": targetM = 0.75: Case "œﬂ Ê—«Â": targetM = 1#: Case "„«Ã” Ì— „⁄ „Œ’’«  Ã«„⁄Ì…": targetM = 1.25: Case "œﬂ Ê—«Â „⁄ „Œ’’«  Ã«„⁄Ì…": targetM = 1.5
     End Select
 
-    ' 4. «·›· —… Ê‰ﬁ· «·»Ì«‰« 
+    ' 4. «·›· —… Ê‰ﬁ· «·»Ì«‰«  «·„Œ «—… ›ﬁÿ ﬁÌœ« »ﬁÌœ
     For i = 9 To lr
         isMatch = True
         cellM = val(wsSource.Cells(i, "M").value): cellH = val(wsSource.Cells(i, "H").value)
 
+        ' «· Õﬁﬁ „‰ «·‘—Êÿ ( Ã«Â· «·ﬂÊ„»Ê »Êﬂ” «·›«—€)
         If Me.ComboBox1.value <> "" Then If Trim(CStr(wsSource.Cells(i, "CF").value)) <> Trim(Me.ComboBox1.value) Then isMatch = False
         If isMatch And Me.ComboBox2.value <> "" Then If Abs(cellM - targetM) > 0.001 Then isMatch = False
         If isMatch And Me.ComboBox3.value <> "" Then If Trim(CStr(wsSource.Cells(i, "Z").value)) <> Trim(Me.ComboBox3.value) Then isMatch = False
@@ -251,6 +253,7 @@ Private Sub CommandButton3_Click()
             End If
         End If
 
+        ' ‰ﬁ· «·»Ì«‰«  «·„›· —… ›ﬁÿ
         If isMatch Then
             For col = 0 To UBound(selectedCols)
                 wsReport.Cells(NextRow, col + 1).value = wsSource.Cells(i, selectedCols(col)).value
@@ -263,47 +266,47 @@ Private Sub CommandButton3_Click()
     If NextRow > 2 Then
         Set rngTable = wsReport.Range("A1").Resize(NextRow - 1, UBound(selectedCols) + 1)
         
+        ' ≈⁄œ«œ«  «·’›Õ… (√›ﬁÌ Landscape)
         With wsReport.PageSetup
             .Orientation = xlLandscape: .Zoom = False: .FitToPagesWide = 1
             .CenterHeader = "&""Arial,Bold""&16  ﬁ—Ì— «·„ÊŸ›Ì‰ «·„›· —"
             .CenterFooter = " «—ÌŒ «· ﬁ—Ì—: " & Date & " - ’›Õ… &P „‰ &N"
         End With
 
+        '  ‰”Ìﬁ «·ÃœÊ·
         With rngTable
             .Borders.LineStyle = xlContinuous: .Borders.Weight = xlThin
             .HorizontalAlignment = xlCenter: .Font.Name = "Arial": .Columns.AutoFit
         End With
         
-        With wsReport.rowS(1)
+        '  „ÌÌ“ —√” «·ÃœÊ·
+        With wsReport.Rows(1)
             .Interior.Color = RGB(220, 220, 220): .Font.Bold = True: .RowHeight = 25
         End With
         
-        ' «·„⁄«Ì‰…
+        ' › Õ »Ì∆… ≈ﬂ”Ì· Ê«·—Ì»Ê‰ ··„⁄«Ì‰…
         Me.Hide
         Application.Visible = True
         Application.ExecuteExcel4Macro "SHOW.TOOLBAR(""Ribbon"",True)"
+        
         wsReport.PrintPreview
         
-        ' «· ‰ŸÌ› Ê≈€·«ﬁ «·„⁄«Ì‰…
+        ' ≈€·«ﬁ »Ì∆… ≈ﬂ”Ì· Ê«·—Ì»Ê‰ Ê«·⁄Êœ… ··›Ê—„
         Application.ExecuteExcel4Macro "SHOW.TOOLBAR(""Ribbon"",False)"
         Application.Visible = False
-        
-        ' «·«‰ ﬁ«· ·‘Ì  ¬Œ— ﬁ»· «·Õ–› · Ã‰» «·Œÿ√
-        wsSource.Activate
-        Application.DisplayAlerts = False
-        On Error Resume Next
-        wsReport.Delete
-        On Error GoTo 0
-        Application.DisplayAlerts = True
-        
         Me.Show
     Else
         MsgBox "·«  ÊÃœ ‰ «∆Ã  ÿ«»ﬁ Â–Â «·‘—Êÿ.", vbExclamation, " ‰»ÌÂ"
     End If
+    
+    ' Õ–› ‘Ì  «· ﬁ—Ì— «·„ƒﬁ  »⁄œ «·«‰ Â«¡
+    Application.DisplayAlerts = False: wsReport.Delete: Application.DisplayAlerts = True
 End Sub
 
 ' --- ﬂÊœ  Õ„Ì· «·»Ì«‰«  Ê ⁄»∆… «·ﬁÊ«∆„ (Initialize) ---
+   
 Private Sub UserForm_Initialize()
+ Zoomer.Bind Me, Me.SpinButton1, Me.az
     Dim i As Long, lr As Long
     Dim d1 As Object, d3 As Object, d4 As Object, d5 As Object, d6 As Object, d7 As Object, d8 As Object
     Set d1 = CreateObject("Scripting.Dictionary"): Set d3 = CreateObject("Scripting.Dictionary")
@@ -311,7 +314,7 @@ Private Sub UserForm_Initialize()
     Set d6 = CreateObject("Scripting.Dictionary"): Set d7 = CreateObject("Scripting.Dictionary")
     Set d8 = CreateObject("Scripting.Dictionary")
     
-    lr = Sheets(1).Cells(rowS.count, "CF").End(xlUp).row
+    lr = Sheets(1).Cells(Rows.count, "CF").End(xlUp).row
     
     ComboBox2.List = Array("„ Ê”ÿÂ", "«⁄œ«œÌ…", "œ»·Ê„", "»ﬂ·Ê—ÌÊ”", "œ»·Ê„ ⁄«·Ì", "„«Ã” Ì—", "œﬂ Ê—«Â", "„«Ã” Ì— „⁄ „Œ’’«  Ã«„⁄Ì…", "œﬂ Ê—«Â „⁄ „Œ’’«  Ã«„⁄Ì…")
     ComboBox9.List = Array("8", "9", "10", "«·ﬂ· (8+9+10)")
