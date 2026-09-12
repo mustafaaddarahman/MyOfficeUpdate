@@ -4,7 +4,7 @@ Sub delete_change_month_form33()
 End Sub
 
 Dim lastR As Integer
-lastR = Sheets(35).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(35).Cells(rowS.count, 1).End(xlUp).row
     For Y = 9 To lastR
     
     If Sheets(35).Cells(Y, 2).value = UserForm33.TextBox2.Text And Sheets(35).Cells(Y, 5).value = UserForm33.TextBox5.Text Then
