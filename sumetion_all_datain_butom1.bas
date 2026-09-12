@@ -7,7 +7,7 @@ Sub ExecuteStatistics(Frm As Object)
     Dim targetM As Double, cellM As Double, cellH As Double
     
     ' ймоМо бня ущ щМ гАтМй ячЦ 1
-    lr = Sheets(1).Cells(rowS.count, "CF").End(xlUp).row
+    lr = Sheets(1).Cells(Rows.count, "CF").End(xlUp).row
     If lr < 9 Then Exit Sub
 
     ' ймоМо Дсхи гАтЕгои Аэ ComboBox2
