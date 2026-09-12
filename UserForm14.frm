@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm14 
    Caption         =   "UserForm14"
-   ClientHeight    =   11025
+   ClientHeight    =   11028
    ClientLeft      =   120
    ClientTop       =   468
    ClientWidth     =   14376
@@ -13,9 +13,11 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim Zoomer As New clsZoomManager
+
 Private Sub CommandButton19_Click()
 Dim lastR As Integer
-lastR = Sheets(21).Cells(rowS.count, 1).End(xlUp).row
+lastR = Sheets(21).Cells(Rows.count, 1).End(xlUp).row
     For Y = 2 To lastR
     
     If Sheets(21).Cells(Y, 1) = TextBox1.Text And Sheets(21).Cells(Y, 3) = TextBox60.Text Then
@@ -71,7 +73,7 @@ Private Sub CommandButton22_Click()
 On Error GoTo emad
 Dim lastR As Integer
 Dim file_path As String
-lastR = Sheets(21).Cells(rowS.count, 1).End(xlUp).row
+lastR = Sheets(21).Cells(Rows.count, 1).End(xlUp).row
     For Y = 2 To lastR
     
     If Sheets(21).Cells(Y, 1) = TextBox1.Text And Sheets(21).Cells(Y, 2) = TextBox2.Text Then
@@ -102,7 +104,7 @@ Private Sub CommandButton23_Click()
 
 Dim lastRow As Integer
 
-lastRow = Sheets(21).Cells(rowS.count, 1).End(xlUp).row
+lastRow = Sheets(21).Cells(Rows.count, 1).End(xlUp).row
 
  
     Sheets(21).Range("A" & lastRow + 1).Offset(0, 0).value = TextBox1.Text
@@ -153,7 +155,7 @@ Set dialogBox = Application.FileDialog(msoFileDialogOpen)
 dialogBox.AllowMultiSelect = False
 
 'Set the title of the DialogBox
-dialogBox.Title = "Select a file"
+dialogBox.title = "Select a file"
 
 'Set the default folder to open
 dialogBox.InitialFileName = UserForm14.TextBox5.Text
@@ -167,7 +169,7 @@ dialogBox.Filters.Add "image_document", "*.JPG;*.JPEG;*.PNG;*.TIFF;*.GIF;*.PDF;*
 If dialogBox.Show = -1 Then
   UserForm14.TextBox5.Text = dialogBox.SelectedItems(1)
   Dim last1, frw1 As Integer
-last1 = Sheets(21).Range("A" & rowS.count).End(xlUp).row
+last1 = Sheets(21).Range("A" & Rows.count).End(xlUp).row
 For frw1 = 6 To last1
 If Sheets(21).Cells(frw1, "b") = TextBox2.Text And Sheets(21).Cells(frw1, "c") = TextBox3.Text Then
 
@@ -184,14 +186,14 @@ Private Sub CommandButton25_Click()
 
 Dim lastRow As Integer
 
-lastRow = Sheets(21).Cells(rowS.count, 2).End(xlUp).row
+lastRow = Sheets(21).Cells(Rows.count, 2).End(xlUp).row
 TextBox1.value = lastRow
 Call auto_num
 End Sub
 
 Private Sub CommandButton26_Click()
 Dim lastR, r As Integer
-lastR = Sheets(21).Cells(rowS.count, 1).End(xlUp).row
+lastR = Sheets(21).Cells(Rows.count, 1).End(xlUp).row
 For r = 2 To lastR
 If TextBox1.Text = Sheets(21).Cells(r, 1).value Then
 
@@ -284,7 +286,7 @@ Dim last2, frw1 As Integer
  With Me.ListView1
 .ListItems.Clear
 Sheets(21).Activate
-last2 = Sheets(21).Range("A" & rowS.count).End(xlUp).row
+last2 = Sheets(21).Range("A" & Rows.count).End(xlUp).row
 For frw1 = 2 To last2
 
 If Sheets(21).Cells(frw1, "c") Like "*" & TextBox62.Text & "*" Then
@@ -363,7 +365,7 @@ Dim lastrow1 As Integer
 Dim r As Integer
 Dim last_row As Integer
 ListView1.ListItems.Clear
-last_row = Sheets(21).Range("a" & rowS.count).End(xlUp).row
+last_row = Sheets(21).Range("a" & Rows.count).End(xlUp).row
 For r = 2 To last_row
 If Sheets(21).Cells(r, 4) Like "*" & TextBox63.Text & "*" Then
  TextBox1.Text = Sheets(21).Cells(r, "a").value
@@ -391,7 +393,7 @@ Next
 Dim frw1 As Integer
 Dim lastRow As Integer
 Dim item1 As ListItem
-lastRow = Sheets(21).Cells(rowS.count, 2).End(xlUp).row
+lastRow = Sheets(21).Cells(Rows.count, 2).End(xlUp).row
 For frw1 = 2 To lastRow
 If Sheets(21).Cells(frw1, 4) Like "*" & TextBox63.Text & "*" Then
 
@@ -444,7 +446,7 @@ Sheets(21).Activate
 Dim frw1 As Integer
 Dim lastRow As Integer
 Dim item1 As ListItem
-lastRow = Sheets(21).Cells(rowS.count, 2).End(xlUp).row
+lastRow = Sheets(21).Cells(Rows.count, 2).End(xlUp).row
 For frw1 = 2 To lastRow
 
 Set item1 = ListView1.ListItems.Add(, , Sheets(21).Cells(frw1, "A"))
@@ -485,7 +487,9 @@ UserForm14.Show
 
 End Sub
 
+   
 Private Sub UserForm_Initialize()
+ Zoomer.Bind Me, Me.SpinButton1, Me.az
 TextBox4.Text = Format(TextBox4.Text, "yyyy/mm/dd")
 ListView1.Gridlines = True
 ListView1.View = lvwReport
@@ -523,7 +527,7 @@ ListView1.ListItems.Clear
 Dim frw1 As Integer
 Dim lastRow As Integer
 Dim item1 As ListItem
-lastRow = Sheets(21).Cells(rowS.count, 2).End(xlUp).row
+lastRow = Sheets(21).Cells(Rows.count, 2).End(xlUp).row
 For frw1 = 2 To lastRow
 
 Set item1 = ListView1.ListItems.Add(, , Sheets(21).Cells(frw1, "A"))
