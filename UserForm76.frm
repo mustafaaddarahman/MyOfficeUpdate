@@ -40,7 +40,7 @@ Dim ws As Worksheet
     
     ' 2. ЪЭЯэЯ боу ЧскуцЯ ЧсуеЯб
     If Me.CheckBox1.value = True Then
-        sourceColIndex = 31 ' куцЯ ЧсЧгЪЭоЧо Чспсэ хц ЧскуцЯ боу 31
+        sourceColIndex = 10 ' куцЯ J хц ЧскуцЯ боу 10
     ElseIf Me.CheckBox2.value = True Then
         sourceColIndex = 49 ' куцЯ AW хц ЧскуцЯ боу 49
     Else
@@ -50,7 +50,7 @@ Dim ws As Worksheet
     
     Set ws = ThisWorkbook.Sheets("Sheet1")
     percentage = CDbl(Me.TextBox1.value) / 100
-    lastRow = ws.Cells(ws.rowS.count, "J").End(xlUp).row
+    lastRow = ws.Cells(ws.Rows.count, "J").End(xlUp).row
     
     If lastRow < 9 Then Exit Sub
     
