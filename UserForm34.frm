@@ -15,13 +15,9 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 
+Dim Zoomer As New clsZoomManager
 
-
-
-
-
-
-Dim FullData() As Variant ' „’›Ê›… · Œ“Ì‰ ﬂ· «·»Ì«‰«  «·√’·Ì…
+Dim fullData() As Variant ' „’›Ê›… · Œ“Ì‰ ﬂ· «·»Ì«‰«  «·√’·Ì…
 
 Private Sub CommandButton1_Click()
 On Error Resume Next
@@ -52,8 +48,8 @@ Sheets("clearsheet").Activate
     ws.Cells(1, 4).value = "«·ﬁÌ„…"
     ws.Cells(1, 5).value = " «—ÌŒ «·≈Õ«·…"
     
-    ws.rowS(1).Font.Bold = True
-    ws.rowS(1).Font.Size = 12
+    ws.Rows(1).Font.Bold = True
+    ws.Rows(1).Font.Size = 12
     
     '  ⁄»∆… «·»Ì«‰«  „‰ ListView „»«‘—…
     For i = 1 To Me.ListView1.ListItems.count
@@ -94,11 +90,11 @@ Dim ws As Worksheet
     Dim lastRow As Long
     Dim i As Long
     Dim dt As Variant
-    Dim Idx As Long
+    Dim idx As Long
     
     ' 1. ≈⁄œ«œ«  √Ê·Ì…
     Set ws = ThisWorkbook.Sheets("Sheet1")
-    lastRow = ws.Cells(ws.rowS.count, "A").End(xlUp).row
+    lastRow = ws.Cells(ws.Rows.count, "A").End(xlUp).row
     
     ' ÿ·»  √ﬂÌœ ﬁ»· «·„”Õ («Œ Ì«—Ì ·ﬂ‰Â ¬„‰)
     If MsgBox("Â· √‰  „ √ﬂœ „‰  ’›Ì— €Ì«»«  «·‘Â— «·ÃœÌœø", vbQuestion + vbYesNo, " √ﬂÌœ") = vbNo Then Exit Sub
@@ -109,7 +105,6 @@ Dim ws As Worksheet
     If lastRow >= 9 Then
         For i = 9 To lastRow
             If val(ws.Cells(i, "K").value) > 0 Then ws.Cells(i, "K").value = 0
-            If val(ws.Cells(i, "l").value) < 30 Then ws.Cells(i, "l").value = 30
             If val(ws.Cells(i, "AU").value) > 0 Then ws.Cells(i, "AU").value = 0
         Next i
     End If
@@ -127,8 +122,8 @@ Dim ws As Worksheet
     ' 5. ≈⁄«œ… »‰«¡ «·‹ ListView («” Œœ«„ «·ﬂÊœ «·Œ«’ »ﬂ ·· ÕœÌÀ)
     '  ›—Ì€ «·ﬁ«∆„… «·Õ«·Ì…
     Me.ListView1.ListItems.Clear
-    Idx = 0
-    Erase FullData '  ›—Ì€ «·„’›Ê›… «·ﬁœÌ„…
+    idx = 0
+    Erase fullData '  ›—Ì€ «·„’›Ê›… «·ﬁœÌ„…
     
     ' ≈⁄«œ… «·›Õ’ (»„« √‰ K √’»Õ ’›—«° ·‰ ÌŸÂ— «·€Ì«» ›Ì «·ﬁ«∆„…)
     For i = 9 To lastRow
@@ -137,32 +132,32 @@ Dim ws As Worksheet
         
         ' ›Õ’ «·€Ì«» (”ÌﬂÊ‰ ’›—« «·¬‰)
         If val(ws.Cells(i, "K").value) > 0 Then
-            Idx = Idx + 1
-            ReDim Preserve FullData(1 To 5, 1 To Idx)
-            FullData(1, Idx) = ws.Cells(i, "A").value
-            FullData(2, Idx) = ws.Cells(i, "E").value
-            FullData(3, Idx) = "·œÌÂ €Ì«»"
-            FullData(4, Idx) = ws.Cells(i, "K").value
-            FullData(5, Idx) = dt
+            idx = idx + 1
+            ReDim Preserve fullData(1 To 5, 1 To idx)
+            fullData(1, idx) = ws.Cells(i, "A").value
+            fullData(2, idx) = ws.Cells(i, "E").value
+            fullData(3, idx) = "·œÌÂ €Ì«»"
+            fullData(4, idx) = ws.Cells(i, "K").value
+            fullData(5, idx) = dt
         End If
         
         ' ›Õ’ »ﬁÌ… «·Õ«·«  (‰›ﬁ…° ”·›…° ﬂ«‘... ≈·Œ)
         ' „·«ÕŸ…: Â–Â «·Õ«·«  ” »ﬁÏ  ŸÂ— ·√‰‰« ·„ ‰’›— √⁄„œ Â«
         If val(ws.Cells(i, "AJ").value) > 0 Then
-            Idx = Idx + 1
-            ReDim Preserve FullData(1 To 5, 1 To Idx)
-            FullData(1, Idx) = ws.Cells(i, "A").value
-            FullData(2, Idx) = ws.Cells(i, "E").value
-            FullData(3, Idx) = "·œÌÂ ‰›ﬁ…"
-            FullData(4, Idx) = ws.Cells(i, "AJ").value
-            FullData(5, Idx) = dt
+            idx = idx + 1
+            ReDim Preserve fullData(1 To 5, 1 To idx)
+            fullData(1, idx) = ws.Cells(i, "A").value
+            fullData(2, idx) = ws.Cells(i, "E").value
+            fullData(3, idx) = "·œÌÂ ‰›ﬁ…"
+            fullData(4, idx) = ws.Cells(i, "AJ").value
+            fullData(5, idx) = dt
         End If
         
         ' ... [√ﬂ„· »ﬁÌ… ‘—Êÿ «·›Õ’ «·Œ«’… »ﬂ Â‰« ﬂ„« ÂÌ] ...
     Next i
     
     ' „‰«œ«… «·”Ê» "«·„ÊÃÊœ ⁄‰œﬂ" ·„·¡ «·ﬁ«∆„… »«·‰ «∆Ã «·ÃœÌœ…
-    Call PopulateListView(FullData, Idx)
+    Call PopulateListView(fullData, idx)
     
     '  ÕœÌÀ «·⁄œ«œ ›Ì «· ﬂ”  »Êﬂ”
     Me.TextBox3.value = Me.ListView1.ListItems.count
@@ -172,15 +167,9 @@ Dim ws As Worksheet
     MsgBox " „  ’›Ì— «·€Ì«»«  Ê ÕœÌÀ —«œ«— «·„—«ﬁ»… »‰Ã«Õ.", vbInformation, "‰Ÿ«„ ⁄„«œ «·‰⁄Ì„Ì"
 End Sub
 
-Private Sub CommandButton4_Click()
-Unload Me
-UserForm78.Show
-
-End Sub
-
 Private Sub UserForm_Activate()
 Dim ws As Worksheet: Set ws = ThisWorkbook.Sheets("Sheet1")
-    Dim lastRow As Long: lastRow = ws.Cells(ws.rowS.count, "A").End(xlUp).row
+    Dim lastRow As Long: lastRow = ws.Cells(ws.Rows.count, "A").End(xlUp).row
     Dim i As Long
     Dim hasAbsence As Boolean: hasAbsence = False
 
@@ -215,15 +204,15 @@ End Sub
    
 Private Sub UserForm_Initialize()
 On Error Resume Next
- 
+ Zoomer.Bind Me, Me.SpinButton1, Me.az
     Dim ws As Worksheet
     Dim lastRow As Long
     Dim i As Long
     Dim dt As Variant
-    Dim Idx As Long
+    Dim idx As Long
     
     Set ws = ThisWorkbook.Sheets("Sheet1")
-    lastRow = ws.Cells(ws.rowS.count, "A").End(xlUp).row
+    lastRow = ws.Cells(ws.Rows.count, "A").End(xlUp).row
     
     '  ÂÌ∆… ListView
     With Me.ListView1
@@ -246,53 +235,53 @@ On Error Resume Next
     ' =========================
     '  ⁄»∆… fullData
     ' =========================
-    Idx = 0
+    idx = 0
     For i = 9 To lastRow
         dt = ws.Cells(i, "BN").value
         If IsNumeric(dt) And dt <> "" Then dt = CDate(dt)
         
         ' «·€Ì«» K
         If val(ws.Cells(i, "K").value) > 0 Then
-            Idx = Idx + 1
-            ReDim Preserve FullData(1 To 5, 1 To Idx)
-            FullData(1, Idx) = ws.Cells(i, "A").value
-            FullData(2, Idx) = ws.Cells(i, "E").value
-            FullData(3, Idx) = "·œÌÂ €Ì«»"
-            FullData(4, Idx) = ws.Cells(i, "K").value
-            FullData(5, Idx) = dt
+            idx = idx + 1
+            ReDim Preserve fullData(1 To 5, 1 To idx)
+            fullData(1, idx) = ws.Cells(i, "A").value
+            fullData(2, idx) = ws.Cells(i, "E").value
+            fullData(3, idx) = "·œÌÂ €Ì«»"
+            fullData(4, idx) = ws.Cells(i, "K").value
+            fullData(5, idx) = dt
         End If
         
         ' «·‰›ﬁ… AJ
         If val(ws.Cells(i, "AJ").value) > 0 Then
-            Idx = Idx + 1
-            ReDim Preserve FullData(1 To 5, 1 To Idx)
-            FullData(1, Idx) = ws.Cells(i, "A").value
-            FullData(2, Idx) = ws.Cells(i, "E").value
-            FullData(3, Idx) = "·œÌÂ ‰›ﬁ…"
-            FullData(4, Idx) = ws.Cells(i, "AJ").value
-            FullData(5, Idx) = dt
+            idx = idx + 1
+            ReDim Preserve fullData(1 To 5, 1 To idx)
+            fullData(1, idx) = ws.Cells(i, "A").value
+            fullData(2, idx) = ws.Cells(i, "E").value
+            fullData(3, idx) = "·œÌÂ ‰›ﬁ…"
+            fullData(4, idx) = ws.Cells(i, "AJ").value
+            fullData(5, idx) = dt
         End If
         
         ' «·”·›… AX
         If val(ws.Cells(i, "AX").value) > 0 Then
-            Idx = Idx + 1
-            ReDim Preserve FullData(1 To 5, 1 To Idx)
-            FullData(1, Idx) = ws.Cells(i, "A").value
-            FullData(2, Idx) = ws.Cells(i, "E").value
-            FullData(3, Idx) = "·œÌÂ ”·›…"
-            FullData(4, Idx) = ws.Cells(i, "AX").value
-            FullData(5, Idx) = dt
+            idx = idx + 1
+            ReDim Preserve fullData(1 To 5, 1 To idx)
+            fullData(1, idx) = ws.Cells(i, "A").value
+            fullData(2, idx) = ws.Cells(i, "E").value
+            fullData(3, idx) = "·œÌÂ ”·›…"
+            fullData(4, idx) = ws.Cells(i, "AX").value
+            fullData(5, idx) = dt
         End If
         
         ' ﬂ«‘ AY
         If Trim(ws.Cells(i, "AY").value) = "ﬂ«‘" Then
-            Idx = Idx + 1
-            ReDim Preserve FullData(1 To 5, 1 To Idx)
-            FullData(1, Idx) = ws.Cells(i, "A").value
-            FullData(2, Idx) = ws.Cells(i, "E").value
-            FullData(3, Idx) = "ÿ—Ìﬁ… «·œ›⁄ ﬂ«‘"
-            FullData(4, Idx) = ws.Cells(i, "aw").value
-            FullData(5, Idx) = dt
+            idx = idx + 1
+            ReDim Preserve fullData(1 To 5, 1 To idx)
+            fullData(1, idx) = ws.Cells(i, "A").value
+            fullData(2, idx) = ws.Cells(i, "E").value
+            fullData(3, idx) = "ÿ—Ìﬁ… «·œ›⁄ ﬂ«‘"
+            fullData(4, idx) = ws.Cells(i, "aw").value
+            fullData(5, idx) = dt
         End If
         
         ' BF Õ«·«  Œ«’…
@@ -301,36 +290,36 @@ On Error Resume Next
             Or ws.Cells(i, "BF").value Like "*—›⁄ Ìœ*" _
             Or ws.Cells(i, "BF").value Like "*«Ã«“… »œÊ‰ —« »*" _
             Or ws.Cells(i, "BF").value Like "*«„Ê„… À«‰Ì 6 «‘Â—*" Then
-                Idx = Idx + 1
-                ReDim Preserve FullData(1 To 5, 1 To Idx)
-                FullData(1, Idx) = ws.Cells(i, "A").value
-                FullData(2, Idx) = ws.Cells(i, "E").value
-                FullData(3, Idx) = ws.Cells(i, "BF").value
-                FullData(4, Idx) = ws.Cells(i, "aw").value
-                FullData(5, Idx) = dt
+                idx = idx + 1
+                ReDim Preserve fullData(1 To 5, 1 To idx)
+                fullData(1, idx) = ws.Cells(i, "A").value
+                fullData(2, idx) = ws.Cells(i, "E").value
+                fullData(3, idx) = ws.Cells(i, "BF").value
+                fullData(4, idx) = ws.Cells(i, "aw").value
+                fullData(5, idx) = dt
             End If
         End If
         
         ' BH
        '==================================
          If val(ws.Cells(i, "BH").value) > 1 Then
-            Idx = Idx + 1
-            ReDim Preserve FullData(1 To 5, 1 To Idx)
-            FullData(1, Idx) = ws.Cells(i, "A").value
-            FullData(2, Idx) = ws.Cells(i, "E").value
-            FullData(3, Idx) = "«·«÷«›… «·„«·Ì… «·„ƒﬁ Â"
-            FullData(4, Idx) = CInt(ws.Cells(i, "BH"))
-            FullData(5, Idx) = dt
+            idx = idx + 1
+            ReDim Preserve fullData(1 To 5, 1 To idx)
+            fullData(1, idx) = ws.Cells(i, "A").value
+            fullData(2, idx) = ws.Cells(i, "E").value
+            fullData(3, idx) = "«·«÷«›… «·„«·Ì… «·„ƒﬁ Â"
+            fullData(4, idx) = CInt(ws.Cells(i, "BH"))
+            fullData(5, idx) = dt
         End If
          '=============================«” ﬁÿ«⁄„ ›—ﬁ
         If val(ws.Cells(i, "ar").value) > 0 Then
-            Idx = Idx + 1
-            ReDim Preserve FullData(1 To 5, 1 To Idx)
-            FullData(1, Idx) = ws.Cells(i, "A").value
-            FullData(2, Idx) = ws.Cells(i, "E").value
-            FullData(3, Idx) = "·œÌÂ «” ﬁÿ«⁄ „ ›—ﬁ"
-            FullData(4, Idx) = ws.Cells(i, "ar").value
-            FullData(5, Idx) = dt
+            idx = idx + 1
+            ReDim Preserve fullData(1 To 5, 1 To idx)
+            fullData(1, idx) = ws.Cells(i, "A").value
+            fullData(2, idx) = ws.Cells(i, "E").value
+            fullData(3, idx) = "·œÌÂ «” ﬁÿ«⁄ „ ›—ﬁ"
+            fullData(4, idx) = ws.Cells(i, "ar").value
+            fullData(5, idx) = dt
         End If
         
         
@@ -348,13 +337,13 @@ On Error Resume Next
         
         ' BJ
         If val(ws.Cells(i, "BJ").value) > 1 Then
-            Idx = Idx + 1
-            ReDim Preserve FullData(1 To 5, 1 To Idx)
-            FullData(1, Idx) = ws.Cells(i, "A").value
-            FullData(2, Idx) = ws.Cells(i, "E").value
-            FullData(3, Idx) = "«·«” ﬁÿ«⁄ «·„«·Ì «·„ƒﬁ "
-            FullData(4, Idx) = CInt(ws.Cells(i, "BJ"))
-            FullData(5, Idx) = dt
+            idx = idx + 1
+            ReDim Preserve fullData(1 To 5, 1 To idx)
+            fullData(1, idx) = ws.Cells(i, "A").value
+            fullData(2, idx) = ws.Cells(i, "E").value
+            fullData(3, idx) = "«·«” ﬁÿ«⁄ «·„«·Ì «·„ƒﬁ "
+            fullData(4, idx) = CInt(ws.Cells(i, "BJ"))
+            fullData(5, idx) = dt
         End If
        
        
@@ -366,29 +355,29 @@ On Error Resume Next
         
         ' CE + «·œ—Ã…
         If val(ws.Cells(i, "CE").value) > 0 And val(ws.Cells(i, "H").value) < 8 Then
-            Idx = Idx + 1
-            ReDim Preserve FullData(1 To 5, 1 To Idx)
-            FullData(1, Idx) = ws.Cells(i, "A").value
-            FullData(2, Idx) = ws.Cells(i, "E").value
-            FullData(3, Idx) = "«·œ—Ã… √ﬁ· „‰ 8 „⁄ ÊÃÊœ «” Õﬁ«ﬁ CE"
-            FullData(4, Idx) = ws.Cells(i, "CE").value
-            FullData(5, Idx) = dt
+            idx = idx + 1
+            ReDim Preserve fullData(1 To 5, 1 To idx)
+            fullData(1, idx) = ws.Cells(i, "A").value
+            fullData(2, idx) = ws.Cells(i, "E").value
+            fullData(3, idx) = "«·œ—Ã… √ﬁ· „‰ 8 „⁄ ÊÃÊœ «” Õﬁ«ﬁ CE"
+            fullData(4, idx) = ws.Cells(i, "CE").value
+            fullData(5, idx) = dt
         End If
         
         ' AN > 0
         If val(ws.Cells(i, "AN").value) > 0 Then
-            Idx = Idx + 1
-            ReDim Preserve FullData(1 To 5, 1 To Idx)
-            FullData(1, Idx) = ws.Cells(i, "A").value
-            FullData(2, Idx) = ws.Cells(i, "E").value
-            FullData(3, Idx) = ws.Cells(i, "AO").value
-            FullData(4, Idx) = ws.Cells(i, "AN").value
-            FullData(5, Idx) = dt
+            idx = idx + 1
+            ReDim Preserve fullData(1 To 5, 1 To idx)
+            fullData(1, idx) = ws.Cells(i, "A").value
+            fullData(2, idx) = ws.Cells(i, "E").value
+            fullData(3, idx) = ws.Cells(i, "AO").value
+            fullData(4, idx) = ws.Cells(i, "AN").value
+            fullData(5, idx) = dt
         End If
     Next i
     
     ' ⁄—÷ ﬂ· «·»Ì«‰«  √Ê· „—…
-    Call PopulateListView(FullData, Idx)
+    Call PopulateListView(fullData, idx)
     
     '  ÕœÌÀ ⁄œœ «·’›Ê›
     Me.TextBox3.value = Me.ListView1.ListItems.count
@@ -397,19 +386,19 @@ End Sub
 ' ===============================
 ' ≈⁄«œ… »‰«¡ ListView
 ' ===============================
-Private Sub PopulateListView(dataArray() As Variant, rowCount As Long)
+Private Sub PopulateListView(DataArray() As Variant, rowCount As Long)
     Dim i As Long, itm As ListItem
     Me.ListView1.ListItems.Clear
     
     For i = 1 To rowCount
-        Set itm = Me.ListView1.ListItems.Add(, , dataArray(1, i))
-        itm.ListSubItems.Add , , dataArray(2, i)
-        itm.ListSubItems.Add , , dataArray(3, i)
-        itm.ListSubItems.Add , , dataArray(4, i)
-        If IsDate(dataArray(5, i)) Then
-            itm.ListSubItems.Add , , Format(dataArray(5, i), "dd/mm/yyyy")
+        Set itm = Me.ListView1.ListItems.Add(, , DataArray(1, i))
+        itm.ListSubItems.Add , , DataArray(2, i)
+        itm.ListSubItems.Add , , DataArray(3, i)
+        itm.ListSubItems.Add , , DataArray(4, i)
+        If IsDate(DataArray(5, i)) Then
+            itm.ListSubItems.Add , , Format(DataArray(5, i), "dd/mm/yyyy")
         Else
-            itm.ListSubItems.Add , , dataArray(5, i)
+            itm.ListSubItems.Add , , DataArray(5, i)
         End If
     Next i
     
@@ -421,35 +410,35 @@ End Sub
 ' ›· —… Õ”» TextBox2 («·‘Â—)
 ' ===============================
 Private Sub TextBox2_Change()
-    Dim i As Long, Idx As Long
+    Dim i As Long, idx As Long
     Dim filtered() As Variant
     Dim monthValue As Long
     
     If Trim(Me.TextBox2.value) = "" Then
-        Call PopulateListView(FullData, UBound(FullData, 2))
+        Call PopulateListView(fullData, UBound(fullData, 2))
         Exit Sub
     End If
     
     If Not IsNumeric(Me.TextBox2.value) Then Exit Sub
     monthValue = CLng(Me.TextBox2.value)
     
-    ReDim filtered(1 To 5, 1 To UBound(FullData, 2))
-    Idx = 0
-    For i = 1 To UBound(FullData, 2)
-        If IsDate(FullData(5, i)) Then
-            If Month(FullData(5, i)) = monthValue Then
-                Idx = Idx + 1
-                filtered(1, Idx) = FullData(1, i)
-                filtered(2, Idx) = FullData(2, i)
-                filtered(3, Idx) = FullData(3, i)
-                filtered(4, Idx) = FullData(4, i)
-                filtered(5, Idx) = FullData(5, i)
+    ReDim filtered(1 To 5, 1 To UBound(fullData, 2))
+    idx = 0
+    For i = 1 To UBound(fullData, 2)
+        If IsDate(fullData(5, i)) Then
+            If Month(fullData(5, i)) = monthValue Then
+                idx = idx + 1
+                filtered(1, idx) = fullData(1, i)
+                filtered(2, idx) = fullData(2, i)
+                filtered(3, idx) = fullData(3, i)
+                filtered(4, idx) = fullData(4, i)
+                filtered(5, idx) = fullData(5, i)
             End If
         End If
     Next i
     
-    If Idx > 0 Then
-        Call PopulateListView(filtered, Idx)
+    If idx > 0 Then
+        Call PopulateListView(filtered, idx)
     Else
         Me.ListView1.ListItems.Clear
         Me.TextBox3.value = 0
@@ -460,32 +449,32 @@ End Sub
 ' ›· —… Õ”» TextBox4 («·«”„)
 ' ===============================
 Private Sub TextBox4_Change()
-    Dim i As Long, Idx As Long
+    Dim i As Long, idx As Long
     Dim filtered() As Variant
     Dim searchName As String
     
     searchName = Trim(Me.TextBox4.value)
     
     If searchName = "" Then
-        Call PopulateListView(FullData, UBound(FullData, 2))
+        Call PopulateListView(fullData, UBound(fullData, 2))
         Exit Sub
     End If
     
-    ReDim filtered(1 To 5, 1 To UBound(FullData, 2))
-    Idx = 0
-    For i = 1 To UBound(FullData, 2)
-        If InStr(1, FullData(2, i), searchName, vbTextCompare) > 0 Then
-            Idx = Idx + 1
-            filtered(1, Idx) = FullData(1, i)
-            filtered(2, Idx) = FullData(2, i)
-            filtered(3, Idx) = FullData(3, i)
-            filtered(4, Idx) = FullData(4, i)
-            filtered(5, Idx) = FullData(5, i)
+    ReDim filtered(1 To 5, 1 To UBound(fullData, 2))
+    idx = 0
+    For i = 1 To UBound(fullData, 2)
+        If InStr(1, fullData(2, i), searchName, vbTextCompare) > 0 Then
+            idx = idx + 1
+            filtered(1, idx) = fullData(1, i)
+            filtered(2, idx) = fullData(2, i)
+            filtered(3, idx) = fullData(3, i)
+            filtered(4, idx) = fullData(4, i)
+            filtered(5, idx) = fullData(5, i)
         End If
     Next i
     
-    If Idx > 0 Then
-        Call PopulateListView(filtered, Idx)
+    If idx > 0 Then
+        Call PopulateListView(filtered, idx)
     Else
         Me.ListView1.ListItems.Clear
         Me.TextBox3.value = 0
@@ -493,7 +482,7 @@ Private Sub TextBox4_Change()
 End Sub
 
 Private Sub TextBox5_Change()
-    Dim i As Long, Idx As Long
+    Dim i As Long, idx As Long
     Dim filtered() As Variant
     Dim searchStatus As String
     
@@ -501,27 +490,27 @@ Private Sub TextBox5_Change()
     
     ' ≈–« ›«—€° ⁄—÷ ﬂ· «·»Ì«‰« 
     If searchStatus = "" Then
-        Call PopulateListView(FullData, UBound(FullData, 2))
+        Call PopulateListView(fullData, UBound(fullData, 2))
         Exit Sub
     End If
     
-    ReDim filtered(1 To 5, 1 To UBound(FullData, 2))
-    Idx = 0
+    ReDim filtered(1 To 5, 1 To UBound(fullData, 2))
+    idx = 0
     
-    For i = 1 To UBound(FullData, 2)
+    For i = 1 To UBound(fullData, 2)
         ' «·⁄„Êœ 3 ÌÕ ÊÌ ”»» «·≈Õ«·…
-        If InStr(1, FullData(3, i), searchStatus, vbTextCompare) > 0 Then
-            Idx = Idx + 1
-            filtered(1, Idx) = FullData(1, i)
-            filtered(2, Idx) = FullData(2, i)
-            filtered(3, Idx) = FullData(3, i)
-            filtered(4, Idx) = FullData(4, i)
-            filtered(5, Idx) = FullData(5, i)
+        If InStr(1, fullData(3, i), searchStatus, vbTextCompare) > 0 Then
+            idx = idx + 1
+            filtered(1, idx) = fullData(1, i)
+            filtered(2, idx) = fullData(2, i)
+            filtered(3, idx) = fullData(3, i)
+            filtered(4, idx) = fullData(4, i)
+            filtered(5, idx) = fullData(5, i)
         End If
     Next i
     
-    If Idx > 0 Then
-        Call PopulateListView(filtered, Idx)
+    If idx > 0 Then
+        Call PopulateListView(filtered, idx)
     Else
         Me.ListView1.ListItems.Clear
         Me.TextBox3.value = 0
