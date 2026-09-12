@@ -14,8 +14,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim Zoomer As New clsZoomManager
-
 
 
 
@@ -360,7 +358,7 @@ Private Sub CommandButton2_Click()
 
     Sheets(1).Activate
 
-    iRow = Range("A" & Rows.count).End(xlUp).row
+    iRow = Range("A" & rowS.count).End(xlUp).row
 '=======================================================
   ' TextBox14.Text = 0                                              '
   ' TextBox16.Text = 0
@@ -463,7 +461,7 @@ On Error GoTo emad
 
 '=======================================================
 Dim lastR As Integer
-lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
     For Y = 9 To lastR
     
     If Sheets(1).Cells(Y, 5) = TextBox5.Text And Sheets(1).Cells(Y, 2) = TextBox2.Text Then
@@ -560,9 +558,9 @@ On Error GoTo emad
 Dim file_dialog As Office.FileDialog
 Dim file_path As String
 Set file_dialog = Application.FileDialog(msoFileDialogFilePicker)
- file_dialog.title = "«Œ — ’Ê—…"
+ file_dialog.Title = "«Œ — ’Ê—…"
 With file_dialog
-.title = "«Œ — ’Ê—…"
+.Title = "«Œ — ’Ê—…"
 
 .Filters.Clear
 .Filters.Add "Image", "*.gif,*.jpg,*.*jpeg"
@@ -585,7 +583,7 @@ End Sub
 Private Sub CommandButton22_Click()
 Sheets(1).Activate
 Dim lastR As Integer
-lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
 
 For X = 9 To lastR
 If Cells(X, 5) = TextBox5.Text And Cells(X, 2) = TextBox2.Text Then
@@ -617,7 +615,7 @@ Private Sub CommandButton24_Click()
 'On Error GoTo emad
 Dim lastR As Integer
 Dim file_path As String
-lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
     For Y = 9 To lastR
     
     If Sheets(1).Cells(Y, 5) = TextBox5.Text And Sheets(1).Cells(Y, 2) = TextBox2.Text Then
@@ -667,11 +665,11 @@ Application.ScreenUpdating = False
 Sheets(15).Range("a8:L8341").ClearContents
 Dim lastRow, lastrow1 As Integer
 
-lastRow = Sheets(13).Cells(Rows.count, 2).End(xlUp).row
+lastRow = Sheets(13).Cells(rowS.count, 2).End(xlUp).row
 
 Dim lr, i As Integer
 For i = 1 To lastRow
-lr = Sheets(15).Cells(Rows.count, 1).End(xlUp).row
+lr = Sheets(15).Cells(rowS.count, 1).End(xlUp).row
 Sheets(15).Range("a1:l7").Copy
 Sheets(15).Range("a" & lr + 1 - 1 + 3).PasteSpecial
 Application.CutCopyMode = False
@@ -700,7 +698,7 @@ Private Sub CommandButton31_Click()
 ' ""Õ”» «· ﬁ« ÿ⁄ «·ÃœÊ· «·÷—Ì»Ì «‰ ÌﬂÊ‰ «·⁄œœ ’›—""
 '=================================================== ÕœÌÀ
 Dim lastR As Integer
-lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
     For Y = 9 To lastR
     
     If Sheets(1).Cells(Y, 5) = TextBox5.Text And Sheets(1).Cells(Y, 2) = TextBox2.Text Then
@@ -786,8 +784,12 @@ lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
 
 
 '===========================================
-Ê—ﬁ…1.Range("x9").Formula2R1C1 = "=iferror(IF(OR(RC[-1]= thariaba1!R1C20:R2C20),VLOOKUP(RC[-14],astktat1,RC[-2]+3,1),IF(OR(RC[-1]=thariaba2!R1C19),VLOOKUP(RC[-14],astktaat2,RC[-2]+3,1),IF(OR(RC[-1]=thariaba3!R1C19:R3C19),VLOOKUP(RC[-14],astktaat3,RC[-2]+3,1),IF(AND(VLOOKUP(RC[-1],sheet1!R1C77:R5C78,2,0)<4,RC[-2]>0),""Õ”» «· ﬁ« ÿ⁄ «·ÃœÊ· «·÷—Ì»Ì «‰ ÌﬂÊ‰ «·⁄œœ ’›—"",VLOOKUP(RC[-14],astktaat,VLOOKUP(RC[-1],sheet1!R1C77:R5C78,2,0)+RC[-2],1))))),0)"
-
+Ê—ﬁ…1.Range("x9").Formula2R1C1 = "=IFERROR(IF(OR(RC[-1]=thariaba1!R1C20:R2C20),VLOOKUP(RC[-14],astktat1,RC[-2]+3,1)," & _
+                 "IF(OR(RC[-1]=thariaba2!R1C19),VLOOKUP(RC[-14],astktaat2,RC[-2]+3,1)," & _
+                 "IF(OR(RC[-1]=thariaba3!R1C19:R3C19),VLOOKUP(RC[-14],astktaat3,RC[-2]+3,1)," & _
+                 "IF(VLOOKUP(RC[-1],sheet1!R1C77:R5C78,2,0)=5," & _
+                 "INDEX(Sheet2!R9C4:R8000C4, MATCH(1, (Sheet2!R9C2:R8000C2<=RC[-14])*(Sheet2!R9C3:R8000C3>=RC[-14]), 0))," & _
+                 "IF(AND(VLOOKUP(RC[-1],sheet1!R1C77:R5C78,2,0)<4,RC[-2]>0),""Õ”» «· ﬁ« ÿ⁄ «·ÃœÊ· «·÷—Ì»Ì «‰ ÌﬂÊ‰ «·⁄œœ ’›—"",VLOOKUP(RC[-14],astktaat,VLOOKUP(RC[-1],sheet1!R1C77:R5C78,2,0)+RC[-2],1)))))),0)"
 Ê—ﬁ…1.Range("x9:x650").FillDown
  Sheets(1).Cells(Y, 23) = TextBox23.Text
 '=========================================
@@ -948,7 +950,7 @@ If UserForm1.TextBox58.Text = "—« » Ã“∆Ì" And UserForm1.ComboBox3.value = "—« » 
    
    
    
-  lastR = Sheets(38).Cells(Rows.count, 1).End(xlUp).row
+  lastR = Sheets(38).Cells(rowS.count, 1).End(xlUp).row
     For Y = 2 To lastR
     
     If Sheets(38).Cells(Y, 1) = TextBox2.Text And Sheets(38).Cells(Y, 2) = TextBox5.Text Then
@@ -973,14 +975,14 @@ ActiveCell.EntireRow.Delete
    
    
    
-    lastr1 = Sheets(38).Cells(Rows.count, 1).End(xlUp).row
-    For y1 = 2 To lastr1
+    lastR1 = Sheets(38).Cells(rowS.count, 1).End(xlUp).row
+    For y1 = 2 To lastR1
       If Sheets(38).Cells(y1, 1) <> TextBox2.Text And Sheets(38).Cells(y1, 2) <> TextBox5.Text Then
     
     Exit For
     End If
      Next
-    iRow = Range("A" & Rows.count).End(xlUp).row
+    iRow = Range("A" & rowS.count).End(xlUp).row
     Range("A" & iRow + 1).Offset(0, 0) = TextBox2.Text
     Range("A" & iRow + 1).Offset(0, 1) = TextBox5.Text
     Range("A" & iRow + 1).Offset(0, 2) = TextBox10.Text
@@ -1278,7 +1280,7 @@ End If
 
 '=======================================================
 Dim lastR As Integer
-lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
     For Y = 9 To lastR
     
     If Sheets(1).Cells(Y, 5) = TextBox5.Text Then
@@ -1399,7 +1401,7 @@ Private Sub CommandButton4_Click()
   TextBox49.Enabled = True
         
    
-    Dim lastr1 As Integer
+    Dim lastR1 As Integer
 'lastr1 = Sheets(1).Cells(Rows.Count, 1).End(xlUp).Row
    ' For y = 9 To lastr1
      If TextBox56.Text = "" Or TextBox57.Text = "" Or TextBox58.Text = "" Then
@@ -1417,7 +1419,7 @@ Private Sub CommandButton4_Click()
 
     Sheets(3).Activate
 
-    iRow = Range("A" & Rows.count).End(xlUp).row
+    iRow = Range("A" & rowS.count).End(xlUp).row
 '=======================================================
   ' TextBox14.Text = 0                                              '
   ' TextBox16.Text = 0
@@ -1510,7 +1512,7 @@ Private Sub CommandButton4_Click()
 'On Error Resume Next
 Sheets(1).Activate
 Dim lastR As Integer
-lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
 For X = 9 To lastR
 If Sheets(1).Cells(X, 2) = TextBox2.Text And Sheets(1).Cells(X, 5) = TextBox5.Text Then
  Sheets(1).Cells(X, 1).Select
@@ -1619,10 +1621,10 @@ TextBox24.Text = ""
   Dim iRow As Long, i As Long
 
     Sheets(1).Activate
-    iRow = Range("b" & Rows.count).End(xlUp).row
+    iRow = Range("b" & rowS.count).End(xlUp).row
     TextBox1.Text = Application.WorksheetFunction.CountA(Sheets(1).Range("b9:b1000")) + 1
     ComboBox1.Visible = True
-For i = 2 To Sheets(1).Cells(Rows.count, 63).End(xlUp).row
+For i = 2 To Sheets(1).Cells(rowS.count, 63).End(xlUp).row
 ComboBox1.AddItem
  ComboBox1.List(i - 2, 0) = Cells(i, "cb").value
  ComboBox1.List(i - 2, 1) = i
@@ -1666,7 +1668,7 @@ Dim wksSource As Worksheet
  With Me.ListView1
 .ListItems.Clear
 Sheets(1).Activate
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 
 
 
@@ -1780,7 +1782,7 @@ Dim simadd As Double
 Dim simsubtract As Double
 Dim item2 As ListItem
 Dim last2, frw2 As Integer
-last2 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last2 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw2 = 9 To last2
 
 
@@ -2025,7 +2027,7 @@ Next i
 ComboBox1.Visible = False
 '===================================
 Dim last1, frw1 As Integer
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 If Sheets(1).Cells(frw1, "b") = TextBox2.Text And Sheets(1).Cells(frw1, "e") = TextBox5.Text Then
 Image1.Picture = LoadPicture(Sheets(1).Cells(frw1, 64))
@@ -2505,7 +2507,7 @@ Private Sub TextBox60_DblClick(ByVal Cancel As MSForms.ReturnBoolean)
 Sheets(1).Activate
 CommandButton5.Locked = True
 
-For i = 9 To Sheets(1).Cells(Rows.count, 5).End(xlUp).row
+For i = 9 To Sheets(1).Cells(rowS.count, 5).End(xlUp).row
 ListBox1.AddItem
  ListBox1.List(i - 9, 0) = Cells(i, 5).value
   ListBox1.List(i - 9, 1) = i
@@ -2554,7 +2556,7 @@ Dim wksSource As Worksheet
  With Me.ListView1
 .ListItems.Clear
 Sheets(1).Activate
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 
 
 
@@ -2663,7 +2665,7 @@ ListView1.ListItems.Clear
 With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 Set item1 = ListView1.ListItems.Add(, , Sheets(1).Cells(frw1, "A"))
 item1.SubItems(1) = Sheets(1).Cells(frw1, "b")
@@ -2851,7 +2853,7 @@ Sheets(1).Activate
     If TextBox72 = "" Then Exit Sub
     Sheets(1).Activate
 
-    ss = Sheets(1).Cells(Rows.count, 5).End(xlUp).row
+    ss = Sheets(1).Cells(rowS.count, 5).End(xlUp).row
      k = 0
      
      
@@ -2873,7 +2875,7 @@ Sheets(1).Activate
 TextBox72.Text = ""
 
 
-For i = 9 To Sheets(1).Cells(Rows.count, 5).End(xlUp).row
+For i = 9 To Sheets(1).Cells(rowS.count, 5).End(xlUp).row
 ListBox1.AddItem
  ListBox1.List(i - 9, 0) = Cells(i, 5).value
   ListBox1.List(i - 9, 1) = i
@@ -2995,11 +2997,10 @@ End Sub
 
 
 
-  
 Private Sub UserForm_Initialize()
 '===============================
 On Error Resume Next
-  Zoomer.Bind Me, Me.SpinButton1, Me.az
+
 '=========================
 Call rightToLeftListView
 With ListView1
@@ -3117,7 +3118,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(1).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(1).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 Set item1 = ListView1.ListItems.Add(, , Sheets(1).Cells(frw1, "A"))
 item1.SubItems(1) = Sheets(1).Cells(frw1, "b")
