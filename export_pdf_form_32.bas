@@ -3,7 +3,7 @@ Sub export_pdf_form_32_1()
 On Error Resume Next
 On Error GoTo emad
 Dim lstr As Integer
-lstr = Sheets(39).Cells(rowS.count, "a").End(xlUp).row
+lstr = Sheets(39).Cells(Rows.count, "a").End(xlUp).row
     Dim filePath As String
     Dim ws As Worksheet
     filePath = Application.ActiveWorkbook.path
