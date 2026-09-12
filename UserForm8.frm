@@ -42,7 +42,7 @@ Private Sub CommandButton1_Click()
 Dim new_user, new_passwor, permation As String
 Dim rowCount As Integer
 Dim lastRow As Integer
-rowCount = Sheets(12).Cells(Rows.count, "a").End(xlUp).row + 1
+rowCount = Sheets(12).Cells(rowS.count, "a").End(xlUp).row + 1
 
 new_user = TextBox1.Text
 new_passwor = TextBox2.Text
