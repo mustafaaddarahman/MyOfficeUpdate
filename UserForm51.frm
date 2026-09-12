@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm51 
    Caption         =   "UserForm51"
-   ClientHeight    =   13815
+   ClientHeight    =   13812
    ClientLeft      =   120
    ClientTop       =   468
    ClientWidth     =   20160
@@ -13,6 +13,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+
 
 
 
@@ -244,7 +246,7 @@ ListBox1.Clear
 TextBox72.Text = ""
 Sheets(ComboBox16.value).Activate
 Dim frow1 As Integer
-     ss = Sheets(ComboBox16.value).Cells(Rows.count, 5).End(xlUp).row
+     ss = Sheets(ComboBox16.value).Cells(rowS.count, 5).End(xlUp).row
      
      For frow1 = 9 To ss
     If ComboBox15.value = Sheets(ComboBox16.value).Cells(frow1, 58) Then
@@ -255,7 +257,7 @@ Dim frow1 As Integer
     
 Next
 Dim last2 As Integer
-     last2 = Sheets(ComboBox16.value).Cells(Rows.count, 5).End(xlUp).row
+     last2 = Sheets(ComboBox16.value).Cells(rowS.count, 5).End(xlUp).row
      
 TextBox75.Text = Application.WorksheetFunction.CountIfs(Sheets(ComboBox16.value).Range("bf9:bf" & last2), Me.ComboBox15.Text)
 
@@ -267,7 +269,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(ComboBox16.value).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(ComboBox16.value).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 If ComboBox15.value = Sheets(ComboBox16.value).Cells(frw1, "bf") Then
 Set item1 = ListView1.ListItems.Add(, , Sheets(ComboBox16.value).Cells(frw1, "A"))
@@ -475,7 +477,7 @@ ListBox1.Clear
 
 Sheets(ComboBox16.value).Activate
 Dim frow1 As Integer
-     ss = Sheets(ComboBox16.value).Cells(Rows.count, 5).End(xlUp).row
+     ss = Sheets(ComboBox16.value).Cells(rowS.count, 5).End(xlUp).row
      
      For frow1 = 9 To ss
     If ComboBox15.value = Sheets(ComboBox16.value).Cells(frow1, 58) Then
@@ -486,7 +488,7 @@ Dim frow1 As Integer
     
 Next
 Dim last2 As Integer
-     last2 = Sheets(ComboBox16.value).Cells(Rows.count, 5).End(xlUp).row
+     last2 = Sheets(ComboBox16.value).Cells(rowS.count, 5).End(xlUp).row
      
 TextBox75.Text = Application.WorksheetFunction.CountIfs(Sheets(ComboBox16.value).Range("bf9:bf" & last2), Me.ComboBox15.Text)
 
@@ -498,7 +500,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(ComboBox16.value).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(ComboBox16.value).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 If ComboBox15.value = Sheets(ComboBox16.value).Cells(frw1, "bf") Then
 Set item1 = ListView1.ListItems.Add(, , Sheets(ComboBox16.value).Cells(frw1, "A"))
@@ -672,9 +674,10 @@ End Sub
 
 
 Private Sub ComboBox16_Change()
+
  Dim ws As Worksheet
     Dim sheetName As String
-    Dim lastRow As Long, LastCol As Long
+    Dim lastRow As Long, lastCol As Long
     Dim hasData As Boolean
     
     sheetName = Me.ComboBox16.value
@@ -690,15 +693,15 @@ Private Sub ComboBox16_Change()
     End If
 
     ' ¬Œ— ’› Ê¬Œ— ⁄„Êœ
-    LastCol = ws.Cells(8, ws.Columns.count).End(xlToLeft).Column
-    lastRow = ws.Cells(ws.Rows.count, 1).End(xlUp).row
+    lastCol = ws.Cells(8, ws.Columns.count).End(xlToLeft).Column
+    lastRow = ws.Cells(ws.rowS.count, 1).End(xlUp).row
 
     '  Õﬁﬁ „‰ ÊÃÊœ »Ì«‰«  »⁄œ «·’› 8
-    hasData = (lastRow >= 9) And (Application.WorksheetFunction.CountA(ws.Range(ws.Cells(9, 1), ws.Cells(lastRow, LastCol))) > 0)
+    hasData = (lastRow >= 9) And (Application.WorksheetFunction.CountA(ws.Range(ws.Cells(9, 1), ws.Cells(lastRow, lastCol))) > 0)
 
     '  ›—Ì€ ListBox ›Ê—« ⁄‰œ  €Ì— «·„Õ ÊÏ
     ListBox1.Clear
-    ListBox1.ColumnCount = LastCol
+    ListBox1.ColumnCount = lastCol
 
     If hasData Then
         MsgBox "«·„Õ ÊÏ ··‘Â— [" & sheetName & "] ÌÕ ÊÌ ⁄·Ï »Ì«‰« .", vbInformation
@@ -716,7 +719,7 @@ TextBox80.Text = Sheets(ComboBox16.value).Cells(2, "cg")
 TextBox82.Text = Sheets(ComboBox16.value).Cells(1, "bn")
 TextBox66.Text = Sheets(ComboBox16.value).Cells(2, "ch")
 
- 
+ Call FetchDataAndRefresh
     
 End Sub
 
@@ -919,9 +922,9 @@ On Error GoTo emad
 Dim file_dialog As Office.FileDialog
 Dim file_path As String
 Set file_dialog = Application.FileDialog(msoFileDialogFilePicker)
- file_dialog.title = "«Œ — ’Ê—…"
+ file_dialog.Title = "«Œ — ’Ê—…"
 With file_dialog
-.title = "«Œ — ’Ê—…"
+.Title = "«Œ — ’Ê—…"
 
 .Filters.Clear
 .Filters.Add "Image", "*.gif,*.jpg,*.*jpeg"
@@ -944,7 +947,7 @@ End Sub
 Private Sub CommandButton22_Click()
 Sheets(ComboBox16.value).Activate
 Dim lastR As Integer
-lastR = Sheets(ComboBox16.value).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(ComboBox16.value).Cells(rowS.count, 1).End(xlUp).row
 
 For X = 9 To lastR
 If Cells(X, 5) = TextBox5.Text And Cells(X, 2) = TextBox2.Text Then
@@ -978,7 +981,7 @@ Private Sub CommandButton24_Click()
 'On Error GoTo emad
 Dim lastR As Integer
 Dim file_path As String
-lastR = Sheets(ComboBox16.value).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(ComboBox16.value).Cells(rowS.count, 1).End(xlUp).row
     For Y = 9 To lastR
     
     If Sheets(ComboBox16.value).Cells(Y, 5) = TextBox5.Text And Sheets(ComboBox16.value).Cells(Y, 2) = TextBox2.Text Then
@@ -1143,9 +1146,9 @@ End Sub
 Private Sub CommandButton39_Click()
 Dim rng As Range
 Dim cel As Range
-Dim lastr1 As Integer
-lastr1 = Sheets(ComboBox16.value).Cells(Rows.count, "b").End(xlUp).row
-Set rng = Sheets(ComboBox16.value).Range("au9:au" & lastr1)
+Dim lastR1 As Integer
+lastR1 = Sheets(ComboBox16.value).Cells(rowS.count, "b").End(xlUp).row
+Set rng = Sheets(ComboBox16.value).Range("au9:au" & lastR1)
 For Each cel In rng
 If IsEmpty(cel) Or Not IsNumeric(cel) Then
 cel = 0
@@ -1207,7 +1210,7 @@ Dim wksSource As Worksheet
  With Me.ListView1
 .ListItems.Clear
 Sheets(ComboBox16.value).Activate
-last1 = Sheets(ComboBox16.value).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(ComboBox16.value).Range("A" & rowS.count).End(xlUp).row
 
 
 
@@ -1321,7 +1324,7 @@ Dim simadd As Double
 Dim simsubtract As Double
 Dim item2 As ListItem
 Dim last2, frw2 As Integer
-last2 = Sheets(ComboBox16.value).Range("A" & Rows.count).End(xlUp).row
+last2 = Sheets(ComboBox16.value).Range("A" & rowS.count).End(xlUp).row
 For frw2 = 9 To last2
 
 
@@ -1582,7 +1585,7 @@ Next i
 ComboBox1.Visible = False
 '===================================
 Dim last1, frw1 As Integer
-last1 = Sheets(ComboBox16.value).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(ComboBox16.value).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 If Sheets(ComboBox16.value).Cells(frw1, "b") = TextBox2.Text And Sheets(ComboBox16.value).Cells(frw1, "e") = TextBox5.Text Then
 Image1.Picture = LoadPicture(Sheets(ComboBox16.value).Cells(frw1, 64))
@@ -2440,7 +2443,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(ComboBox16.value).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(ComboBox16.value).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 If TextBox58.Text = Sheets(ComboBox16.value).Cells(frw1, "bf") Then
 Set item1 = ListView1.ListItems.Add(, , Sheets(ComboBox16.value).Cells(frw1, "A"))
@@ -2614,7 +2617,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(ComboBox16.value).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(ComboBox16.value).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 If TextBox58.Text = Sheets(ComboBox16.value).Cells(frw1, "bf") Then
 Set item1 = ListView1.ListItems.Add(, , Sheets(ComboBox16.value).Cells(frw1, "A"))
@@ -2841,7 +2844,7 @@ Dim wksSource As Worksheet
  With Me.ListView1
 .ListItems.Clear
 Sheets(ComboBox16.value).Activate
-last1 = Sheets(ComboBox16.value).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(ComboBox16.value).Range("A" & rowS.count).End(xlUp).row
 
 
 
@@ -2950,7 +2953,7 @@ ListView1.ListItems.Clear
 With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
-last1 = Sheets(ComboBox16.value).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(ComboBox16.value).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 Set item1 = ListView1.ListItems.Add(, , Sheets(ComboBox16.value).Cells(frw1, "A"))
 item1.SubItems(1) = Sheets(ComboBox16.value).Cells(frw1, "b")
@@ -3125,67 +3128,160 @@ End Sub
 
 Private Sub TextBox72_Change()
 On Error Resume Next
+    
+    ' 1. «·ŒÊ«—“„Ì… «·–ﬂÌ… ⁄‰œ «·”ﬂÊ‰: ≈–« ·„ ÌŒ «— «·„” Œœ„ ‘Â—« „‰ «·ﬁ«∆„…° ‰· ﬁÿ «·‘Â— «·Õ«·Ì  ·ﬁ«∆Ì«
+    If Me.ComboBox16.value = "" And Me.ComboBox16.ListCount > 0 Then
+        Dim currentMonthNum As Integer
+        Dim targetMonthName As String
+        Dim j As Long
+        
+        currentMonthNum = Month(Date) ' «” Œ—«Ã —ﬁ„ «·‘Â— «·Õ«·Ì „‰ «·‰Ÿ«„
+        
+        Select Case currentMonthNum
+            Case 1: targetMonthName = "jan"
+            Case 2: targetMonthName = "feb"
+            Case 3: targetMonthName = "mar"
+            Case 4: targetMonthName = "apr"
+            Case 5: targetMonthName = "may"
+            Case 6: targetMonthName = "jun"
+            Case 7: targetMonthName = "jul"
+            Case 8: targetMonthName = "aug"
+            Case 9: targetMonthName = "sep"
+            Case 10: targetMonthName = "oct"
+            Case 11: targetMonthName = "nov"
+            Case 12: targetMonthName = "dec"
+        End Select
+        
+        ' «·»ÕÀ ⁄‰ «·‘Â— «·„ÿ«»ﬁ ›Ì «·ﬁ«∆„… Ê ›⁄Ì·Â »—„ÃÌ«
+        For j = 0 To Me.ComboBox16.ListCount - 1
+            If LCase(Me.ComboBox16.List(j)) = targetMonthName Then
+                Me.ComboBox16.ListIndex = j
+                Exit For
+            End If
+        Next j
+        
+        ' ≈–« ·„ ÌÃœ «·‘Â— «·„ÿ«»ﬁ° ÌŒ «— √Ê· ⁄‰’— ﬂŒÌ«— «Õ Ì«ÿÌ
+        If Me.ComboBox16.value = "" Then
+            Me.ComboBox16.ListIndex = 0
+        End If
+    End If
 
-
- arb
-
-
-
-
-ListBox1.Clear
-
-Sheets(ComboBox16.value).Activate
-    For i = 1 To 63
-            Controls("TextBox" & i).Text = ""
-    Next i
-
-    If TextBox72 = "" Then Exit Sub
+    ' 2. ﬂÊœ Ã·» «·»Ì«‰«  «·Œ«’ »ﬂ (Ì⁄„· ”Ê«¡ «Œ —  «·‘Â— ÌœÊÌ« √Ê  „ «· ﬁ«ÿÂ  ·ﬁ«∆Ì«)
     Sheets(ComboBox16.value).Activate
 
-    ss = Sheets(ComboBox16.value).Cells(Rows.count, 5).End(xlUp).row
-     k = 0
-     
-     
-For Each c In Range("E8:E" & ss)
-    If c Like TextBox72.value & "*" Then
-        ListBox1.AddItem
-        ListBox1.List(k, 0) = Cells(c.row, 5).value
-        ListBox1.List(k, 1) = c.row
-        k = k + 1
-    End If
+    ComboBox15.Text = "«·»ÕÀ ›Ì «·„Êﬁ› «·ÊŸÌ›Ì"
+    TextBox102.value = Format(Sheets(26).Cells(3, "t"), "00.0")
     
-Next c
+    If TextBox102.value = 0 Then
+        Label122.Caption = "«·ﬁÌ„ „ ÿ«»ﬁ…"
+    Else
+        Label122.Caption = "«·ﬁÌ„ €Ì— „ ÿ«»ﬁ…"
+    End If
+
+    TextBox72.Text = ""
+
+    Dim i As Long
+    Dim lastRowE As Long
+    
+    lastRowE = Sheets(ComboBox16.value).Cells(rowS.count, 5).End(xlUp).row
+    
+    ListBox1.Clear ' „”Õ «·ﬁ«∆„… «·ﬁœÌ„… ·÷„«‰ ⁄œ„ «· œ«Œ·
+    
+    For i = 9 To lastRowE
+        ListBox1.AddItem
+        ListBox1.List(i - 9, 0) = Sheets(ComboBox16.value).Cells(i, 5).value
+        ListBox1.List(i - 9, 1) = i
+    Next i
+    
+    If TextBox22.value = "" Then
+        TextBox20.value = ""
+    End If
+
+    Dim last1 As Long
+    last1 = Sheets(ComboBox16.value).Cells(rowS.count, "e").End(xlUp).row
+    TextBox75.Text = last1 - 8
+    
+    On Error GoTo 0
 
 End Sub
 
 Private Sub TextBox72_DblClick(ByVal Cancel As MSForms.ReturnBoolean)
 On Error Resume Next
-Sheets(ComboBox16.value).Activate
+    
+    ' 1. «·ŒÊ«—“„Ì… «·–ﬂÌ…: ≈–« ﬂ«‰ ComboBox16 ›«—€«° Ì „ «Œ Ì«— «·‘Â— «·Õ«·Ì  ·ﬁ«∆Ì« „‰ «·‰Ÿ«„
+    If Me.ComboBox16.value = "" And Me.ComboBox16.ListCount > 0 Then
+        Dim currentMonthNum As Integer
+        Dim targetMonthName As String
+        Dim j As Long
+        
+        currentMonthNum = Month(Date) ' «” Œ—«Ã —ﬁ„ «·‘Â— «·Õ«·Ì („À·« ‘Â— ¬»/√€”ÿ” = 8)
+        
+        Select Case currentMonthNum
+            Case 1: targetMonthName = "jan"
+            Case 2: targetMonthName = "feb"
+            Case 3: targetMonthName = "mar"
+            Case 4: targetMonthName = "apr"
+            Case 5: targetMonthName = "may"
+            Case 6: targetMonthName = "jun"
+            Case 7: targetMonthName = "jul"
+            Case 8: targetMonthName = "aug"
+            Case 9: targetMonthName = "sep"
+            Case 10: targetMonthName = "oct"
+            Case 11: targetMonthName = "nov"
+            Case 12: targetMonthName = "dec"
+        End Select
+        
+        ' «·»ÕÀ ⁄‰ «·‘Â— «·„ÿ«»ﬁ ›Ì «·ﬁ«∆„… Ê ›⁄Ì·Â
+        For j = 0 To Me.ComboBox16.ListCount - 1
+            If LCase(Me.ComboBox16.List(j)) = targetMonthName Then
+                Me.ComboBox16.ListIndex = j
+                Exit For
+            End If
+        Next j
+        
+        ' ≈–« ·„ ÌÃœ «·‘Â— «·„ÿ«»ﬁ ·√Ì ”»»° Ì√Œ– √Ê· ⁄‰’— «› —«÷Ì«
+        If Me.ComboBox16.value = "" Then
+            Me.ComboBox16.ListIndex = 0
+        End If
+    End If
 
-ComboBox15.Text = "«·»ÕÀ ›Ì «·„Êﬁ› «·ÊŸÌ›Ì"
-TextBox102.value = Format(Sheets(26).Cells(3, "t"), "00.0")
-If TextBox102.value = 0 Then
- Label122.Caption = "«·ﬁÌ„ „ ÿ«»ﬁ…"
- Else
- Label122.Caption = "«·ﬁÌ„ €Ì— „ ÿ«»ﬁ…"
+    ' 2. «·ﬂÊœ «·Œ«’ »ﬂ »«·ﬂ«„· („⁄  ’ÕÌÕ rowS ≈·Ï Rows · ›«œÌ √Ì Œÿ√)
+    Sheets(ComboBox16.value).Activate
 
-End If
+    ComboBox15.Text = "«·»ÕÀ ›Ì «·„Êﬁ› «·ÊŸÌ›Ì"
+    TextBox102.value = Format(Sheets(26).Cells(3, "t"), "00.0")
+    
+    If TextBox102.value = 0 Then
+        Label122.Caption = "«·ﬁÌ„ „ ÿ«»ﬁ…"
+    Else
+        Label122.Caption = "«·ﬁÌ„ €Ì— „ ÿ«»ﬁ…"
+    End If
 
-TextBox72.Text = ""
+    TextBox72.Text = ""
 
+    Dim i As Long
+    Dim lastRowE As Long
+    
+    '  „  ’ÕÌÕ rowS.count ≈·Ï Rows.Count
+    lastRowE = Sheets(ComboBox16.value).Cells(rowS.count, 5).End(xlUp).row
+    
+    ListBox1.Clear '  ›—Ì€ «··”  »Êﬂ” √Ê·« ·÷„«‰ ⁄œ„  œ«Œ· «·»Ì«‰«  «·ﬁœÌ„…
+    
+    For i = 9 To lastRowE
+        ListBox1.AddItem
+        ListBox1.List(i - 9, 0) = Sheets(ComboBox16.value).Cells(i, 5).value
+        ListBox1.List(i - 9, 1) = i
+    Next i
+    
+    If TextBox22.value = "" Then
+        TextBox20.value = ""
+    End If
 
-For i = 9 To Sheets(ComboBox16.value).Cells(Rows.count, 5).End(xlUp).row
-ListBox1.AddItem
- ListBox1.List(i - 9, 0) = Cells(i, 5).value
-  ListBox1.List(i - 9, 1) = i
-      Next i
-      If TextBox22.value = "" Then
-TextBox20.value = ""
-End If
-
-Dim last1 As Integer
-last1 = Sheets(ComboBox16.value).Cells(Rows.count, "e").End(xlUp).row
-TextBox75.Text = last1 - 8
+    Dim last1 As Long
+    last1 = Sheets(ComboBox16.value).Cells(rowS.count, "e").End(xlUp).row
+    TextBox75.Text = last1 - 8
+    
+    On Error GoTo 0
 
 End Sub
 
@@ -3351,13 +3447,13 @@ End If
 
 
 
-Dim lastr1 As Integer
-lastr1 = Sheets(ComboBox16.value).Cells(Rows.count, "b").End(xlUp).row
+Dim lastR1 As Integer
+lastR1 = Sheets(ComboBox16.value).Cells(rowS.count, "b").End(xlUp).row
 
 Ê—ﬁ…1.Range("cb9").Formula = "=TEXT(TODAY(),""mmm"")"
-Ê—ﬁ…1.Range("cb9:cb" & lastr1).FillDown
+Ê—ﬁ…1.Range("cb9:cb" & lastR1).FillDown
 Dim last1 As Integer
-last1 = Sheets(ComboBox16.value).Cells(Rows.count, "e").End(xlUp).row
+last1 = Sheets(ComboBox16.value).Cells(rowS.count, "e").End(xlUp).row
 TextBox75.Text = last1 - 8
 
 
@@ -3371,10 +3467,79 @@ End Sub
 
 
 Private Sub UserForm_Click()
-Dim last1 As Integer
-last1 = Sheets(ComboBox16.value).Cells(Rows.count, "e").End(xlUp).row
-TextBox75.Text = last1 - 8
+On Error Resume Next
+    
+    ' 1. «· Õﬁﬁ „‰ «Œ Ì«— «·‘Â— √Ê  ›⁄Ì· «·‘Â— «·Õ«·Ì ≈‰ ﬂ«‰ ›«—€«
+    If Me.ComboBox16.value = "" And Me.ComboBox16.ListCount > 0 Then
+        Dim currentMonthNum As Integer
+        Dim targetMonthName As String
+        Dim j As Long
+        
+        currentMonthNum = Month(Date) ' «” Œ—«Ã —ﬁ„ «·‘Â— «·Õ«·Ì „‰ «·‰Ÿ«„
+        
+        Select Case currentMonthNum
+            Case 1: targetMonthName = "jan"
+            Case 2: targetMonthName = "feb"
+            Case 3: targetMonthName = "mar"
+            Case 4: targetMonthName = "apr"
+            Case 5: targetMonthName = "may"
+            Case 6: targetMonthName = "jun"
+            Case 7: targetMonthName = "jul"
+            Case 8: targetMonthName = "aug"
+            Case 9: targetMonthName = "sep"
+            Case 10: targetMonthName = "oct"
+            Case 11: targetMonthName = "nov"
+            Case 12: targetMonthName = "dec"
+        End Select
+        
+        For j = 0 To Me.ComboBox16.ListCount - 1
+            If LCase(Me.ComboBox16.List(j)) = targetMonthName Then
+                Me.ComboBox16.ListIndex = j
+                Exit For
+            End If
+        Next j
+        
+        If Me.ComboBox16.value = "" Then
+            Me.ComboBox16.ListIndex = 0
+        End If
+    End If
 
+    ' 2. «·ﬂÊœ «·Œ«’ »ﬂ ·Ã·» «·»Ì«‰«  Ê ⁄»∆… «·ﬁÊ«∆„
+    Sheets(ComboBox16.value).Activate
+
+    ComboBox15.Text = "«·»ÕÀ ›Ì «·„Êﬁ› «·ÊŸÌ›Ì"
+    TextBox102.value = Format(Sheets(26).Cells(3, "t"), "00.0")
+    
+    If TextBox102.value = 0 Then
+        Label122.Caption = "«·ﬁÌ„ „ ÿ«»ﬁ…"
+    Else
+        Label122.Caption = "«·ﬁÌ„ €Ì— „ ÿ«»ﬁ…"
+    End If
+
+    TextBox72.Text = ""
+
+    Dim i As Long
+    Dim lastRowE As Long
+    
+    lastRowE = Sheets(ComboBox16.value).Cells(rowS.count, 5).End(xlUp).row
+    
+    ListBox1.Clear
+    
+    For i = 9 To lastRowE
+        ListBox1.AddItem
+        ListBox1.List(i - 9, 0) = Sheets(ComboBox16.value).Cells(i, 5).value
+        ListBox1.List(i - 9, 1) = i
+    Next i
+    
+    If TextBox22.value = "" Then
+        TextBox20.value = ""
+    End If
+
+    Dim last1 As Long
+    last1 = Sheets(ComboBox16.value).Cells(rowS.count, "e").End(xlUp).row
+    TextBox75.Text = last1 - 8
+    
+    On Error GoTo 0
 End Sub
 
 Private Sub UserForm_Initialize()
@@ -3558,7 +3723,7 @@ With Me.ListView1
 Dim item1 As ListItem
 Dim last1, frw1 As Integer
 
-last1 = Sheets(ComboBox16.value).Range("A" & Rows.count).End(xlUp).row
+last1 = Sheets(ComboBox16.value).Range("A" & rowS.count).End(xlUp).row
 For frw1 = 9 To last1
 Set item1 = ListView1.ListItems.Add(, , Sheets(ComboBox16.value).Cells(frw1, "A"))
 item1.SubItems(1) = Sheets(ComboBox16.value).Cells(frw1, "b")
@@ -3773,7 +3938,7 @@ Label123.Visible = False
 
 
 Dim last As Integer
-last = Sheets(ComboBox16.value).Cells(Rows.count, "e").End(xlUp).row
+last = Sheets(ComboBox16.value).Cells(rowS.count, "e").End(xlUp).row
 TextBox75.Text = last - 8
 
 
@@ -3791,7 +3956,7 @@ End Sub
 Private Sub GetMonthDataToSheet1(monthSheetName As String)
 
     Dim wsSrc As Worksheet, wsDest As Worksheet
-    Dim lastRow As Long, LastCol As Long
+    Dim lastRow As Long, lastCol As Long
     Dim dataRange As Range, dataArr As Variant, headersArr As Variant
     Dim nRows As Long, nCols As Long
     Dim actualCells As Long
@@ -3800,8 +3965,8 @@ Private Sub GetMonthDataToSheet1(monthSheetName As String)
     Set wsDest = Sheets(ComboBox16.value)
 
     '  ÕœÌœ ¬Œ— ’› Ê¬Œ— ⁄„Êœ
-    lastRow = wsSrc.Cells(wsSrc.Rows.count, 1).End(xlUp).row
-    LastCol = wsSrc.Cells(8, wsSrc.Columns.count).End(xlToLeft).Column
+    lastRow = wsSrc.Cells(wsSrc.rowS.count, 1).End(xlUp).row
+    lastCol = wsSrc.Cells(8, wsSrc.Columns.count).End(xlToLeft).Column
 
     ' ===== «· Õﬁﬁ „‰ ÊÃÊœ √Ì »Ì«‰«  =====
     If lastRow < 9 Then
@@ -3810,7 +3975,7 @@ Private Sub GetMonthDataToSheet1(monthSheetName As String)
         Exit Sub
     End If
 
-    Set dataRange = wsSrc.Range(wsSrc.Cells(9, 1), wsSrc.Cells(lastRow, LastCol))
+    Set dataRange = wsSrc.Range(wsSrc.Cells(9, 1), wsSrc.Cells(lastRow, lastCol))
     
     ' ⁄œ √Ì Œ·Ì…  Õ ÊÌ ⁄·Ï »Ì«‰« 
     actualCells = Application.WorksheetFunction.CountA(dataRange)
@@ -3821,7 +3986,7 @@ Private Sub GetMonthDataToSheet1(monthSheetName As String)
     End If
 
     ' ﬁ—«¡… «·ÂÌœ— Ê«·»Ì«‰« 
-    headersArr = wsSrc.Rows(8).Resize(1, LastCol).value
+    headersArr = wsSrc.rowS(8).Resize(1, lastCol).value
     dataArr = dataRange.value
     nRows = UBound(dataArr, 1)
     nCols = UBound(dataArr, 2)
@@ -3832,4 +3997,46 @@ Private Sub GetMonthDataToSheet1(monthSheetName As String)
     ' ‰”Œ «·»Ì«‰«  ≈·Ï Sheet1 »œ¡« „‰ ’› 9
     wsDest.Cells(9, 1).Resize(nRows, nCols).value = dataArr
 
+End Sub
+Sub FetchDataAndRefresh()
+    On Error Resume Next
+    
+    ' «· Õﬁﬁ „‰ √‰ «·ﬂÊ„»Ê »Êﬂ” ·Ì” ›«—€« ﬁ»· «·Ã·»
+    If Me.ComboBox16.value = "" Then Exit Sub
+
+    Sheets(ComboBox16.value).Activate
+
+    ComboBox15.Text = "«·»ÕÀ ›Ì «·„Êﬁ› «·ÊŸÌ›Ì"
+    TextBox102.value = Format(Sheets(26).Cells(3, "t"), "00.0")
+    
+    If TextBox102.value = 0 Then
+        Label122.Caption = "«·ﬁÌ„ „ ÿ«»ﬁ…"
+    Else
+        Label122.Caption = "«·ﬁÌ„ €Ì— „ ÿ«»ﬁ…"
+    End If
+
+    TextBox72.Text = ""
+
+    Dim i As Long
+    Dim lastRowE As Long
+    
+    lastRowE = Sheets(ComboBox16.value).Cells(rowS.count, 5).End(xlUp).row
+    
+    ListBox1.Clear ' „”Õ «·ﬁ«∆„… «·ﬁœÌ„… ·÷„«‰ ⁄œ„ «· œ«Œ·
+    
+    For i = 9 To lastRowE
+        ListBox1.AddItem
+        ListBox1.List(i - 9, 0) = Sheets(ComboBox16.value).Cells(i, 5).value
+        ListBox1.List(i - 9, 1) = i
+    Next i
+    
+    If TextBox22.value = "" Then
+        TextBox20.value = ""
+    End If
+
+    Dim last1 As Long
+    last1 = Sheets(ComboBox16.value).Cells(rowS.count, "e").End(xlUp).row
+    TextBox75.Text = last1 - 8
+    
+    On Error GoTo 0
 End Sub
