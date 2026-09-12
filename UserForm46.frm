@@ -17,7 +17,6 @@ Attribute VB_Exposed = False
 
 
 
-
 Private Sub CommandButton27_Click()
 Unload Me
 UserForm10.Show
@@ -81,8 +80,12 @@ Private Sub Label33_Click()
 
 End Sub
 
+Private Sub TextBox27_Change()
+
+End Sub
+
 Private Sub UserForm_Activate()
- 
+
 TextBox1.Text = Int(Sheets(1).Cells(3, "cs"))
 TextBox2.Text = Int(Sheets(1).Cells(3, "ct"))
 TextBox3.Text = Int(Sheets(1).Cells(3, "cu"))
