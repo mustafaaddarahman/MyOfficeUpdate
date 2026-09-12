@@ -60,7 +60,7 @@ Private Sub CommandButton15_Click()
 
     Sheets(6).Activate
 
-    iRow = Range("A" & Rows.count).End(xlUp).row
+    iRow = Range("A" & rowS.count).End(xlUp).row
     
 '=======================================================
   
@@ -106,7 +106,7 @@ End If
 Next X
 
 Dim lastR As Integer
-lastR = Sheets(1).Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets(1).Cells(rowS.count, 1).End(xlUp).row
     For Y = 9 To lastR
     
     If Sheets(1).Cells(Y, 5) = TextBox5.Text And Sheets(1).Cells(Y, 2) = TextBox2.Text Then
