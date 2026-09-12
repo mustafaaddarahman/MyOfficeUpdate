@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm15 
    Caption         =   " ’›Ì…"
-   ClientHeight    =   3792
+   ClientHeight    =   3795
    ClientLeft      =   120
    ClientTop       =   468
    ClientWidth     =   5316
@@ -13,14 +13,12 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim Zoomer As New clsZoomManager
-
 Private Sub CommandButton1_Click()
 'On Error GoTo emad
 Sheets(27).Range("a2:bi200").ClearContents
 Dim arr1, arr2, lastR As Variant, i As Long, j As Long, k As Long
 'Sheets(27).Range("a1:be200").ClearContents
-lastR = Sheets("sheet3").Cells(Rows.count, 1).End(xlUp).row
+lastR = Sheets("sheet3").Cells(rowS.count, 1).End(xlUp).row
 arr1 = Sheets("sheet3").Range("a2:bf" & lastR)
 j = 0
 ReDim arr2(1 To UBound(arr1, 1), 1 To UBound(arr1, 2))
@@ -74,4 +72,3 @@ End Sub
 Private Sub UserForm_Click()
 
 End Sub
-   
