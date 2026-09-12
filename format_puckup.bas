@@ -19,7 +19,7 @@ Sub BackupAndPrepareTw6een()
     Next Frm
     
     ' ¬Œ— ’› »Ì«‰« 
-    lastRow = ws.Cells(ws.Rows.count, "A").End(xlUp).row
+    lastRow = ws.Cells(ws.rowS.count, "A").End(xlUp).row
     
     ' ≈–« ·«  ÊÃœ »Ì«‰«  „‰ «·’› 9
     If lastRow < 9 Then
@@ -42,7 +42,7 @@ Sub BackupAndPrepareTw6een()
     ActiveWorkbook.Close False
     
     ' „”Õ «·»Ì«‰«  „‰ «·’› 9
-    ws.Rows("9:" & lastRow).ClearContents
+    ws.rowS("9:" & lastRow).ClearContents
     
     MsgBox " „ ≈‰‘«¡ ‰”Œ… «Õ Ì«ÿÌ… Ê„”Õ «·»Ì«‰«  »‰Ã«Õ.", vbInformation
     
