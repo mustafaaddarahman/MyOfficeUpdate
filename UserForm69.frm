@@ -43,16 +43,16 @@ Private Sub UserForm_Initialize()
     Set ws = ThisWorkbook.Sheets(1)
     Set dictCount = CreateObject("Scripting.Dictionary")
     Set dictSum = CreateObject("Scripting.Dictionary")
-    lastRow = ws.Cells(ws.Rows.count, "CF").End(xlUp).row
+    lastRow = ws.Cells(ws.rowS.count, "CF").End(xlUp).row
     
     totalAllSalaries = 0
     For i = 9 To lastRow
         Dim job As String: job = Trim(ws.Cells(i, "CF").value)
-        Dim sal As Double: sal = val(ws.Cells(i, "AW").value)
+        Dim Sal As Double: Sal = val(ws.Cells(i, "AW").value)
         If job <> "" Then
             dictCount(job) = dictCount(job) + 1
-            dictSum(job) = dictSum(job) + sal
-            totalAllSalaries = totalAllSalaries + sal
+            dictSum(job) = dictSum(job) + Sal
+            totalAllSalaries = totalAllSalaries + Sal
         End If
     Next i
 
